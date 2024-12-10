@@ -14,7 +14,7 @@ const STATE_START: StringName = "START"
 
 
 ## Estado actual.
-@export var current_state: StringName = STATE_START :
+var current_state: StringName = STATE_START :
 	set=set_current_state
 
 

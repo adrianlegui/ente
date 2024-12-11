@@ -7,7 +7,8 @@ class_name LoadMods extends FiniteStateMachine
 ## Se emite al terminar la carga de  mods.
 signal finished
 signal max_mods_updated(count: int)
-signal mod_loaded
+signal mod_loaded(mod_name: String)
+signal mod_load_failed(mod_name: String)
 
 
 ## Ruta al directorio donde se encuentran los mods.
@@ -26,7 +27,9 @@ const MOD_EXTENSION: String = "pck"
 var _thread: Thread
 var _mod_path: String
 var _file: FileAccess
-var _line: String
+var _mod: String
+var _mods: PackedStringArray = []
+var _count: int = 0
 
 
 @warning_ignore("unused_parameter")
@@ -50,20 +53,19 @@ func _process_start() -> void:
 
 
 func _process_load_mods() -> void:
-	if _file.eof_reached():
-		_file.close()
-		current_state = STATE_FINISH
+	var mod_path: String = MODS_FOLDER_PATH.path_join(_mod)
+	if FileAccess.file_exists(mod_path):
+		_thread = Thread.new()
+		_thread.start(ProjectSettings.load_resource_pack.bind(mod_path))
+		current_state = STATE_WAITING
 	else:
-		if not _line.is_empty() and _line.get_extension() == MOD_EXTENSION:
-			var mod_path: String = MODS_FOLDER_PATH.path_join(_line)
-			if FileAccess.file_exists(mod_path):
-				_thread = Thread.new()
-				_thread.start(ProjectSettings.load_resource_pack.bind(mod_path))
-				current_state = STATE_WAITING
-			else:
-				push_error("no existe fichero: %s" % mod_path)
+		push_error("no existe fichero: %s" % mod_path)
+		mod_load_failed.emit(_mod)
+		_count += 1
+		if _count < _mods.size():
+			_mod = _mods[_count]
 		else:
-			_line = _file.get_line()
+			current_state = STATE_FINISH
 
 
 func _process_waiting() -> void:
@@ -71,8 +73,15 @@ func _process_waiting() -> void:
 		var loaded: bool = _thread.wait_to_finish()
 		if not loaded:
 			push_error("no se puedo cargar fichero %s" % _mod_path)
-		_line = _file.get_line()
-		current_state = STATE_LOAD_MODS
+			mod_load_failed.emit(_mod)
+		else:
+			mod_loaded.emit(_mod)
+		_count += 1
+		if _count >= _mods.size():
+			current_state = STATE_FINISH
+		else:
+			_mod = _mods[_count]
+			current_state = STATE_LOAD_MODS
 
 
 func _process_finish() -> void:
@@ -90,7 +99,20 @@ func _current_state_changed(
 			FileAccess.READ
 		)
 		if is_instance_valid(_file):
-			max_mods_updated.emit(_file)
-			_line = _file.get_line()
+			_mods = _get_mod_names(_file)
+			max_mods_updated.emit(_mods.size())
+			_mod = _mods[_count]
 		else:
 			current_state = STATE_FINISH
+
+
+func _get_mod_names(file: FileAccess) -> PackedStringArray:
+	var mods: PackedStringArray = []
+	var line: String = _file.get_line()
+	while not file.eof_reached():
+		if not line.is_empty() and line.get_extension() == MOD_EXTENSION:
+			mods.append(line)
+		line = file.get_line()
+	file.close()
+
+	return mods

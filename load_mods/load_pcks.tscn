@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwpqd4ct2fbl6"]
+
+[ext_resource type="Script" path="res://addons/load_mods/load_pcks.gd" id="1_4e8lk"]
+
+[node name="LoadPcks" type="Node"]
+process_mode = 4
+script = ExtResource("1_4e8lk")

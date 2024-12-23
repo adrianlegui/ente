@@ -1,118 +1,133 @@
-class_name LoadMods extends FiniteStateMachine
-## Carga mods.
+class_name LoadMods extends ModsPath
+## Carga mods en formato json.
 ##
 ## @experimental
 
 
-## Se emite al terminar la carga de  mods.
-signal finished
-signal max_mods_updated(count: int)
-signal mod_loaded(mod_name: String)
-signal mod_load_failed(mod_name: String)
-
-
-## Ruta al directorio donde se encuentran los mods.
-const MODS_FOLDER_PATH: String = "user://mods"
-## Ruta al fichero que contiene el orden de carga de los mods.
-const MODS_LOAD_ORDER_FILE_PATH: String = "user://mods/load_order.txt"
-## Estado que cambia la escena al menu de inicio.
-const STATE_FINISH: String = "FINISH"
-## Estado donde se cargan los mods.
-const STATE_LOAD_MODS: String = "LOAD_MODS"
-## Estado donde espera a que el hilo termine de cargar el mod.
-const STATE_WAITING: String = "WAITING"
 ## Extension del fichero del mod.
-const MOD_EXTENSION: String = "pck"
-
-var _thread: Thread
-var _mod_path: String
-var _file: FileAccess
-var _mod: String
-var _mods: PackedStringArray = []
-var _count: int = 0
-
-
-@warning_ignore("unused_parameter")
-func _process_state(delta: float) -> void:
-	match current_state:
-		STATE_START:
-			_process_start()
-		STATE_LOAD_MODS:
-			_process_load_mods()
-		STATE_WAITING:
-			_process_waiting()
-		STATE_FINISH:
-			_process_finish()
+const MOD_EXTENSION: String = "json"
+const KEY_FORMAT: StringName = &"FORMAT"
+const KEY_GAME_NAME: StringName = &"GAME_NAME"
+const KEY_VERSION: StringName = &"VERSION"
+const KEY_MODS: StringName = &"MODS"
+const KEY_ENTITIES: StringName = &"ENTITIES"
+const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 
 
-func _process_start() -> void:
-	if FileAccess.file_exists(MODS_LOAD_ORDER_FILE_PATH):
-		current_state = STATE_LOAD_MODS
-	else:
-		current_state = STATE_FINISH
-
-
-func _process_load_mods() -> void:
-	var mod_path: String = MODS_FOLDER_PATH.path_join(_mod)
-	if FileAccess.file_exists(mod_path):
-		_thread = Thread.new()
-		_thread.start(ProjectSettings.load_resource_pack.bind(mod_path))
-		current_state = STATE_WAITING
-	else:
-		push_error("no existe fichero: %s" % mod_path)
-		mod_load_failed.emit(_mod)
-		_count += 1
-		if _count < _mods.size():
-			_mod = _mods[_count]
-		else:
-			current_state = STATE_FINISH
-
-
-func _process_waiting() -> void:
-	if not _thread.is_alive():
-		var loaded: bool = _thread.wait_to_finish()
-		if not loaded:
-			push_error("no se puedo cargar fichero %s" % _mod_path)
-			mod_load_failed.emit(_mod)
-		else:
-			mod_loaded.emit(_mod)
-		_count += 1
-		if _count >= _mods.size():
-			current_state = STATE_FINISH
-		else:
-			_mod = _mods[_count]
-			current_state = STATE_LOAD_MODS
-
-
-func _process_finish() -> void:
-	finished.emit()
-	process_mode = PROCESS_MODE_DISABLED
-
-
-func _current_state_changed(
-	previous_state: String,
-	new_state: String
-) -> void:
-	if previous_state == STATE_START and new_state == STATE_LOAD_MODS:
-		_file = FileAccess.open(
-			MODS_LOAD_ORDER_FILE_PATH,
-			FileAccess.READ
-		)
-		if is_instance_valid(_file):
-			_mods = _get_mod_names(_file)
-			max_mods_updated.emit(_mods.size())
-			_mod = _mods[_count]
-		else:
-			current_state = STATE_FINISH
-
-
-func _get_mod_names(file: FileAccess) -> PackedStringArray:
+func get_mod_names() -> PackedStringArray:
 	var mods: PackedStringArray = []
-	var line: String = _file.get_line()
-	while not file.eof_reached():
-		if not line.is_empty() and line.get_extension() == MOD_EXTENSION:
-			mods.append(line)
-		line = file.get_line()
-	file.close()
+
+	var file_path: String = ModsPath.get_mods_load_order_file_path()
+	var file = FileAccess.open(
+		file_path,
+		FileAccess.READ
+	)
+	if is_instance_valid(file):
+		var line: String = file.get_line()
+		while not file.eof_reached():
+			if (
+				not line.is_empty()
+				and line.get_extension() == MOD_EXTENSION
+				and not line.begins_with("#")
+			):
+				mods.append(line)
+			line = file.get_line()
+		file.close()
+	else:
+		var error: int = file.get_open_error()
+		push_error(
+			"no se pudo abrir fichero %s. error: %s" % [
+				file_path,
+				error_string(error)
+			]
+		)
 
 	return mods
+
+
+func load_json(json_path: String) -> Dictionary:
+	var dict: Dictionary = {}
+	if FileAccess.file_exists(json_path):
+		var file_access: FileAccess = FileAccess.open(json_path, FileAccess.READ)
+		var json_text: String = file_access.get_as_text()
+		file_access.close()
+
+		var json: JSON = JSON.new()
+		var error: int = json.parse(json_text)
+		if error == OK:
+			if typeof(json.data) == TYPE_DICTIONARY:
+				dict = json.data
+		else:
+			print(
+				"json invalido. %s en linea %s" % [
+					json.get_error_message(),
+					json.get_error_line()
+				]
+			)
+	else:
+		push_error("%s no existe." % json_path)
+
+	return dict
+
+
+func mod_exists(mod_name: String) -> bool:
+	var file_path: String = ModsPath.get_mods_folder_path().path_join(mod_name)
+	return FileAccess.file_exists(file_path)
+
+
+func load_mods() -> LoadedMods:
+	var loaded_mods: LoadedMods = LoadedMods.new()
+	var mod_names: PackedStringArray = get_mod_names()
+	for mod_name: String in mod_names:
+		if mod_exists(mod_name):
+			var json_path: String = ModsPath.get_mods_folder_path().path_join(mod_name)
+			var data: Dictionary = load_json(json_path)
+			if data.is_empty() or data[KEY_GAME_NAME] != get_game_name():
+				loaded_mods.add_failed(mod_name)
+			else:
+				loaded_mods.add_data(data)
+		else:
+			loaded_mods.add_failed(mod_name)
+	return loaded_mods
+
+
+func get_game_name() -> String:
+	return ProjectSettings.get_setting(GAME_NAME_PROPERTY_PATH)
+
+
+class LoadedMods:
+	var data: Dictionary = {}
+	var failed: PackedStringArray = []
+
+
+	func mod_loading_failed() -> bool:
+		return failed.size() > 0
+
+
+	func add_data(dict: Dictionary) -> void:
+		var mods: Dictionary = dict[KEY_MODS]
+		if data.is_empty():
+			data = mods
+		else:
+			var overwrite: bool = true
+			for mod_name: String in mods:
+				var entities: Dictionary = mods[mod_name]
+				for entity_name in entities:
+					if not data.has(mod_name):
+						data[mod_name] = {}
+
+					if not data[mod_name].has(entity_name):
+						data[mod_name][entity_name] = {}
+
+					data[mod_name][entity_name].merge(
+						entities[entity_name],
+						overwrite
+					)
+
+
+	func add_failed(mod_name: String) -> void:
+		failed.append(mod_name)
+
+
+	func get_data() -> Dictionary:
+		return data

@@ -1,0 +1,10 @@
+{
+		"GAME_NAME" : "game_name",
+		"MODS" : [],
+		"PCKS" : ["mod.pck"],
+		"ENTITIES" : {
+				"NombreDeLaEntidad" : {
+						"name" : "nombre de la entidad"
+				}
+		}
+}

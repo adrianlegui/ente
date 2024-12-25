@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfbvn4qay048c"]
-
-[ext_resource type="Script" path="res://addons/load_mods/load_mods.gd" id="1_4e8lk"]
-
-[node name="LoadMods" type="Node"]
-script = ExtResource("1_4e8lk")

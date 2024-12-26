@@ -101,9 +101,12 @@ func _process_start() -> void:
 		current_state = STATE_FINISH
 	else:
 		_load_game_data()
-		updated_count_pck_to_load.emit(pcks_to_load.size())
-		_current_pck = pcks_to_load[_count]
-		current_state = STATE_LOAD_PCK
+		if pcks_to_load.size() == 0:
+			current_state = STATE_FINISH
+		else:
+			updated_count_pck_to_load.emit(pcks_to_load.size())
+			_current_pck = pcks_to_load[_count]
+			current_state = STATE_LOAD_PCK
 
 
 func _process_load_pck() -> void:
@@ -196,7 +199,7 @@ func _load_mod_names() -> void:
 		file.close()
 	else:
 		could_not_open_load_order_file.emit()
-		var error: int = file.get_open_error()
+		var error: int = FileAccess.get_open_error()
 		push_error(
 			"no se pudo abrir fichero %s. error: %s" % [
 				file_path,

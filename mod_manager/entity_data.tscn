@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca65rmesa2xg4"]
+
+[ext_resource type="Script" path="res://addons/mod_manager/entity_data.gd" id="1_fbsm3"]
+
+[node name="EntityData" type="Node" groups=["PERSISTENT"]]
+script = ExtResource("1_fbsm3")

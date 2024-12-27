@@ -421,13 +421,13 @@ func _start_game(_entities: Dictionary) -> void:
 	scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,
-		EntityData.EVENT_UPDATE_REFERENCES
+		EntityData.GAME_EVENT_BEFORE_STARTING
 	)
 
 	scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,
-		EntityData.EVENT_GAME_STARTED
+		EntityData.GAME_EVENT_STARTED
 	)
 
 	started_game.emit()

@@ -3,14 +3,18 @@ class_name EntityData extends Node
 ##
 ## Los nodos que hereden de esta clase tiene que estar en el grupo
 ## [constant GROUP_PERSISTENT] para que sean guardados.
+##
 ## @experimental
 
 
 ## Nombre del grupo de nodos persistentes.
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
-const EVENT_GAME_STARTED: StringName = &"_on_game_event_started"
-const EVENT_UPDATE_REFERENCES: StringName = &"_update_references"
-const EVENT_GAME_FIRST_START: StringName = &"_on_game_event_first_start"
+## Nombre del método que será llamado al iniciar la partida.
+const GAME_EVENT_STARTED: StringName = &"_on_game_event_started"
+## Nombre del método que será llamado luego de agregar todas las entidades al
+## árbol.
+const GAME_EVENT_BEFORE_STARTING: StringName = &"_on_game_event_before_starting"
+## Usado como clave en el [Dictionary] de persistencia.
 const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
 
 
@@ -36,7 +40,6 @@ func _on_game_event_started() -> void:
 	pass
 
 
-## Se llama para actualizar las referencias luego de agregar las entidades
-## al arbol.
-func _update_references() -> void:
+## Se llama luego de agregar todas las entidades al arbol.
+func _on_game_event_before_starting() -> void:
 	pass

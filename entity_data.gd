@@ -40,8 +40,3 @@ func _on_game_event_started() -> void:
 ## al arbol.
 func _update_references() -> void:
 	pass
-
-
-## Se llama luego de cargar los nodos al arbol y no es un juego guardado.
-func _on_game_event_first_start() -> void:
-	pass

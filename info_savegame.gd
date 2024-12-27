@@ -19,8 +19,8 @@ func set_data(data: Dictionary, name: String, mod_manager: ModManager) -> void:
 	_has_entities = data.has(ModManager.KEY_ENTITIES)
 
 	_same_game = (
-		data.has(ModManager.KEY_GAME_NAME)
-		and data[ModManager.KEY_GAME_NAME] == ModManager.get_game_name()
+		data.has(ModManager.KEY_GAME_ID)
+		and data[ModManager.KEY_GAME_ID] == ModManager.get_game_id()
 	)
 	if _same_game:
 		var dependencies: PackedStringArray = []

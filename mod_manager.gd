@@ -36,9 +36,10 @@ const MODS_FOLDER_PATH_PROPERTY: String = "mod_manager/mods_folder_path"
 const MOD_EXTENSION: String = "json"
 ## Ruta al directorio de las partidas guardadas.
 const SAVEGAME_FOLDER_PATH: String = "user://save"
+const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
 ## Ruta a la propiedad con el nombre del juego
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
-const KEY_GAME_NAME: StringName = &"GAME_NAME"
+const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_MODS: StringName = &"MODS"
 const KEY_ENTITIES: StringName = &"ENTITIES"
 const KEY_PCKS: StringName = &"PCKS"
@@ -164,7 +165,7 @@ func save_game(savegame_name: String) -> void:
 		return
 
 	var data: Dictionary = {}
-	data[KEY_GAME_NAME] = get_game_name()
+	data[KEY_GAME_ID] = get_game_id()
 	data[KEY_MODS] = loaded_mods
 	data[KEY_ENTITIES] = ents
 	var json_data: String = JSON.stringify(data)
@@ -359,7 +360,7 @@ func _load_game_data() -> void:
 				MOD_EXTENSION
 				]
 			var data: Dictionary = _load_json(json_path)
-			if data.is_empty() or data[KEY_GAME_NAME] != ModManager.get_game_name():
+			if data.is_empty() or data[KEY_GAME_ID] != ModManager.get_game_id():
 				failed_mods.append(mod_name)
 			else:
 				_add_data(data, mod_name)
@@ -439,5 +440,8 @@ static func get_savegame_folder_path() -> String:
 
 
 ## Devuelve el nombre del juego.
-static func get_game_name() -> String:
-	return ProjectSettings.get_setting(GAME_NAME_PROPERTY_PATH)
+static func get_game_id() -> String:
+	return ProjectSettings.get_setting(
+		GAME_ID_PROPERTY_PATH,
+		ProjectSettings.get_setting(GAME_NAME_PROPERTY_PATH)
+		)

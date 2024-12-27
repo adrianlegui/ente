@@ -1,5 +1,5 @@
 {
-		"GAME_NAME" : "game_name",
+		"GAME_ID" : "game_name",
 		"MODS" : [],
 		"PCKS" : ["mod.pck"],
 		"ENTITIES" : {

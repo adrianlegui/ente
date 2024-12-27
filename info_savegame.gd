@@ -1,19 +1,22 @@
-class_name InfoSavegame extends Resource
+class_name InfoSavegame extends RefCounted
 ## @experimental
 
 
 var _savegame_name: String
 var _same_game: bool = false
 var _missing_mods: PackedStringArray = []
-var _failed: bool = false
+var _empty: bool = false
+var _has_entities: bool = false
 
 
 func set_data(data: Dictionary, name: String, mod_manager: ModManager) -> void:
 	_savegame_name = name
 
-	_failed = data.is_empty()
-	if _failed:
+	_empty = data.is_empty()
+	if _empty:
 		return
+
+	_has_entities = data.has(ModManager.KEY_ENTITIES)
 
 	_same_game = (
 		data.has(ModManager.KEY_GAME_NAME)
@@ -41,3 +44,15 @@ func has_missing_mods() -> bool:
 
 func get_missing_mod_names() -> PackedStringArray:
 	return _missing_mods
+
+
+func is_correct() -> bool:
+	return (
+		not _empty and
+		_same_game and
+		not has_missing_mods() and
+		_has_entities
+		)
+
+func is_corrupt() -> bool:
+	return _empty

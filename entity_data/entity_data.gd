@@ -19,7 +19,7 @@ const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
 const KEY_ACTIVE: StringName = &"active"
 
 
-var active: bool = false
+var active: bool = false : set=set_active
 
 
 func set_active(value: bool) -> void:

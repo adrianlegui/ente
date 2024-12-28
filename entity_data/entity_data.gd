@@ -14,9 +14,6 @@ const GAME_EVENT_STARTED: StringName = &"_on_game_event_started"
 ## Nombre del método que será llamado luego de agregar todas las entidades al
 ## árbol.
 const GAME_EVENT_BEFORE_STARTING: StringName = &"_on_game_event_before_starting"
-## Usado como clave en el [Dictionary] de persistencia.
-const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
-const KEY_ACTIVE: StringName = &"active"
 
 
 var active: bool = false : set=set_active
@@ -35,17 +32,18 @@ func get_path_to_scene() -> String:
 	return scene_file_path
 
 
-## Configura la información del nodo. Sobreescribir para dar funcionalidad.
+## Configura la información del nodo.
 func set_data(data: Dictionary) -> void:
-	if data.has(KEY_ACTIVE):
-		active = data[KEY_ACTIVE]
+	for key in _get_persistent_keys():
+		if data.has(key):
+			set(key, data[key])
 
 
-## Obtiene la información del nodo. Sobreescribir para extender funcionalidad.
+## Obtiene la información del nodo.
 func get_data() -> Dictionary:
 	var data: Dictionary = {}
-	data[KEY_SCENE_FILE_PATH] = get_path_to_scene()
-	data[KEY_ACTIVE] = active
+	for key in _get_persistent_keys():
+		data[key] = get(key)
 
 	return data
 
@@ -58,3 +56,9 @@ func _on_game_event_started() -> void:
 ## Se llama luego de agregar todas las entidades al arbol.
 func _on_game_event_before_starting() -> void:
 	pass
+
+
+## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
+func _get_persistent_keys() -> PackedStringArray:
+	var keys: PackedStringArray = ["active", "scene_file_path"]
+	return keys

@@ -14,7 +14,7 @@ const GAME_EVENT_STARTED: StringName = &"_on_game_event_started"
 ## Nombre del método que será llamado luego de agregar todas las entidades al
 ## árbol.
 const GAME_EVENT_BEFORE_STARTING: StringName = &"_on_game_event_before_starting"
-
+const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
 
 var active: bool = false : set=set_active
 
@@ -60,5 +60,5 @@ func _on_game_event_before_starting() -> void:
 
 ## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
 func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = ["active", "scene_file_path"]
+	var keys: PackedStringArray = [KEY_SCENE_FILE_PATH, "active"]
 	return keys

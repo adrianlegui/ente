@@ -62,3 +62,8 @@ func _on_game_event_before_starting() -> void:
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = [KEY_SCENE_FILE_PATH, "active"]
 	return keys
+
+
+## Obtiene una entidad
+func get_entity(entity_name: String) -> EntityData:
+	return get_node("/root/" + entity_name)

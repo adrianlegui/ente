@@ -360,7 +360,11 @@ func _load_game_data() -> void:
 				MOD_EXTENSION
 				]
 			var data: Dictionary = _load_json(json_path)
-			if data.is_empty() or data[KEY_GAME_ID] != ModManager.get_game_id():
+			if (
+				data.is_empty() or
+				not data.has(KEY_GAME_ID) or
+				data[KEY_GAME_ID] != ModManager.get_game_id()
+			):
 				failed_mods.append(mod_name)
 			else:
 				_add_data(data, mod_name)

@@ -301,8 +301,8 @@ func _load_mod_names() -> void:
 		FileAccess.READ
 	)
 	if is_instance_valid(file):
-		var line: String = file.get_line()
 		while not file.eof_reached():
+			var line: String = file.get_line()
 			if (
 				not line.is_empty()
 				and line.get_extension() == MOD_EXTENSION
@@ -313,7 +313,6 @@ func _load_mod_names() -> void:
 					push_warning("mod duplicado: %s" % line)
 				else:
 					mod_names.append(mod_name)
-			line = file.get_line()
 		file.close()
 	else:
 		could_not_open_load_order_file.emit()

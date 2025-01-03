@@ -1,4 +1,4 @@
-class_name EntityData extends Node
+class_name EntityData extends Data
 ## Clase base para los nodos que reciben la información de los mods.
 ##
 ## Los nodos que hereden de esta clase tiene que estar en el grupo
@@ -16,36 +16,10 @@ const GAME_EVENT_STARTED: StringName = &"_on_game_event_started"
 const GAME_EVENT_BEFORE_STARTING: StringName = &"_on_game_event_before_starting"
 const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
 
-var active: bool = false : set=set_active
-
-
-func set_active(value: bool) -> void:
-	active = value
-	if active:
-		process_mode = PROCESS_MODE_INHERIT
-	else:
-		process_mode = PROCESS_MODE_DISABLED
-
 
 ## Obtiene la ruta a la escena.
 func get_path_to_scene() -> String:
 	return scene_file_path
-
-
-## Configura la información del nodo.
-func set_data(data: Dictionary) -> void:
-	for key in _get_persistent_keys():
-		if data.has(key):
-			set(key, data[key])
-
-
-## Obtiene la información del nodo.
-func get_data() -> Dictionary:
-	var data: Dictionary = {}
-	for key in _get_persistent_keys():
-		data[key] = get(key)
-
-	return data
 
 
 ## Se llama cuando el juego es iniciado.
@@ -60,7 +34,8 @@ func _on_game_event_before_starting() -> void:
 
 ## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
 func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = [KEY_SCENE_FILE_PATH, "active"]
+	var keys: PackedStringArray = super._get_persistent_keys()
+	keys.append(KEY_SCENE_FILE_PATH)
 	return keys
 
 

@@ -5,10 +5,6 @@ class_name IntValue extends Data
 ## @experimental
 
 
-const KEY_BASE: StringName = &"base"
-const KEY_MOD: StringName = &"mod"
-
-
 ## Valor base.
 @export var base: int = 0.0
 ## Modificador del valor.
@@ -22,6 +18,5 @@ func get_current_value() -> int:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append(KEY_BASE)
-	keys.append(KEY_MOD)
+	keys.append_array(["base", "mod"])
 	return keys

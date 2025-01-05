@@ -2,9 +2,6 @@ class_name Data extends Node
 ## @experimental
 
 
-var active: bool = false : set=set_active
-
-
 ## Configura la información del nodo.
 func set_data(data: Dictionary) -> void:
 	for key in _get_persistent_keys():
@@ -36,17 +33,9 @@ func get_data() -> Dictionary:
 	return data
 
 
-func set_active(value: bool) -> void:
-	active = value
-	if active:
-		process_mode = PROCESS_MODE_INHERIT
-	else:
-		process_mode = PROCESS_MODE_DISABLED
-
-
 ## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
 func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = ["active"]
+	var keys: PackedStringArray = ["process_mode"]
 	return keys
 
 

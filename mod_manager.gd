@@ -148,7 +148,9 @@ func save_game(savegame_name: String) -> void:
 			get_savegame_folder_path()
 		)
 	if err_creating_dir != OK:
-		push_error("no se pudo crear directorio: %s" % get_savegame_folder_path())
+		push_error(
+			"no se pudo crear directorio: %s" % get_savegame_folder_path()
+		)
 		return
 
 	var file_path: String = "%s.%s" %  [
@@ -173,14 +175,15 @@ func save_game(savegame_name: String) -> void:
 	file.close()
 
 
-## Limpia el árbol de nodos. Todos los nodos que no estén en el grupo
-## [constant GROUP_NOT_DELETE] serán borrados.
+## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
+## [constant EntityData.GROUP_PERSISTENT] serán borrados.
 func clean_scene_tree() -> void:
-	var root: Window = get_tree().root
-	for child: Node in root.get_children():
-		if not child.is_in_group(GROUP_NOT_DELETE):
-			child.queue_free()
-
+	var scene_tree: SceneTree = get_tree()
+	scene_tree.call_group(
+		EntityData.GROUP_PERSISTENT,
+		EntityData.GAME_EVENT_CLEAN_SCENE_TREE
+	)
+	
 
 ## Comprueba el juego salvado y obtiene información importante del mismo.
 ## Además, realiza comprobaciones.

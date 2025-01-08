@@ -1,4 +1,4 @@
 # Mod Manager
-Complemento para [Godot Engine](https://godotengine.org/), versión v4.3.stable.official [77dcf97d8].
+Complemento para [Godot Engine](https://godotengine.org/), versión v4.3.
 
-Carga mods en formato json. Además, carga paquetes de recursos necesarios para los mods.
+Carga mods en formato json, carga paquetes de recursos necesarios para los mods, guarda y carga partida del juego.

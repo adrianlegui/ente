@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmmshokrl0pp2"]
+
+[ext_resource type="Script" path="res://addons/mod_manager/script_creator/script_creator.gd" id="1_lieir"]
+
+[node name="ScriptCreator" type="Node"]
+script = ExtResource("1_lieir")

@@ -48,11 +48,9 @@ const STATE_START: StringName = &"START"
 ## Estado carga de pck
 const STATE_LOAD_PCK: StringName = &"LOAD_PCK"
 const STATE_WAITING: StringName = &"WAITING"
+const STATE_LOADING_SAVEGAME: StringName = &"LOADING_SAVEGAME"
 ## Estado al finalizar la carga de packs de recursos.
 const STATE_FINISH: StringName = &"FINISH"
-## Nombre del grupo con los nodos que no se tiene que borrar al limpiar el árbol
-## de nodos.
-const GROUP_NOT_DELETE: StringName = &"NOT_DELETE"
 
 
 ## Nombre de los mods que se tiene que cargar.
@@ -72,7 +70,7 @@ var loaded_mods: PackedStringArray = []
 
 
 # Usado para FSM.
-var _current_state: StringName = STATE_START
+var _current_state: StringName = STATE_START : set=set_current_state
 # Usado en la carga de pack de recursos.
 var _thread: Thread
 # Ruta al pack de recursos que se esta cargando.
@@ -85,8 +83,19 @@ var _count: int = 0
 var _abort_load: bool = false
 
 
+@onready var _scene_tree: SceneTree = get_tree()
+
+
 func _process(_delta: float) -> void:
 	_process_state(_delta)
+
+
+func set_current_state(value: StringName) -> void:
+	if _current_state == value:
+		return
+	var previous_state: StringName = _current_state
+	_current_state = value
+	_on_current_state_changed(previous_state, _current_state)
 
 
 ## Aborta la carga de los paquetes de recursos, no es inmediato.
@@ -126,8 +135,13 @@ func load_savegame(path_to_savegame: String) -> void:
 	var ents: Dictionary = savegame_data[KEY_ENTITIES]
 	savegame_entities = merge_dictionary(entities, ents)
 
-	_start_game(savegame_entities)
-	loaded_savegame.emit()
+	_current_state = STATE_LOADING_SAVEGAME
+
+	process_mode = PROCESS_MODE_ALWAYS
+	_scene_tree.paused = true
+
+	_thread = Thread.new()
+	_thread.start(_start_game.bind(savegame_entities))
 
 
 ## Salva la información de los nodos que se encuentran en el grupo
@@ -178,12 +192,11 @@ func save_game(savegame_name: String) -> void:
 ## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
 ## [constant EntityData.GROUP_PERSISTENT] serán borrados.
 func clean_scene_tree() -> void:
-	var scene_tree: SceneTree = get_tree()
-	scene_tree.call_group(
+	_scene_tree.call_group(
 		EntityData.GROUP_PERSISTENT,
 		EntityData.GAME_EVENT_CLEAN_SCENE_TREE
 	)
-	
+
 
 ## Comprueba el juego salvado y obtiene información importante del mismo.
 ## Además, realiza comprobaciones.
@@ -231,6 +244,8 @@ func _process_state(delta: float) -> void:
 			_process_waiting()
 		STATE_FINISH:
 			_process_finish()
+		STATE_LOADING_SAVEGAME:
+			_process_loading_savegame()
 
 
 func _process_start() -> void:
@@ -289,10 +304,6 @@ func _process_waiting() -> void:
 
 
 func _process_finish() -> void:
-	_thread = null
-	_count = 0
-	_current_pck = ""
-	_current_pck_path = ""
 	finished.emit()
 	process_mode = PROCESS_MODE_DISABLED
 
@@ -404,7 +415,7 @@ func _add_data(dict: Dictionary, mod_name: String) -> void:
 func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
-		var data: Dictionary = entities[entity_name]
+		var data: Dictionary = _entities[entity_name]
 		if data.has(EntityData.KEY_SCENE_FILE_PATH):
 			var file_path: String = str_to_var(data[EntityData.KEY_SCENE_FILE_PATH])
 			var pck: PackedScene = load(file_path)
@@ -412,7 +423,7 @@ func _start_game(_entities: Dictionary) -> void:
 				var entity: EntityData = pck.instantiate()
 				entity.name = entity_name
 				entity.set_data(data)
-				root.add_child(entity)
+				root.call_deferred("add_child", entity)
 			else:
 				push_error("fallo la carga de %s." % file_path)
 		else:
@@ -423,21 +434,43 @@ func _start_game(_entities: Dictionary) -> void:
 				]
 			)
 
-	var scene_tree: SceneTree = get_tree()
-
-	scene_tree.call_group_flags(
+	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,
 		EntityData.GAME_EVENT_BEFORE_STARTING
 	)
 
-	scene_tree.call_group_flags(
+	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,
 		EntityData.GAME_EVENT_STARTED
 	)
 
 	started_game.emit()
+
+
+func _on_current_state_changed(
+	previous_state: String,
+	new_state: String
+) -> void:
+	if new_state == STATE_FINISH:
+		if previous_state == STATE_LOAD_PCK or previous_state == STATE_WAITING:
+			_thread = null
+			_count = 0
+			_current_pck = ""
+			_current_pck_path = ""
+
+
+func _process_loading_savegame():
+	if _thread.is_alive():
+		return
+
+	_thread.wait_to_finish()
+	_thread = null
+
+	_current_state = STATE_FINISH
+	loaded_savegame.emit()
+	_scene_tree.paused = false
 
 
 ## Devuelve el directorio de las partidas guardadas.

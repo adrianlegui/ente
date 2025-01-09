@@ -24,7 +24,7 @@ func set_data(data: Dictionary, name: String, mod_manager: ModManager) -> void:
 	)
 	if _same_game:
 		var dependencies: PackedStringArray = []
-		if data.has[ModManager.KEY_MODS]:
+		if data.has(ModManager.KEY_MODS):
 			for d: String in dependencies:
 				if not mod_manager.loaded_mods.has(d):
 					_missing_mods.append(d)

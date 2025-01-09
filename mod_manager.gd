@@ -434,12 +434,15 @@ func _start_game(_entities: Dictionary) -> void:
 				]
 			)
 
+	await Engine.get_main_loop().process_frame
+
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,
 		EntityData.GAME_EVENT_BEFORE_STARTING
 	)
 
+	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		EntityData.GROUP_PERSISTENT,

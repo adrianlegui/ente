@@ -417,7 +417,7 @@ func _start_game(_entities: Dictionary) -> void:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
 		if data.has(EntityData.KEY_SCENE_FILE_PATH):
-			var file_path: String = str_to_var(data[EntityData.KEY_SCENE_FILE_PATH])
+			var file_path: String = data[EntityData.KEY_SCENE_FILE_PATH]
 			var pck: PackedScene = load(file_path)
 			if is_instance_valid(pck):
 				var entity: EntityData = pck.instantiate()

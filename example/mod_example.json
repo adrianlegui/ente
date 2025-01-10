@@ -3,9 +3,9 @@
 		"MODS" : [],
 		"PCKS" : ["mod.pck"],
 		"ENTITIES" : {
-				"entidad" : {
-						"scene_file_path" : "res://mod/entidad.tscn",
-						"active" : true
+				"mod_entity" : {
+						"scene_file_path" : "res://mod/entity.tscn",
+						"process_mode": "0"
 				}
 		}
 }

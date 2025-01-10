@@ -14,6 +14,8 @@ func set_data(data: Dictionary) -> void:
 				var obj: Data = v_node as Data
 				assert(is_instance_valid(obj))
 				obj.set_data(v_data)
+			elif _no_needs_conversion(v_node):
+				set(key, data[key])
 			else:
 				set(key, str_to_var(data[key]))
 
@@ -27,6 +29,8 @@ func get_data() -> Dictionary:
 			var obj: Data = v_node as Data
 			assert(is_instance_valid(obj))
 			data[key] = obj.get_data()
+		elif _no_needs_conversion(v_node):
+			data[key] = v_node
 		else:
 			data[key] = var_to_str(v_node)
 
@@ -43,3 +47,12 @@ func _get_persistent_keys() -> PackedStringArray:
 func _get_not_settable_keys() -> PackedStringArray:
 	var keys: PackedStringArray = []
 	return keys
+
+
+func _no_needs_conversion(variant: Variant) -> bool:
+	return (
+		typeof(variant) == TYPE_INT or
+		typeof(variant) == TYPE_BOOL or
+		typeof(variant) == TYPE_STRING or
+		typeof(variant) == TYPE_FLOAT
+	)

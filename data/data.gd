@@ -54,5 +54,6 @@ func _no_needs_conversion(variant: Variant) -> bool:
 		typeof(variant) == TYPE_INT or
 		typeof(variant) == TYPE_BOOL or
 		typeof(variant) == TYPE_STRING or
-		typeof(variant) == TYPE_FLOAT
+		typeof(variant) == TYPE_FLOAT or
+		typeof(variant) == TYPE_STRING_NAME
 	)

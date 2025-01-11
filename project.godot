@@ -21,7 +21,7 @@ MOD_MANAGER="*res://addons/mod_manager/src/mod_manager.tscn"
 
 [editor]
 
-run/main_run_args="++ --not-encrypted-saved game"
+run/main_run_args="++ --not-encrypted-savedgame"
 
 [editor_plugins]
 

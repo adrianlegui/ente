@@ -1,6 +1,6 @@
 {
 	"GAME_ID" : "game_id",
-	"MODS" : [],
+	"MODS" : ["another_mod.json"],
 	"PCKS" : ["mod.pck"],
 	"ENTITIES" : {
 			"mod_entity" : {

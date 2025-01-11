@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore('return_value_discarded')
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/encrypt_decrypt/encrypt_decrypt.gd'
+const __source = 'res://addons/mod_manager/src/encrypt_decrypt.gd'
 
 
 func test_load_encrypted_file() -> void:

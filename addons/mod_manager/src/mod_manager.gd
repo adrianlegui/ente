@@ -51,6 +51,8 @@ const STATE_WAITING: StringName = &"WAITING"
 const STATE_LOADING_SAVEGAME: StringName = &"LOADING_SAVEGAME"
 ## Estado al finalizar la carga de packs de recursos.
 const STATE_FINISH: StringName = &"FINISH"
+const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
+const ENCRYPTED_EXTENSION: String = ".save"
 
 
 ## Nombre de los mods que se tiene que cargar.
@@ -200,9 +202,9 @@ func clean_scene_tree() -> void:
 
 ## Comprueba el juego salvado y obtiene información importante del mismo.
 ## Además, realiza comprobaciones.
-func check_savegame(path_to_savegame: String) -> InfoSavegame:
+func check_savegame(path_to_savegame: String) -> SavegameInfo:
 	var data: Dictionary = _load_json(path_to_savegame)
-	var save_game: InfoSavegame = InfoSavegame.new()
+	var save_game: SavegameInfo = SavegameInfo.new()
 	save_game.set_data(
 		data,
 		path_to_savegame.get_file().get_basename(),
@@ -342,7 +344,10 @@ func _load_mod_names() -> void:
 func _load_json(json_path: String) -> Dictionary:
 	var dict: Dictionary = {}
 	if FileAccess.file_exists(json_path):
-		var file_access: FileAccess = FileAccess.open(json_path, FileAccess.READ)
+		var file_access: FileAccess = FileAccess.open(
+			json_path,
+			FileAccess.READ
+		)
 		var json_text: String = file_access.get_as_text()
 		file_access.close()
 

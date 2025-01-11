@@ -1,4 +1,4 @@
-class_name InfoSavegame extends RefCounted
+class_name SavegameInfo extends RefCounted
 ## @experimental
 
 

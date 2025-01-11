@@ -40,9 +40,8 @@ mono_crash.*.json
 
 # 
 build/*
-src/addons/*
+addons/*
 *.blend[0-9]*
 .venv/*
-src/.plugged/*
-!src/addons/run_icon
-!src/addons/gd-plug
+.plugged/*
+!addons/mod_manager

@@ -1,0 +1,11 @@
+{
+	"GAME_ID" : "game_id",
+	"MODS" : [],
+	"PCKS" : ["mod.pck"],
+	"ENTITIES" : {
+			"mod_entity" : {
+					"scene_file_path" : "res://mod/entity.tscn",
+					"process_mode": "0"
+			}
+	}
+}

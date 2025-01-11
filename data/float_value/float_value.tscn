@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqqhod326xog7"]
-
-[ext_resource type="PackedScene" uid="uid://dpdg4poo6yj30" path="res://addons/mod_manager/data/data.tscn" id="1_tmgc7"]
-[ext_resource type="Script" path="res://addons/mod_manager/data/float_value/float_value.gd" id="2_dyo7c"]
-
-[node name="FloatValue" instance=ExtResource("1_tmgc7")]
-script = ExtResource("2_dyo7c")
-base = 0.0
-mod = 0.0

@@ -12,7 +12,7 @@ var _has_entities: bool = false
 func set_data(
 	data: Dictionary,
 	name: String,
-	loaded_mod: Array[String]
+	loaded_mod: Array
 ) -> void:
 	_savegame_name = name
 

@@ -10,6 +10,7 @@ signal could_not_open_load_order_file
 signal finished
 ## Se emite al iniciar el juego.
 signal started_game
+signal failed_to_load_savegame
 
 
 ## Nombre del fichero que contiene el orden de carga de los mods.
@@ -26,7 +27,7 @@ const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
 ## Ruta a la propiedad con el nombre del juego
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
-const ENCRYPTED_EXTENSION: String = ".sav"
+const ENCRYPTED_EXTENSION: String = "sav"
 
 
 ## Mods que no se cargaron.
@@ -119,15 +120,22 @@ func load_savegame(path_to_savegame: String) -> void:
 		entities = merge_dictionary(entities, mod.entities)
 
 	var ents: Dictionary = {}
-	if NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args():
+	var ext: String = path_to_savegame.get_extension()
+	if ext == MOD_EXTENSION:
 		var savegame_data: Dictionary = _load_json(path_to_savegame)
 		ents = savegame_data[Mod.KEY_ENTITIES]
-	else:
+	elif ext == ENCRYPTED_EXTENSION:
 		var text: String = EncryptDecrypt.load_encrypted_file(
 			path_to_savegame,
 			_get_encryption_key()
 		)
 		ents = _json_parse(text).get(Mod.KEY_ENTITIES, {})
+	else:
+		push_error(
+			"falló la carga de partida guardada: %s" % path_to_savegame
+		)
+		failed_to_load_savegame.emit()
+		return
 
 	savegame_entities = merge_dictionary(entities, ents)
 	_thread = Thread.new()
@@ -202,21 +210,29 @@ func clean_scene_tree() -> void:
 func check_savegame(path_to_savegame: String) -> SavegameInfo:
 	var save_game: SavegameInfo = SavegameInfo.new()
 	var ext: String = path_to_savegame.get_extension()
+	var data: Dictionary = {}
 	if ext == MOD_EXTENSION:
-		var data: Dictionary = _load_json(path_to_savegame)
-		save_game.set_data(
-			data,
-			path_to_savegame.get_file().get_basename(),
-			_loaded_mod.keys()
-		)
+		data = _load_json(path_to_savegame)
 	elif ext == ENCRYPTED_EXTENSION:
 		var text: String = EncryptDecrypt.load_encrypted_file(
 			path_to_savegame,
 			_get_encryption_key()
 		)
-		var data: Dictionary = _json_parse(text)
+		data = _json_parse(text)
+		save_game.set_data(
+			data,
+			path_to_savegame.get_file().get_basename(),
+			_loaded_mod.keys()
+		)
 	else:
-		push_error("partida guardada %s no es un fichero válido" % path_to_savegame)
+		push_error(
+			"partida guardada %s no es un fichero válido" % path_to_savegame
+		)
+	save_game.set_data(
+		data,
+		path_to_savegame.get_file().get_basename(),
+		_loaded_mod.keys()
+	)
 	return save_game
 
 

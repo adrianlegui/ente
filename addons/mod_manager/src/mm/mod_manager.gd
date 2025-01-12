@@ -104,8 +104,12 @@ func start_game() -> void:
 
 
 ## Carga un juego guardado.
-func load_savegame(path_to_savegame: String) -> void:
-	var info: SavegameInfo = check_savegame(path_to_savegame)
+func load_savegame(savegame_name: String) -> void:
+	var path_to_savegame: String ="%s.%s" % [
+		get_savegame_folder_path().path_join(savegame_name),
+		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+	]
+	var info: SavegameInfo = check_savegame(savegame_name)
 	if not info.is_correct():
 		return
 
@@ -206,28 +210,42 @@ func clean_scene_tree() -> void:
 	)
 
 
+func delete_savegame(savegame_name: String) -> void:
+	var file_path: String =  "%s.%s" % [
+		get_savegame_folder_path().path_join(savegame_name),
+		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+	]
+	if FileAccess.file_exists(file_path):
+		OS.move_to_trash(ProjectSettings.globalize_path(file_path))
+
+
 ## Comprueba el juego salvado y obtiene información importante del mismo.
-func check_savegame(path_to_savegame: String) -> SavegameInfo:
+func check_savegame(savegame_name: String) -> SavegameInfo:
+	var path_to_savegame: String = "%s.%s" % [
+		get_savegame_folder_path().path_join(savegame_name),
+		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+	]
 	var save_game: SavegameInfo = SavegameInfo.new()
 	var ext: String = path_to_savegame.get_extension()
 	var data: Dictionary = {}
-	if ext == MOD_EXTENSION:
-		data = _load_json(path_to_savegame)
-	elif ext == ENCRYPTED_EXTENSION:
-		var text: String = EncryptDecrypt.load_encrypted_file(
-			path_to_savegame,
-			_get_encryption_key()
-		)
-		data = _json_parse(text)
-		save_game.set_data(
-			data,
-			path_to_savegame.get_file().get_basename(),
-			_loaded_mod.keys()
-		)
-	else:
-		push_error(
-			"partida guardada %s no es un fichero válido" % path_to_savegame
-		)
+	if FileAccess.file_exists(path_to_savegame):
+		if ext == MOD_EXTENSION:
+			data = _load_json(path_to_savegame)
+		elif ext == ENCRYPTED_EXTENSION:
+			var text: String = EncryptDecrypt.load_encrypted_file(
+				path_to_savegame,
+				_get_encryption_key()
+			)
+			data = _json_parse(text)
+			save_game.set_data(
+				data,
+				path_to_savegame.get_file().get_basename(),
+				_loaded_mod.keys()
+			)
+		else:
+			push_error(
+				"partida guardada %s no es un fichero válido" % path_to_savegame
+			)
 	save_game.set_data(
 		data,
 		path_to_savegame.get_file().get_basename(),

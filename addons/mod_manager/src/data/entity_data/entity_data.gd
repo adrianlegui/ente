@@ -22,11 +22,15 @@ const GAME_EVENT_BEFORE_STARTING: StringName = (
 const GAME_EVENT_CLEAN_SCENE_TREE: StringName = (
 	&"_on_game_event_clean_scene_tree"
 )
+const GAME_EVENT_ALL_ENTITIES_ADDED: StringName = (
+	&"_on_game_event_all_entities_added"
+)
 
 
 ## Obtiene la ruta a la escena.
 func get_path_to_scene() -> String:
 	return scene_file_path
+
 
 ## Obtiene una entidad
 func get_entity(entity_name: String) -> EntityData:
@@ -46,6 +50,10 @@ func _on_game_event_before_starting() -> void:
 ## Se llama al limpiar el arbol de nodos.
 func _on_game_event_clean_scene_tree() -> void:
 	queue_free()
+
+
+func _on_game_event_all_entities_added() -> void:
+	pass
 
 
 func _get_persistent_keys() -> PackedStringArray:

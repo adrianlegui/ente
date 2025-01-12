@@ -1,0 +1,13 @@
+{
+    "GAME_ID" : "mod_manager",
+    "DEPENDENCIES" : [],
+    "PCKS" : [],
+    "ENTITIES" : {
+        "my_entity" : {
+            "scene_file_path" : "res://my_entity/my_entity.tscn",
+            "my_bool": true,
+            "my_int": 10,
+            "my_float": 0.0009
+            }
+        }
+}

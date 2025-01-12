@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cad5f5p4dxns1"]
+
+[ext_resource type="PackedScene" uid="uid://ca65rmesa2xg4" path="res://addons/mod_manager/src/data/entity_data/entity_data.tscn" id="1_uds5j"]
+[ext_resource type="Script" path="res://my_entity/my_entity.gd" id="2_pfhvc"]
+
+[node name="MyEntity" instance=ExtResource("1_uds5j")]
+script = ExtResource("2_pfhvc")

@@ -12,8 +12,10 @@ func set_data(data: Dictionary) -> void:
 			var v_node = get(key)
 			if typeof(v_node) == TYPE_OBJECT:
 				var obj: Data = v_node as Data
-				assert(is_instance_valid(obj))
-				obj.set_data(v_data)
+				if is_instance_valid(obj):
+					obj.set_data(v_data)
+				else:
+					push_warning("variable %s.%s no es de clase Data" % [name, key])
 			elif _no_needs_conversion(v_node):
 				set(key, data[key])
 			else:
@@ -27,8 +29,10 @@ func get_data() -> Dictionary:
 		var v_node = get(key)
 		if typeof(v_node) == TYPE_OBJECT:
 			var obj: Data = v_node as Data
-			assert(is_instance_valid(obj))
-			data[key] = obj.get_data()
+			if is_instance_valid(obj):
+				data[key] = obj.get_data()
+			else:
+				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif _no_needs_conversion(v_node):
 			data[key] = v_node
 		else:

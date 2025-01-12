@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/data/int_value/icon_int_value.svg")
+@icon("res://addons/mod_manager/src/data/int_value/icon_int_value.svg")
 class_name IntValue extends Data
 ## Usado para guardar valores [code]int[\code].
 ##

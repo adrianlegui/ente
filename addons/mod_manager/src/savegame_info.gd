@@ -9,25 +9,28 @@ var _empty: bool = false
 var _has_entities: bool = false
 
 
-func set_data(data: Dictionary, name: String, mod_manager: ModManager) -> void:
+func set_data(
+	data: Dictionary,
+	name: String,
+	loaded_mod: Array[String]
+) -> void:
 	_savegame_name = name
 
 	_empty = data.is_empty()
 	if _empty:
 		return
 
-	_has_entities = data.has(ModManager.KEY_ENTITIES)
+	_has_entities = data.has(Mod.KEY_ENTITIES)
 
 	_same_game = (
-		data.has(ModManager.KEY_GAME_ID)
-		and data[ModManager.KEY_GAME_ID] == ModManager.get_game_id()
+		data.has(Mod.KEY_GAME_ID)
+		and data[Mod.KEY_GAME_ID] == Mod.get_game_id()
 	)
 	if _same_game:
-		var dependencies: PackedStringArray = []
-		if data.has(ModManager.KEY_MODS):
-			for d: String in dependencies:
-				if not mod_manager.loaded_mods.has(d):
-					_missing_mods.append(d)
+		var dependencies: PackedStringArray = data.get(Mod.KEY_DEPENDENCIES, [])
+		for d: String in dependencies:
+			if not loaded_mod.has(d):
+				_missing_mods.append(d)
 
 
 func get_name() -> String:
@@ -48,7 +51,7 @@ func get_missing_mod_names() -> PackedStringArray:
 
 func is_correct() -> bool:
 	return (
-		not _empty and
+		not is_corrupt() and
 		_same_game and
 		not has_missing_mods() and
 		_has_entities

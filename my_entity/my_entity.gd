@@ -1,0 +1,22 @@
+extends EntityData
+
+
+var my_bool: bool = false
+var my_int: int = 0
+var my_string: String = "my_string"
+var my_string_name: StringName = "my_string_name"
+var my_float: float = 0.0
+
+
+func _get_persistent_keys() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_keys()
+	keys.append_array(
+		[
+			"my_bool",
+			"my_int",
+			"my_string",
+			"my_string_name",
+			"my_float"
+		]
+	)
+	return keys

@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="mod_manager"
+config/tags=PackedStringArray("plugin_development")
 run/main_scene="res://addons/mod_manager/src/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://addons/mod_manager/icon.svg"
 
 [autoload]
 
-MOD_MANAGER="*res://addons/mod_manager/src/mod_manager.tscn"
+MOD_MANAGER="*res://addons/mod_manager/src/mm/mod_manager.tscn"
 
 [editor]
 
@@ -26,6 +27,10 @@ run/main_run_args="++ --not-encrypted-savedgame"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_manager/plugin.cfg")
+
+[mod_manager]
+
+mods_folder_path="res://mods"
 
 [rendering]
 

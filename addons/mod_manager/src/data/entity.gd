@@ -31,7 +31,17 @@ func _ready() -> void:
 
 ## Obtiene una entidad
 func get_entity(entity_name: String) -> Entity:
-	return get_node("/root/" + entity_name)
+	var entity: Entity = null
+	if is_inside_tree():
+		if not entity_name.is_empty():
+			entity = get_node("/root/" + entity_name)
+		else:
+			push_error("entity_name esta vacio")
+	else:
+		push_error(
+			"llamando get_entity en %s que no esta en SceneTree, retorno null" % name
+		)
+	return entity
 
 
 ## Se llama cuando el juego es iniciado.

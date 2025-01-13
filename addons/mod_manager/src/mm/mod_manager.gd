@@ -105,10 +105,7 @@ func start_game() -> void:
 
 ## Carga un juego guardado.
 func load_savegame(savegame_name: String) -> void:
-	var path_to_savegame: String ="%s.%s" % [
-		get_savegame_folder_path().path_join(savegame_name),
-		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
-	]
+	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var info: SavegameInfo = check_savegame(savegame_name)
 	if not info.is_correct():
 		return
@@ -177,10 +174,7 @@ func save_game(savegame_name: String) -> void:
 
 	var file: FileAccess
 	var not_encrypted: bool = NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
-	var file_path: String = "%s.%s" %  [
-		get_savegame_folder_path().path_join(savegame_name),
-		MOD_EXTENSION if not_encrypted else ENCRYPTED_EXTENSION
-	]
+	var file_path: String = get_path_to_savegame(savegame_name)
 	if not_encrypted:
 		file = FileAccess.open(file_path, FileAccess.WRITE)
 		if not is_instance_valid(file):
@@ -211,20 +205,14 @@ func clean_scene_tree() -> void:
 
 
 func delete_savegame(savegame_name: String) -> void:
-	var file_path: String =  "%s.%s" % [
-		get_savegame_folder_path().path_join(savegame_name),
-		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
-	]
+	var file_path: String =  get_path_to_savegame(savegame_name)
 	if FileAccess.file_exists(file_path):
 		OS.move_to_trash(ProjectSettings.globalize_path(file_path))
 
 
 ## Comprueba el juego salvado y obtiene información importante del mismo.
 func check_savegame(savegame_name: String) -> SavegameInfo:
-	var path_to_savegame: String = "%s.%s" % [
-		get_savegame_folder_path().path_join(savegame_name),
-		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
-	]
+	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var save_game: SavegameInfo = SavegameInfo.new()
 	var ext: String = path_to_savegame.get_extension()
 	var data: Dictionary = {}
@@ -464,6 +452,13 @@ func _load_pcks(mods: Dictionary) -> void:
 				failed.append(pck)
 
 	_failed_pcks = failed
+
+
+func get_path_to_savegame(savegame_name: String) -> String:
+	return "%s.%s" % [
+		get_savegame_folder_path().path_join(savegame_name),
+		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+	]
 
 
 func _load_mods_and_pcks() -> void:

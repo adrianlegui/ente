@@ -1,3 +1,25 @@
+## v0.2.0 (2025-01-12)
+
+### Feat
+
+- las partidas guardadas están cifradas
+- agrego clase Mod para organizar la información de los mods
+
+### Fix
+
+- **ScriptCreator**: Parse Error: Cannot find member "KEY_ENTITIES" in base "ModManager"
+- cannot call method 'get_open_error' on a null value
+- **SaveGameInfo**: invalid type in function 'set_data'
+- **Data**: variables del tipo StringName no son configuradas
+- entidades no reciben eventos GAME_EVENT_BEFORE_STARTING y GAME_EVENT_STARTED
+- **InfoSavegame**: invalid access to property or key 'has' on a base object of type 'Dictionary'
+
+### Refactor
+
+- **mod_manager.gd**: extraigo codigo repetido y lo convierto en método, get_path_to_savegame
+- se usa el nombre del juego guardado al comprobar o cargarlo, antes se usaba la ruta del fichero
+- **Data**: variables del tipo int, bool, string, o float no usan var_to_str y str_to_var, para evitar las comillas dobles extras
+
 ## v0.1.0 (2025-01-08)
 
 ### Feat

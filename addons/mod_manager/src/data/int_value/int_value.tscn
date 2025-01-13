@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://mm2xq6exferc"]
-
-[ext_resource type="PackedScene" uid="uid://dpdg4poo6yj30" path="res://addons/mod_manager/src/data/data.tscn" id="1_thuhh"]
-[ext_resource type="Script" path="res://addons/mod_manager/src/data/int_value/int_value.gd" id="2_mhnng"]
-
-[node name="IntValue" instance=ExtResource("1_thuhh")]
-script = ExtResource("2_mhnng")
-base = 0
-mod = 0

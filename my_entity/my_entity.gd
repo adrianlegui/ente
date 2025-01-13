@@ -20,3 +20,16 @@ func _get_persistent_keys() -> PackedStringArray:
 		]
 	)
 	return keys
+
+
+func _on_game_event_all_entities_added() -> void:
+	print("todas las entidades agregadas")
+
+
+func _on_game_event_before_starting() -> void:
+	print("antes de iniciar")
+
+
+## Se llama cuando el juego es iniciado.
+func _on_game_event_started() -> void:
+	print("iniciando")

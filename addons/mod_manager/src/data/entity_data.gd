@@ -27,6 +27,10 @@ const GAME_EVENT_ALL_ENTITIES_ADDED: StringName = (
 )
 
 
+func _ready() -> void:
+	_add_groups()
+
+
 ## Obtiene la ruta a la escena.
 func get_path_to_scene() -> String:
 	return scene_file_path
@@ -66,3 +70,14 @@ func _get_not_settable_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_not_settable_keys()
 	keys.append(KEY_SCENE_FILE_PATH)
 	return keys
+
+
+func _get_groups() -> PackedStringArray:
+	var groups: PackedStringArray = []
+	groups.append(GROUP_PERSISTENT)
+	return groups
+
+
+func _add_groups() -> void:
+	for g: String in _get_groups():
+		add_to_group(g)

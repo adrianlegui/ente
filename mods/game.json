@@ -8,7 +8,10 @@
             "PROPERTIES": {
                 "my_bool": true,
                 "my_int": 10,
-                "my_float": 0.0009
+                "my_float": 0.0009,
+                "my_data":{
+                    "PROPERTIES":{"numero":11110,"process_mode":0,"scene_file_path":""}
+                    }
                 }
             },
         "entity_sin_properties": {"scene_file_path" : "res://my_entity/my_entity.tscn"},

@@ -23,9 +23,9 @@ func _set_property(key: String, properties: Dictionary) -> void:
 		var v_data = properties[key]
 		var v_node = get(key)
 		if typeof(v_node) == TYPE_OBJECT:
-			var obj: Data = v_node as Data
-			if is_instance_valid(obj):
-				obj.set_data(v_data)
+			var data: Data = v_node as Data
+			if data:
+				data._set_data(v_data)
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif _no_needs_conversion(v_node):

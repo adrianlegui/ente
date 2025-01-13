@@ -1,6 +1,7 @@
 extends Entity
 
 
+@export var my_data: MyData
 var my_bool: bool = false
 var my_int: int = 0
 var my_string: String = "my_string"
@@ -16,7 +17,8 @@ func _get_persistent_keys() -> PackedStringArray:
 			"my_int",
 			"my_string",
 			"my_string_name",
-			"my_float"
+			"my_float",
+			"my_data"
 		]
 	)
 	return keys

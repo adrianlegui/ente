@@ -8,7 +8,10 @@ const KEY_PROPERTIES: StringName = &"PROPERTIES"
 
 
 # Configura la información del nodo.
-func _set_data(properties: Dictionary) -> void:
+func _set_data(data: Dictionary) -> void:
+	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
+	if properties.is_empty():
+		return
 	for key in _get_persistent_keys():
 		if properties.has(key):
 			_set_property(key, properties)
@@ -86,5 +89,5 @@ static func create_data_node(dict: Dictionary) -> Data:
 		var pck: PackedScene = load(path) as PackedScene
 		if pck:
 			data = pck.instantiate()
-			data._set_data(dict.get(KEY_PROPERTIES, {}))
+			data._set_data(dict)
 	return data

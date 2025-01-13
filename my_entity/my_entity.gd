@@ -1,4 +1,4 @@
-extends EntityData
+extends Entity
 
 
 var my_bool: bool = false
@@ -32,4 +32,5 @@ func _on_game_event_before_starting() -> void:
 
 ## Se llama cuando el juego es iniciado.
 func _on_game_event_started() -> void:
+	MOD_MANAGER.save_game("partida_guardada")
 	print("iniciando")

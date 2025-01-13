@@ -5,9 +5,11 @@
 	"ENTITIES" : {
 			"mod_entity" : {
 				"scene_file_path" : "res://mod/entity.tscn",
-				"process_mode": "0",
-				"my_int": 0,
-				"my_string": "my_string"
+				"PROPERTIES" : {
+					"process_mode": "0",
+					"my_int": 0,
+					"my_string": "my_string"
+				}
 			}
 	}
 }

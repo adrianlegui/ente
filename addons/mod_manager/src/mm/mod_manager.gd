@@ -156,10 +156,10 @@ func load_savegame(savegame_name: String) -> void:
 ## [constant EntityData.GROUP_PERSISTENT].
 func save_game(savegame_name: String) -> void:
 	var persistent: Array[Node] = get_tree().get_nodes_in_group(
-		EntityData.GROUP_PERSISTENT
+		Entity.GROUP_PERSISTENT
 	)
 	var ents: Dictionary = {}
-	for node: EntityData in persistent:
+	for node: Entity in persistent:
 		var node_data: Dictionary = node.get_data()
 		if not node_data.is_empty():
 			ents[node.name] = node_data
@@ -208,8 +208,8 @@ func save_game(savegame_name: String) -> void:
 ## [constant EntityData.GROUP_PERSISTENT] serán borrados.
 func clean_scene_tree() -> void:
 	_scene_tree.call_group(
-		EntityData.GROUP_PERSISTENT,
-		EntityData.GAME_EVENT_CLEAN_SCENE_TREE
+		Entity.GROUP_PERSISTENT,
+		Entity.GAME_EVENT_CLEAN_SCENE_TREE
 	)
 
 
@@ -333,43 +333,32 @@ func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
-		if data.has(EntityData.KEY_SCENE_FILE_PATH):
-			var file_path: String = data[EntityData.KEY_SCENE_FILE_PATH]
-			var pck: PackedScene = load(file_path)
-			if is_instance_valid(pck):
-				var entity: EntityData = pck.instantiate()
-				entity.name = entity_name
-				entity.set_data(data)
-				root.call_deferred("add_child", entity)
-			else:
-				push_error("fallo la carga de %s." % file_path)
+		var entity: Entity = Entity.create_data_node(data)
+		if entity:
+			entity.name = entity_name
+			root.call_deferred("add_child", entity)
 		else:
-			push_error(
-				"fallo la carga de la entidad %s, no tiene %s." % [
-					entity_name,
-					EntityData.KEY_SCENE_FILE_PATH
-				]
-			)
+			push_error("fallo la carga de la entidad %s" % entity_name)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		EntityData.GROUP_PERSISTENT,
-		EntityData.GAME_EVENT_ALL_ENTITIES_ADDED
+		Entity.GROUP_PERSISTENT,
+		Entity.GAME_EVENT_ALL_ENTITIES_ADDED
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		EntityData.GROUP_PERSISTENT,
-		EntityData.GAME_EVENT_BEFORE_STARTING
+		Entity.GROUP_PERSISTENT,
+		Entity.GAME_EVENT_BEFORE_STARTING
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		EntityData.GROUP_PERSISTENT,
-		EntityData.GAME_EVENT_STARTED
+		Entity.GROUP_PERSISTENT,
+		Entity.GAME_EVENT_STARTED
 	)
 
 	started_game.emit()

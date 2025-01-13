@@ -26,7 +26,7 @@ func _create_script() -> void:
 	json.parse(file_access.get_as_text())
 	file_access.close()
 	var data: Dictionary = json.data
-	var entities: Dictionary = data[ModManager.KEY_ENTITIES]
+	var entities: Dictionary = data[Mod.KEY_ENTITIES]
 
 	var out: FileAccess = FileAccess.open(
 		output.path_join(SCRIPT_NAME),

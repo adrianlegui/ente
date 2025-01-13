@@ -10,6 +10,7 @@ signal could_not_open_load_order_file
 signal finished
 ## Se emite al iniciar el juego.
 signal started_game
+## Se emite cuando falla la carga de una partida guardada.
 signal failed_to_load_savegame
 
 
@@ -26,16 +27,19 @@ const SAVEGAME_FOLDER_PATH: String = "user://save"
 const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
 ## Ruta a la propiedad con el nombre del juego
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
+## Parametro usado para Debug.
+## Al ser usado las partidas guardadas serán creadas como json.
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
+## Extensión usada en las partidas guardadas cifradas.
 const ENCRYPTED_EXTENSION: String = "sav"
 
 
-## Mods que no se cargaron.
+# mods que no se cargaron
 var _failed_mod: Dictionary = {}
-## Mods cargados.
+# mods cargados.
 var _loaded_mod: Dictionary = {}
+# pck que no se cargaron
 var _failed_pcks: PackedStringArray
-# Usado en la carga de pack de recursos.
 var _thread: Thread
 
 
@@ -48,14 +52,18 @@ func _exit_tree() -> void:
 		_thread = null
 
 
+## Regresa [code]true[/code] si hubo fallos en la carga de pack de recursos.
 func failed_to_load_pcks() -> bool:
 	return is_instance_valid(_failed_pcks) and _failed_pcks.size() > 0
 
 
+## Regresa [code]true[/code] si hubo fallos en la carga de mods.
 func failed_to_load_mods() -> bool:
 	return not _failed_mod.is_empty()
 
 
+## Inicia la carga de mods y pack de recursos. Emite [signal finished] al
+## terminar.
 func start() -> void:
 	if is_instance_valid(_thread) and _thread.is_alive():
 		_thread.wait_to_finish()
@@ -65,7 +73,8 @@ func start() -> void:
 	_thread.start(_load_mods_and_pcks)
 
 
-func emit_finished() -> void:
+# necesario para se usado en thread
+func _emit_finished() -> void:
 	finished.emit()
 
 
@@ -88,7 +97,7 @@ func get_load_order_file_path() -> String:
 	return get_mods_folder_path().path_join(get_load_order_file_name())
 
 
-## Inicia el juego.
+## Inicia el juego. Emite [signal started_game] al finalizar.
 func start_game() -> void:
 	while _thread.is_alive():
 		await Engine.get_main_loop().process_frame
@@ -204,6 +213,7 @@ func clean_scene_tree() -> void:
 	)
 
 
+## Borra partida guardada.
 func delete_savegame(savegame_name: String) -> void:
 	var file_path: String =  get_path_to_savegame(savegame_name)
 	if FileAccess.file_exists(file_path):
@@ -454,6 +464,8 @@ func _load_pcks(mods: Dictionary) -> void:
 	_failed_pcks = failed
 
 
+## Devuelve la ruta a la partida guardada.
+## No comprueba la existencia de la misma.
 func get_path_to_savegame(savegame_name: String) -> String:
 	return "%s.%s" % [
 		get_savegame_folder_path().path_join(savegame_name),
@@ -465,7 +477,7 @@ func _load_mods_and_pcks() -> void:
 	var names: PackedStringArray = _get_mod_names()
 	_load_mod_data(names)
 	_load_pcks(_loaded_mod)
-	call_deferred("emit_finished")
+	call_deferred("_emit_finished")
 
 
 ## Devuelve el directorio de las partidas guardadas.

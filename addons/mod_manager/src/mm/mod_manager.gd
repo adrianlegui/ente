@@ -1,3 +1,4 @@
+@icon("res://addons/mod_manager/src/mm/icon.svg")
 class_name ModManager extends Node
 ## Controla la carga de mods y packs de recursos.
 ##

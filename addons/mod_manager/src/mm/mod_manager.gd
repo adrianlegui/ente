@@ -341,7 +341,10 @@ func _start_game(_entities: Dictionary) -> void:
 		else:
 			push_error("fallo la carga de la entidad %s" % entity_name)
 
+	# esperar que las escenas entren al arbol
 	await Engine.get_main_loop().process_frame
+	await Engine.get_main_loop().process_frame
+
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
 		Entity.GROUP_PERSISTENT,

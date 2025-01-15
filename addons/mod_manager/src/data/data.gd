@@ -28,27 +28,45 @@ func _set_property(key: String, properties: Dictionary) -> void:
 				data._set_data(v_data)
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
-		elif _no_needs_conversion(v_node):
-			set(key, properties[key])
-		else:
+		elif not _can_be_saved(v_node):
+			push_warning(
+				"%s.%s es de tipo %s y no puede ser cargado" % [
+					name,
+					key,
+					type_string(typeof(v_node))
+				]
+			)
+			return
+		elif _needs_conversion(v_node):
 			set(key, str_to_var(properties[key]))
+		else:
+			set(key, properties[key])
 
 
 ## Obtiene la información del nodo.
 func get_data() -> Dictionary:
 	var properties: Dictionary = {}
 	for key in _get_persistent_keys():
-		var v_node = get(key)
+		var v_node = get(key) # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
 			var obj: Data = v_node as Data
 			if is_instance_valid(obj):
 				properties[key] = obj.get_data()
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
-		elif _no_needs_conversion(v_node):
-			properties[key] = v_node
-		else:
+		elif not _can_be_saved(v_node):
+			push_warning(
+				"%s.%s es de tipo %s y no puede ser guardado" % [
+					name,
+					key,
+					type_string(typeof(v_node))
+				]
+			)
+			continue
+		elif _needs_conversion(v_node):
 			properties[key] = var_to_str(v_node)
+		else:
+			properties[key] = v_node
 
 	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
 	data[KEY_PROPERTIES] = properties
@@ -70,13 +88,23 @@ func _get_not_settable_keys() -> PackedStringArray:
 	return keys
 
 
-func _no_needs_conversion(variant: Variant) -> bool:
+func _needs_conversion(variant: Variant) -> bool:
+	var type: int = typeof(variant)
 	return (
-		typeof(variant) == TYPE_INT or
-		typeof(variant) == TYPE_BOOL or
-		typeof(variant) == TYPE_STRING or
-		typeof(variant) == TYPE_FLOAT or
-		typeof(variant) == TYPE_STRING_NAME
+		type == TYPE_VECTOR3
+	)
+
+
+func _can_be_saved(variable) -> bool:
+	var type: int = typeof(variable)
+	return (
+		type == TYPE_BOOL or
+		type == TYPE_INT or
+		type == TYPE_FLOAT or
+		type == TYPE_STRING or
+		type == TYPE_STRING_NAME or
+		type == TYPE_VECTOR3 or
+		type == TYPE_PACKED_STRING_ARRAY
 	)
 
 

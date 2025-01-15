@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnmcx8qhl4hw5"]
+
+[ext_resource type="Script" path="res://addons/mod_manager/test/entity_for_test/entity_for_test.gd" id="1_4ewbc"]
+[ext_resource type="Script" path="res://addons/mod_manager/test/entity_for_test/my_data.gd" id="2_qa4qg"]
+
+[node name="EntityForTest" type="Node" node_paths=PackedStringArray("my_data", "my_not_data_node")]
+script = ExtResource("1_4ewbc")
+my_data = NodePath("MyData")
+my_not_data_node = NodePath("MyData")
+
+[node name="MyData" type="Node" parent="."]
+script = ExtResource("2_qa4qg")
+
+[node name="Node" type="Node" parent="."]

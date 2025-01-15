@@ -3,18 +3,21 @@
     "DEPENDENCIES" : [],
     "PCKS" : [],
     "ENTITIES" : {
-        "my_entity" : {
-            "scene_file_path" : "res://my_entity/my_entity.tscn",
+        "EntityForTest" : {
+            "scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn",
             "PROPERTIES": {
                 "my_bool": true,
                 "my_int": 10,
                 "my_float": 0.0009,
+                "my_packed_string_array": ["string_1", "string_2", "string_3"],
+                "my_array": [1, true, "cosa"],
+                "my_not_data_node": {"process_mode": 0},
                 "my_data":{
                     "PROPERTIES":{"numero":11110,"process_mode":0,"scene_file_path":""}
                     }
                 }
             },
-        "entity_sin_properties": {"scene_file_path" : "res://my_entity/my_entity.tscn"},
+        "entity_sin_properties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},
         "entity_sin_path":{},
         "entity_con_path_incorrecto": {
             "scene_file_path" : "res://my_entity/my_entity_no_existente.tscn"

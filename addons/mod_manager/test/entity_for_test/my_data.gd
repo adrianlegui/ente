@@ -1,4 +1,4 @@
-class_name MyData extends Data
+extends Data
 
 var numero: int = 0
 

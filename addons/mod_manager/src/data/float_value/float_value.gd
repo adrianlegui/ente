@@ -18,5 +18,5 @@ func get_current_value() -> float:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append_array(["base", "mod"])
+	keys.append_array(["base"])
 	return keys

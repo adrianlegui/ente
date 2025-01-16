@@ -34,7 +34,7 @@ func get_entity(entity_name: String) -> Entity:
 	var entity: Entity = null
 	if is_inside_tree():
 		if not entity_name.is_empty():
-			entity = get_node("/root/" + entity_name)
+			entity = get_node_or_null("/root/" + entity_name)
 		else:
 			push_error("entity_name esta vacio")
 	else:

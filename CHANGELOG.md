@@ -1,3 +1,19 @@
+## v0.2.1 (2025-01-16)
+
+### Fix
+
+- **Entity**: entidades no reciben el evento GAME_EVENT_ALL_ENTITIES_ADDED
+- **Data**: llamando método inexistente, set_data
+- **Entity**: método get_entity retorna nodo root
+
+### Refactor
+
+- las clases FloatValue y IntValue ya no tienen la variable mod con @export
+- **Data**: agrego comprobación de tipos que pueden ser guardados
+- **Data**: _set_data pasa a recibir diccionario data, antes recibia PROPERTIES
+- **Data**: par clave y valor de las variables pasan a diccionario PROPERTIES
+- quito escenas que ya no son necesarias
+
 ## v0.2.0 (2025-01-12)
 
 ### Feat

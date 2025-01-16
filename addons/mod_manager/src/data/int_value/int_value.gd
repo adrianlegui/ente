@@ -7,8 +7,10 @@ class_name IntValue extends Data
 
 ## Valor base.
 @export var base: int = 0.0
+
+
 ## Modificador del valor.
-@export var mod: int = 0.0
+var mod: int = 0.0
 
 
 ## Devuelve el valor actual.

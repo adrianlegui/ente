@@ -7,8 +7,10 @@ class_name FloatValue extends Data
 
 ## Valor base.
 @export var base: float = 0.0
+
+
 ## Modificador del valor.
-@export var mod: float = 0.0
+var mod: float = 0.0
 
 
 ## Devuelve el valor actual.

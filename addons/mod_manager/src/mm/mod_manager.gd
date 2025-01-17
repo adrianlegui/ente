@@ -209,8 +209,8 @@ func save_game(savegame_name: String) -> void:
 ## [constant EntityData.GROUP_PERSISTENT] serán borrados.
 func clean_scene_tree() -> void:
 	_scene_tree.call_group(
-		Entity.GROUP_PERSISTENT,
-		Entity.GAME_EVENT_CLEAN_SCENE_TREE
+		GameEvents.GROUP,
+		GameEvents.GAME_EVENT_CLEAN_SCENE_TREE
 	)
 
 
@@ -347,22 +347,22 @@ func _start_game(_entities: Dictionary) -> void:
 
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		Entity.GROUP_PERSISTENT,
-		Entity.GAME_EVENT_ALL_ENTITIES_ADDED
+		GameEvents.GROUP,
+		GameEvents.GAME_EVENT_ALL_ENTITIES_ADDED
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		Entity.GROUP_PERSISTENT,
-		Entity.GAME_EVENT_BEFORE_STARTING
+		GameEvents.GROUP,
+		GameEvents.GAME_EVENT_BEFORE_STARTING
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED,
-		Entity.GROUP_PERSISTENT,
-		Entity.GAME_EVENT_STARTED
+		GameEvents.GROUP,
+		GameEvents.GAME_EVENT_STARTED
 	)
 
 	started_game.emit()

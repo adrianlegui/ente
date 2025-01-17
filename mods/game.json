@@ -6,6 +6,8 @@
         "EntityForTest" : {
             "scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn",
             "PROPERTIES": {
+                "my_string": "new_string",
+                "my_string_name": "new_string_name",
                 "my_bool": true,
                 "my_int": 10,
                 "my_float": 0.0009,

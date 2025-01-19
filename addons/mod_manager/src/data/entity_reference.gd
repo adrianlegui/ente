@@ -8,3 +8,9 @@ class_name EntityReference extends Data
 
 func get_reference() -> Entity:
 	return MOD_MANAGER.get_entity(entity_id)
+
+
+func _get_persistent_keys() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_keys()
+	keys.append("entity_id")
+	return keys

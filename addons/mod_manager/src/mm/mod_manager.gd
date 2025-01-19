@@ -253,6 +253,30 @@ func check_savegame(savegame_name: String) -> SavegameInfo:
 	return save_game
 
 
+## Devuelve la ruta a la partida guardada.
+## No comprueba la existencia de la misma.
+func get_path_to_savegame(savegame_name: String) -> String:
+	return "%s.%s" % [
+		get_savegame_folder_path().path_join(savegame_name),
+		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+	]
+
+
+## Agrega entidad al SceneTree.
+func add_entity(entity: Entity) -> void:
+	var force_readable_name: bool = true
+	_scene_tree.root.add_child(entity, force_readable_name)
+
+
+## Obtiene una entidad
+func get_entity(entity_name: String) -> Entity:
+	var entity: Entity = null
+	if not entity_name.is_empty():
+		entity = get_node_or_null("/root/" + entity_name)
+	else:
+		push_error("entity_name esta vacio")
+	return entity
+
 ## Fusiona diccionarios de forma recursiva y devuelve un diccionario nuevo.
 ## Fusiona [param dictionary_b] con [param dictionary_a].
 func merge_dictionary(
@@ -456,14 +480,6 @@ func _load_pcks(mods: Dictionary) -> void:
 
 	_failed_pcks = failed
 
-
-## Devuelve la ruta a la partida guardada.
-## No comprueba la existencia de la misma.
-func get_path_to_savegame(savegame_name: String) -> String:
-	return "%s.%s" % [
-		get_savegame_folder_path().path_join(savegame_name),
-		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
-	]
 
 
 func _load_mods_and_pcks() -> void:

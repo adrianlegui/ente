@@ -68,8 +68,16 @@
 .gitattributes export-ignore
 .gitignore     export-ignore
 .cz.toml       export-ignore
-export.sh export-ignore
-CHANGELOG.md export-ignore
+CHANGELOG.md   export-ignore
+addons/mod_manager/test export-ignore
+gd-plug export-ignore
+LICENSE export-ignore
+README.md export-ignore
+export_presets.cfg export-ignore
+plug.gd export-ignore
+plug.py export-ignore
+project.godot export-ignore
+requirements.txt export-ignore
 # Godot text
 *.gd        text eol=lf
 *.godot     text eol=lf

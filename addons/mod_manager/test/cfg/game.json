@@ -15,7 +15,7 @@
                 "my_packed_string_array": ["string_0","string_1", "string_2", "string_3", "string_4", "string_5"],
                 "my_array": [1, true, "cosa"],
                 "my_not_data_node": {"process_mode": 0},
-                "my_data":{"numero":11110,"process_mode":0}
+                "my_data":{"numero":11110,"process_mode":0, "cosa": "cosas"}
                 }
             },
         "entity_sin_properties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},

@@ -7,7 +7,7 @@
 [node name="EntityForTest" type="Node" node_paths=PackedStringArray("my_data", "my_not_data_node", "my_entity_reference")]
 script = ExtResource("1_4ewbc")
 my_data = NodePath("MyData")
-my_not_data_node = NodePath("MyData")
+my_not_data_node = NodePath("Node")
 my_entity_reference = NodePath("EntityReference")
 
 [node name="MyData" type="Node" parent="."]

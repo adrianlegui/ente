@@ -39,9 +39,9 @@ func get_properties() -> Dictionary:
 	for key in _get_persistent_keys():
 		var v_node = get(key) # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
-			var obj: Data = v_node as Data
-			if is_instance_valid(obj):
-				properties[key] = obj.get_properties()
+			var data: Data = v_node as Data
+			if is_instance_valid(data):
+				properties[key] = data.get_properties()
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif not _can_be_saved(v_node):

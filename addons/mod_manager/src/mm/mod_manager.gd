@@ -265,17 +265,38 @@ func get_path_to_savegame(savegame_name: String) -> String:
 ## Agrega entidad al SceneTree.
 func add_entity(entity: Entity) -> void:
 	var force_readable_name: bool = true
+	entity.set_unique(false)
 	_scene_tree.root.add_child(entity, force_readable_name)
 
 
 ## Obtiene una entidad
-func get_entity(entity_name: String) -> Entity:
+func get_entity(entity_id: String) -> Entity:
 	var entity: Entity = null
-	if not entity_name.is_empty():
-		entity = get_node_or_null("/root/" + entity_name)
+	if not entity_id.is_empty():
+		entity = get_node_or_null("/root/" + entity_id)
 	else:
-		push_error("entity_name esta vacio")
+		push_error("entity_id esta vacio, regresando null")
 	return entity
+
+
+func delete_entity(entity_id: String) -> void:
+	if entity_id.is_empty():
+		push_error("entity_id esta vacio")
+		return
+
+	var entity: Entity = get_entity(entity_id)
+	if not entity:
+		push_error("entity %s no existe" % entity_id)
+		return
+
+	if entity.is_unique():
+		push_error(
+			"No se pudo borrar entidad %s por que es única" % entity_id
+		)
+		return
+
+	entity.queue_free()
+
 
 ## Fusiona diccionarios de forma recursiva y devuelve un diccionario nuevo.
 ## Fusiona [param dictionary_b] con [param dictionary_a].

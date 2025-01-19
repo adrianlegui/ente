@@ -12,20 +12,18 @@ func _set_data(data: Dictionary) -> void:
 	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
 	if properties.is_empty():
 		return
-	for key in _get_persistent_keys():
-		if properties.has(key):
-			_set_property(key, properties)
+	for key in properties.keys():
+		_set_property(key, properties[key])
 
 
-func _set_property(key: String, properties: Dictionary) -> void:
+func _set_property(key: String, property: Variant) -> void:
 		if key in _get_not_settable_keys():
 			return
-		var v_data = properties[key]
 		var v_node = get(key)
 		if typeof(v_node) == TYPE_OBJECT:
 			var data: Data = v_node as Data
 			if data:
-				data._set_data(v_data)
+				data._set_data(property)
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif not _can_be_saved(v_node):
@@ -38,9 +36,9 @@ func _set_property(key: String, properties: Dictionary) -> void:
 			)
 			return
 		elif _needs_conversion(v_node):
-			set(key, str_to_var(properties[key]))
+			set(key, str_to_var(property))
 		else:
-			set(key, properties[key])
+			set(key, property)
 
 
 ## Obtiene la información del nodo.
@@ -77,7 +75,6 @@ func get_data() -> Dictionary:
 ## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = ["process_mode"]
-	keys.append(KEY_SCENE_FILE_PATH)
 	return keys
 
 

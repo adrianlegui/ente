@@ -11,6 +11,9 @@ class_name Entity extends Data
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
 
 
+var _unique: bool = true
+
+
 func _ready() -> void:
 	_add_groups()
 
@@ -28,6 +31,14 @@ func get_entity(entity_name: String) -> Entity:
 			"llamando get_entity en %s que no esta en SceneTree, retorno null" % name
 		)
 	return entity
+
+
+func set_unique(value: bool) -> void:
+	_unique = value
+
+
+func is_unique() -> bool:
+	return _unique
 
 
 ## Se llama cuando el juego es iniciado.
@@ -65,3 +76,9 @@ func _get_groups() -> PackedStringArray:
 func _add_groups() -> void:
 	for g: String in _get_groups():
 		add_to_group(g)
+
+
+func _get_persistent_keys() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_keys()
+	keys.append("_unique")
+	return keys

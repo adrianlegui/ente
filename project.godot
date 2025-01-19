@@ -30,7 +30,7 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_m
 
 [mod_manager]
 
-mods_folder_path="res://mods"
+mods_folder_path="res://addons/mod_manager/test/cfg/"
 
 [rendering]
 

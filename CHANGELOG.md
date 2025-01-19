@@ -1,3 +1,19 @@
+## v0.3.0 (2025-01-19)
+
+### Feat
+
+- **Entity**: agrego método para comprobar si la entidad es única, is_unique
+- **ModManager**: agrego métodos para agregar y para obtener una entidad que se encuentre el el arbol de nodos
+- agrego clase EntityReference, guarda id de una entidad y permite obtener una refencia de la misma
+
+### Refactor
+
+- método create_data_node se pasa a llamar create_entity y pasa a estar en entity.gd, antes estaba en data.gd
+- **EntityReference**: agrego variable entity_id como clave persistente
+- **EntityReference**: simplifico la clase usando método de ModManager
+- los nombres de los eventos del juego y nombre de los métodos pasan a la clase GameEvents
+- **Entity**: reemplazo get_node por get_node_or_null en método get_entity
+
 ## v0.2.1 (2025-01-16)
 
 ### Fix

@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/src/data/float_value/icon_float_value.svg")
+@icon("res://addons/mod_manager/src/icons/float_value.svg")
 class_name FloatValue extends Data
 ## Usado para guardar valores float.
 ##
@@ -20,5 +20,5 @@ func get_current_value() -> float:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append_array(["base"])
+	keys.append_array(["base", "mod"])
 	return keys

@@ -2,16 +2,8 @@ class_name Data extends Node
 ## @experimental
 
 
-## Nombre de la propiedad con la ruta a la escena.
-const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
-const KEY_PROPERTIES: StringName = &"PROPERTIES"
-
-
-# Configura la información del nodo.
-func _set_data(data: Dictionary) -> void:
-	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
-	if properties.is_empty():
-		return
+# Configura las propiedades
+func set_properties(properties: Dictionary) -> void:
 	for key in properties.keys():
 		_set_property(key, properties[key])
 
@@ -23,7 +15,7 @@ func _set_property(key: String, property: Variant) -> void:
 		if typeof(v_node) == TYPE_OBJECT:
 			var data: Data = v_node as Data
 			if data:
-				data._set_data(property)
+				data.set_properties(property)
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif not _can_be_saved(v_node):
@@ -42,14 +34,14 @@ func _set_property(key: String, property: Variant) -> void:
 
 
 ## Obtiene la información del nodo.
-func get_data() -> Dictionary:
+func get_properties() -> Dictionary:
 	var properties: Dictionary = {}
 	for key in _get_persistent_keys():
 		var v_node = get(key) # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
 			var obj: Data = v_node as Data
 			if is_instance_valid(obj):
-				properties[key] = obj.get_data()
+				properties[key] = obj.get_properties()
 			else:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif not _can_be_saved(v_node):
@@ -66,10 +58,7 @@ func get_data() -> Dictionary:
 		else:
 			properties[key] = v_node
 
-	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
-	data[KEY_PROPERTIES] = properties
-
-	return data
+	return properties
 
 
 ## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
@@ -80,9 +69,7 @@ func _get_persistent_keys() -> PackedStringArray:
 
 ## Devuelve [PackedStringArray] con las claves que no tiene que configurar.
 func _get_not_settable_keys() -> PackedStringArray:
-	var keys: PackedStringArray = []
-	keys.append(KEY_SCENE_FILE_PATH)
-	return keys
+	return []
 
 
 func _needs_conversion(variant: Variant) -> bool:
@@ -103,16 +90,3 @@ func _can_be_saved(variable) -> bool:
 		type == TYPE_VECTOR3 or
 		type == TYPE_PACKED_STRING_ARRAY
 	)
-
-
-static func create_data_node(dict: Dictionary) -> Data:
-	var data: Data = null
-	var path: String = dict.get(KEY_SCENE_FILE_PATH, "") as String
-	if path.is_empty():
-		push_error("falta scene_file_path")
-	else:
-		var pck: PackedScene = load(path) as PackedScene
-		if pck:
-			data = pck.instantiate()
-			data._set_data(dict)
-	return data

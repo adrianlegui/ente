@@ -12,12 +12,10 @@
                 "my_bool": true,
                 "my_int": 10,
                 "my_float": 0.0009,
-                "my_packed_string_array": ["string_1", "string_2", "string_3"],
+                "my_packed_string_array": ["string_0","string_1", "string_2", "string_3", "string_4", "string_5"],
                 "my_array": [1, true, "cosa"],
                 "my_not_data_node": {"process_mode": 0},
-                "my_data":{
-                    "PROPERTIES":{"numero":11110,"process_mode":0,"scene_file_path":""}
-                    }
+                "my_data":{"numero":11110,"process_mode":0}
                 }
             },
         "entity_sin_properties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},

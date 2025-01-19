@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cumxboyr7ra8f"
-path="res://.godot/imported/icon_float_value.svg-ad5ca09fb8c0af98fea502f897d28643.ctex"
+path="res://.godot/imported/float_value.svg-f2caa1110e58d5a24361bc9344258a88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/mod_manager/src/data/float_value/icon_float_value.svg"
-dest_files=["res://.godot/imported/icon_float_value.svg-ad5ca09fb8c0af98fea502f897d28643.ctex"]
+source_file="res://addons/mod_manager/src/icons/float_value.svg"
+dest_files=["res://.godot/imported/float_value.svg-f2caa1110e58d5a24361bc9344258a88.ctex"]
 
 [params]
 

@@ -379,7 +379,7 @@ func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
-		var entity: Entity = Entity.create_data_node(data)
+		var entity: Entity = Entity.create_entity(data)
 		if entity:
 			entity.name = entity_name
 			root.call_deferred("add_child", entity)

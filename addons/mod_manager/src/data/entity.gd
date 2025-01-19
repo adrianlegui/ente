@@ -7,6 +7,10 @@ class_name Entity extends Data
 ## @experimental
 
 
+## Nombre de la propiedad con la ruta a la escena.
+const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
+## Clave usada en el diccionario de persistencia.
+const KEY_PROPERTIES: StringName = &"PROPERTIES"
 ## Nombre del grupo de nodos persistentes.
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
 
@@ -16,6 +20,21 @@ var _unique: bool = true
 
 func _ready() -> void:
 	_add_groups()
+
+
+# Configura la información de la entidad.
+func _set_data(data: Dictionary) -> void:
+	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
+	if properties.is_empty():
+		return
+	set_properties(properties)
+
+
+# Obtienen la configuración de la entidad
+func get_data() -> Dictionary:
+	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
+	data[KEY_PROPERTIES] = get_properties()
+	return data
 
 
 ## Obtiene una entidad
@@ -82,3 +101,22 @@ func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
 	keys.append("_unique")
 	return keys
+
+
+func _get_not_settable_keys() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_not_settable_keys()
+	keys.append(KEY_SCENE_FILE_PATH)
+	return keys
+
+
+static func create_entity(dict: Dictionary) -> Data:
+	var data: Data = null
+	var path: String = dict.get(KEY_SCENE_FILE_PATH, "") as String
+	if path.is_empty():
+		push_error("falta scene_file_path")
+	else:
+		var pck: PackedScene = load(path) as PackedScene
+		if pck:
+			data = pck.instantiate()
+			data._set_data(dict)
+	return data

@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/src/data/int_value/icon_int_value.svg")
+@icon("res://addons/mod_manager/src/icons/int_value.svg")
 class_name IntValue extends Data
 ## Usado para guardar valores [code]int[\code].
 ##
@@ -20,5 +20,5 @@ func get_current_value() -> int:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append_array(["base"])
+	keys.append_array(["base", "mod"])
 	return keys

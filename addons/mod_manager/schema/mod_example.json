@@ -8,7 +8,8 @@
 				"PROPERTIES" : {
 					"process_mode": "0",
 					"my_int": 0,
-					"my_string": "my_string"
+					"my_string": "my_string",
+					"my_data":{"my_int":11110, "process_mode":0}
 				}
 			}
 	}

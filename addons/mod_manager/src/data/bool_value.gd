@@ -42,5 +42,10 @@ func remove_blocker(entity: Entity) -> void:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append("_blockers")
+	keys.append_array(
+		[
+			"_blockers",
+			"_default"
+		]
+	)
 	return keys

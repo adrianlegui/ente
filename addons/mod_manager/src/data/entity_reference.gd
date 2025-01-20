@@ -12,6 +12,10 @@ func get_entity_id() -> String:
 	return _entity_id
 
 
+func set_entity_id(entity_id: String) -> void:
+	_entity_id = entity_id
+
+
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
 	keys.append("_entity_id")

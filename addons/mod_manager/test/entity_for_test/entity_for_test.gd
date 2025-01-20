@@ -25,7 +25,8 @@ func _get_persistent_keys() -> PackedStringArray:
 			"my_data",
 			"my_packed_string_array",
 			"my_array",
-			"my_not_data_node"
+			"my_not_data_node",
+			"my_entity_reference"
 		]
 	)
 	return keys
@@ -41,5 +42,7 @@ func _on_game_event_before_starting() -> void:
 
 ## Se llama cuando el juego es iniciado.
 func _on_game_event_started() -> void:
-	MOD_MANAGER.save_game("partida_guardada")
 	print(name +": " + "iniciando")
+	if name == "EntityForTest":
+		print("guardando partida")
+		MOD_MANAGER.save_game("partida_guardada")

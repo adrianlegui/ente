@@ -17,4 +17,3 @@ script = ExtResource("2_qa4qg")
 
 [node name="EntityReference" type="Node" parent="."]
 script = ExtResource("3_3cnhr")
-entity_id = &"entity_sin_properties"

@@ -15,7 +15,7 @@
                 "my_packed_string_array": ["string_0","string_1", "string_2", "string_3", "string_4", "string_5"],
                 "my_array": [1, true, "cosa"],
                 "my_not_data_node": {"process_mode": 0},
-                "my_data":{"numero":11110,"process_mode":0, "cosa": "cosas"},
+                "my_data":{"numero":11110,"process_mode":0, "variable_de_tipo_nil": "cosas"},
                 "my_entity_reference": {"_entity_id": "entity_sin_properties"}
                 }
             },

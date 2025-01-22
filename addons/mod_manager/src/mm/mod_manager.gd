@@ -4,7 +4,6 @@ class_name ModManager extends Node
 ##
 ## @experimental
 
-
 ## Se emite si no se puedo abrir el fichero load_order.txt
 signal could_not_open_load_order_file
 ## Se emite cuando la carga de mods y packs de recursos ha terminado.
@@ -13,7 +12,6 @@ signal finished
 signal started_game
 ## Se emite cuando falla la carga de una partida guardada.
 signal failed_to_load_savegame
-
 
 ## Nombre del fichero que contiene el orden de carga de los mods.
 const LOAD_ORDER_FILE: String = "load_order.txt"
@@ -34,7 +32,6 @@ const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
 ## Extensión usada en las partidas guardadas cifradas.
 const ENCRYPTED_EXTENSION: String = "sav"
 
-
 # mods que no se cargaron
 var _failed_mod: Dictionary = {}
 # mods cargados.
@@ -43,9 +40,7 @@ var _loaded_mod: Dictionary = {}
 var _failed_pcks: PackedStringArray
 var _thread: Thread
 
-
 @onready var _scene_tree: SceneTree = get_tree()
-
 
 func _exit_tree() -> void:
 	if is_instance_valid(_thread) and not _thread.is_alive():
@@ -279,23 +274,17 @@ func get_entity(entity_id: String) -> Entity:
 	return entity
 
 
-func delete_entity(entity_id: String) -> void:
+func delete_entity_by_id(entity_id: String) -> void:
 	if entity_id.is_empty():
 		push_error("entity_id esta vacio")
 		return
 
 	var entity: Entity = get_entity(entity_id)
-	if not entity:
+	if not is_instance_valid(entity):
 		push_error("entity %s no existe" % entity_id)
 		return
 
-	if entity.is_unique():
-		push_error(
-			"No se pudo borrar entidad %s por que es única" % entity_id
-		)
-		return
-
-	entity.queue_free()
+	entity.delete()
 
 
 ## Fusiona diccionarios de forma recursiva y devuelve un diccionario nuevo.

@@ -6,7 +6,6 @@ class_name Entity extends Data
 ##
 ## @experimental
 
-
 ## Nombre de la propiedad con la ruta a la escena.
 const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
 ## Clave usada en el diccionario de persistencia.
@@ -14,21 +13,10 @@ const KEY_PROPERTIES: StringName = &"PROPERTIES"
 ## Nombre del grupo de nodos persistentes.
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
 
-
 var _unique: bool = true
-
 
 func _ready() -> void:
 	_add_groups()
-
-
-# Configura la información de la entidad.
-func _set_data(data: Dictionary) -> void:
-	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
-	if properties.is_empty():
-		return
-	set_properties(properties)
-
 
 # Obtienen la configuración de la entidad
 func get_data() -> Dictionary:
@@ -58,6 +46,27 @@ func set_unique(value: bool) -> void:
 
 func is_unique() -> bool:
 	return _unique
+
+
+func delete() -> void:
+	_before_deleting()
+	if is_unique():
+		push_error("No se pudo borrar entidad %s por que es única" % name)
+		return
+
+	queue_free()
+
+
+func _before_deleting() -> void:
+	pass
+
+
+# Configura la información de la entidad.
+func _set_data(data: Dictionary) -> void:
+	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
+	if properties.is_empty():
+		return
+	set_properties(properties)
 
 
 ## Se llama cuando el juego es iniciado.

@@ -99,11 +99,12 @@ func start_game() -> void:
 		await Engine.get_main_loop().process_frame
 	_thread.wait_to_finish()
 
-	_scene_tree.paused = true
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
 		_entities = merge_dictionary(_entities, mod.entities)
+
+	_scene_tree.paused = true
 	_thread = Thread.new()
 	_thread.start(_start_game.bind(_entities))
 
@@ -143,6 +144,7 @@ func load_savegame(savegame_name: String) -> void:
 		failed_to_load_savegame.emit()
 		return
 
+	_scene_tree.paused = true
 	savegame_entities = merge_dictionary(entities, ents)
 	_thread = Thread.new()
 	_thread.start(_start_game.bind(savegame_entities))

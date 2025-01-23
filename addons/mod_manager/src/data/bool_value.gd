@@ -2,6 +2,7 @@
 class_name BoolValue extends Data
 ## @experimental
 
+signal default_changed
 signal bloker_added(entity: Entity)
 signal bloker_removed(entity: Entity)
 
@@ -10,7 +11,10 @@ signal bloker_removed(entity: Entity)
 var _blockers: PackedStringArray = []
 
 func set_default(value: bool) -> void:
+	if _default == value:
+		return
 	_default = value
+	default_changed.emit()
 
 
 func get_default() -> bool:

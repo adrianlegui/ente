@@ -154,7 +154,7 @@ func load_savegame(savegame_name: String) -> void:
 
 ## Salva la información de los nodos que se encuentran en el grupo
 ## [constant EntityData.GROUP_PERSISTENT].
-func save_game(savegame_name: String, compress: bool = true) -> void:
+func save_game(savegame_name: String) -> void:
 	var persistent: Array[Node] = get_tree().get_nodes_in_group(
 		Entity.GROUP_PERSISTENT
 	)
@@ -179,12 +179,11 @@ func save_game(savegame_name: String, compress: bool = true) -> void:
 	data[Mod.KEY_GAME_ID] = Mod.get_game_id()
 	data[Mod.KEY_DEPENDENCIES] = _loaded_mod.keys()
 	data[Mod.KEY_ENTITIES] = ents
-	var json_data: String = (
-		JSON.stringify(data) if compress else JSON.stringify(data, "\t", true)
-	)
-
 	var file: FileAccess
 	var not_encrypted: bool = NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
+	var json_data: String = (
+		JSON.stringify(data, "\t", true) if not_encrypted else JSON.stringify(data)
+	)
 	var file_path: String = get_path_to_savegame(savegame_name)
 	if not_encrypted:
 		file = FileAccess.open(file_path, FileAccess.WRITE)

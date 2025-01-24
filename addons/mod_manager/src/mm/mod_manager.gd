@@ -114,6 +114,8 @@ func load_savegame(savegame_name: String) -> void:
 	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var info: SavegameInfo = check_savegame(savegame_name)
 	if not info.is_correct():
+		push_error("savegame %s esta corrupto" % savegame_name)
+		failed_to_load_savegame.emit()
 		return
 
 	while _thread.is_alive():
@@ -152,7 +154,7 @@ func load_savegame(savegame_name: String) -> void:
 
 ## Salva la información de los nodos que se encuentran en el grupo
 ## [constant EntityData.GROUP_PERSISTENT].
-func save_game(savegame_name: String) -> void:
+func save_game(savegame_name: String, compress: bool = true) -> void:
 	var persistent: Array[Node] = get_tree().get_nodes_in_group(
 		Entity.GROUP_PERSISTENT
 	)
@@ -177,7 +179,9 @@ func save_game(savegame_name: String) -> void:
 	data[Mod.KEY_GAME_ID] = Mod.get_game_id()
 	data[Mod.KEY_DEPENDENCIES] = _loaded_mod.keys()
 	data[Mod.KEY_ENTITIES] = ents
-	var json_data: String = JSON.stringify(data)
+	var json_data: String = (
+		JSON.stringify(data) if compress else JSON.stringify(data, "\t", true)
+	)
 
 	var file: FileAccess
 	var not_encrypted: bool = NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
@@ -250,8 +254,8 @@ func check_savegame(savegame_name: String) -> SavegameInfo:
 	return save_game
 
 
-## Devuelve la ruta a la partida guardada.
-## No comprueba la existencia de la misma.
+## Devuelve la ruta a la partida guardada.[br]
+## [color=yellow]Warning:[/color] No comprueba la existencia de la misma.
 func get_path_to_savegame(savegame_name: String) -> String:
 	return "%s.%s" % [
 		get_savegame_folder_path().path_join(savegame_name),
@@ -266,7 +270,7 @@ func add_entity(entity: Entity) -> void:
 	_scene_tree.root.add_child(entity, force_readable_name)
 
 
-## Obtiene una entidad
+## Obtiene una entidad.
 func get_entity(entity_id: String) -> Entity:
 	var entity: Entity = null
 	if not entity_id.is_empty():
@@ -276,6 +280,7 @@ func get_entity(entity_id: String) -> Entity:
 	return entity
 
 
+## Borra entidad.
 func delete_entity_by_id(entity_id: String) -> void:
 	if entity_id.is_empty():
 		push_error("entity_id esta vacio")

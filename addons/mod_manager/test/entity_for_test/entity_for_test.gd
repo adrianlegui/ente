@@ -11,6 +11,7 @@ var my_string_name: StringName = "my_string_name"
 var my_float: float = 0.0
 var my_packed_string_array: PackedStringArray = []
 var my_array: Array = []
+var my_transform_3d: Transform3D = Transform3D.IDENTITY
 
 
 func _get_persistent_keys() -> PackedStringArray:
@@ -26,7 +27,8 @@ func _get_persistent_keys() -> PackedStringArray:
 			"my_packed_string_array",
 			"my_array",
 			"my_not_data_node",
-			"my_entity_reference"
+			"my_entity_reference",
+			"my_transform_3d"
 		]
 	)
 	return keys

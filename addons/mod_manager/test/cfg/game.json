@@ -16,7 +16,8 @@
                 "my_array": [1, true, "cosa"],
                 "my_not_data_node": {"process_mode": 0},
                 "my_data":{"numero":11110,"process_mode":0, "variable_de_tipo_nil": "cosas"},
-                "my_entity_reference": {"_entity_id": "entity_sin_properties"}
+                "my_entity_reference": {"_entity_id": "entity_sin_properties"},
+                "my_transform_3d": "Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 9, 9, 9)"
                 }
             },
         "entity_sin_properties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},

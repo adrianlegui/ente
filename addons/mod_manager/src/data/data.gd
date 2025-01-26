@@ -75,7 +75,10 @@ func _get_not_settable_keys() -> PackedStringArray:
 func _needs_conversion(variant: Variant) -> bool:
 	var type: int = typeof(variant)
 	return (
-		type == TYPE_VECTOR3
+		type == TYPE_VECTOR2 or
+		type == TYPE_VECTOR3 or
+		type == TYPE_TRANSFORM2D or
+		type == TYPE_TRANSFORM3D
 	)
 
 
@@ -87,6 +90,9 @@ func _can_be_saved(variable) -> bool:
 		type == TYPE_FLOAT or
 		type == TYPE_STRING or
 		type == TYPE_STRING_NAME or
+		type == TYPE_VECTOR2 or
 		type == TYPE_VECTOR3 or
-		type == TYPE_PACKED_STRING_ARRAY
+		type == TYPE_PACKED_STRING_ARRAY or
+		type == TYPE_TRANSFORM2D or
+		type == TYPE_TRANSFORM3D
 	)

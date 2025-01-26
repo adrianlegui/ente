@@ -10,11 +10,18 @@ signal bloker_removed(entity: Entity)
 
 var _blockers: PackedStringArray = []
 
-func set_default(value: bool) -> void:
+func set_default(value: bool, force: bool = false) -> void:
 	if _default == value:
 		return
-	_default = value
-	default_changed.emit()
+
+	var before: bool = _default
+	if force:
+		_default = value
+	else:
+		_default = value and can_be_true()
+
+	if before != _default:
+		default_changed.emit()
 
 
 func get_default() -> bool:
@@ -42,6 +49,10 @@ func remove_blocker(entity: Entity) -> void:
 	if idx != -1:
 		_blockers.remove_at(idx)
 		bloker_removed.emit(entity)
+
+
+func has_blocker(entity: Entity) -> bool:
+	return _blockers.has(entity.name)
 
 
 func _get_persistent_keys() -> PackedStringArray:

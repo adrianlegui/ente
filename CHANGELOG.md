@@ -1,3 +1,24 @@
+## v0.4.0 (2025-01-26)
+
+### Feat
+
+- **Data**: tipos Vector2, Transform2D y Transform3D pueden ser guardados
+- **BoolValue**: agrego señal default_changed que se emite cuando _default cambia
+- agrego clase BoolValue
+
+### Fix
+
+- **BoolValue**: variable _default no es persistente
+
+### Refactor
+
+- **ModManager**: partida guardada no cifrada se guarda con formato
+- **ModManager**: agrego parámetro compress al método save_game
+- **ModManager**: se pausa SceneTree antes de iniciar la carga de una partida guardada
+- **ModManager**: método delete_entity pasa a llamarse delete_entity_by_id
+- agrego métodos de configuración a clases FloatValue y IntValue
+- **EntityReference**: agrego setter para variable _entity_id
+
 ## v0.3.0 (2025-01-19)
 
 ### Feat

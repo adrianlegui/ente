@@ -1,3 +1,9 @@
+## v0.5.1 (2025-01-28)
+
+### Fix
+
+- **Data**: nodos Data creados en tiempo de ejecución tienen configurado _unique como true
+
 ### v0.5.0 (2025-01-28)
 
 ### Feat

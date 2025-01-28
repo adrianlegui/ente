@@ -1,3 +1,12 @@
+### v0.5.0 (2025-01-28)
+
+### Feat
+- agrego clase, DataList, lista persistente de nodos data
+- **Data**: pueden ser creados en tiempo de ejecución
+
+### Refactor
+- **BoolValue**: método set_default agrego argumento force para forzar el valor true
+
 ## v0.4.0 (2025-01-26)
 
 ### Feat

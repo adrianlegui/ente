@@ -1,14 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnmcx8qhl4hw5"]
+[gd_scene load_steps=5 format=3 uid="uid://cnmcx8qhl4hw5"]
 
 [ext_resource type="Script" path="res://addons/mod_manager/test/entity_for_test/entity_for_test.gd" id="1_4ewbc"]
 [ext_resource type="PackedScene" uid="uid://bsa2jeick6am8" path="res://addons/mod_manager/test/entity_for_test/my_data.tscn" id="2_731j1"]
 [ext_resource type="Script" path="res://addons/mod_manager/src/data/entity_reference.gd" id="3_3cnhr"]
+[ext_resource type="Script" path="res://addons/mod_manager/src/data/data_list.gd" id="4_jrmyp"]
 
-[node name="EntityForTest" type="Node" node_paths=PackedStringArray("my_data", "my_not_data_node", "my_entity_reference")]
+[node name="EntityForTest" type="Node" node_paths=PackedStringArray("my_data", "my_not_data_node", "my_entity_reference", "my_data_list")]
 script = ExtResource("1_4ewbc")
 my_data = NodePath("MyData")
 my_not_data_node = NodePath("Node")
 my_entity_reference = NodePath("EntityReference")
+my_data_list = NodePath("DataList")
 
 [node name="MyData" parent="." instance=ExtResource("2_731j1")]
 
@@ -16,3 +18,8 @@ my_entity_reference = NodePath("EntityReference")
 
 [node name="EntityReference" type="Node" parent="."]
 script = ExtResource("3_3cnhr")
+
+[node name="DataList" type="Node" parent="."]
+script = ExtResource("4_jrmyp")
+
+[node name="DataExistente" parent="DataList" instance=ExtResource("2_731j1")]

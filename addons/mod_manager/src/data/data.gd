@@ -18,7 +18,7 @@ func get_data() -> Dictionary:
 	return data
 
 
-func _set_data(data: Dictionary) -> void:
+func set_data(data: Dictionary) -> void:
 	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
 	if properties.is_empty():
 		return
@@ -167,7 +167,7 @@ func _set_object_node_variable(key: String, property: Dictionary) -> void:
 	var v_node = get(key)
 	var data: Data = get(key) as Data
 	if is_instance_valid(data):
-		data.set_properties(property.get(KEY_PROPERTIES, {}))
+		data.set_data(property)
 	else:
 		push_warning("variable %s.%s no es de clase Data" % [name, key])
 
@@ -181,5 +181,5 @@ static func create_data_node(dict: Dictionary) -> Data:
 		var pck: PackedScene = load(path) as PackedScene
 		if pck:
 			data = pck.instantiate()
-			data._set_data(dict)
+			data.set_data(dict)
 	return data

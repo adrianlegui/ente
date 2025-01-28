@@ -5,6 +5,7 @@ extends Entity
 @export var my_data_null: Data
 @export var my_not_data_node: Node
 @export var my_entity_reference: EntityReference
+@export var my_data_list: DataList
 var my_bool: bool = false
 var my_int: int = 0
 var my_string: String = "my_string"
@@ -30,7 +31,8 @@ func _get_persistent_keys() -> PackedStringArray:
 			"my_array",
 			"my_not_data_node",
 			"my_entity_reference",
-			"my_transform_3d"
+			"my_transform_3d",
+			"my_data_list"
 		]
 	)
 	return keys

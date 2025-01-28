@@ -15,12 +15,22 @@
                 "my_packed_string_array": ["string_0","string_1", "string_2", "string_3", "string_4", "string_5"],
                 "my_array": [1, true, "cosa"],
                 "my_not_data_node": {"process_mode": 0},
-                "my_data":{"numero":11110,"process_mode":0, "variable_de_tipo_nil": "cosas"},
-                "my_entity_reference": {"_entity_id": "entity_sin_properties"},
+                "my_data":{
+                    "scene_file_path": "",
+                    "PROPERTIES": {"numero":11110,"process_mode":0, "variable_de_tipo_nil": "cosas"}
+                },
+                "my_data_null":{
+                    "scene_file_path": "res://addons/mod_manager/test/entity_for_test/my_data.tscn",
+                    "PROPERTIES":{"numero":11110,"process_mode":0, "variable_de_tipo_nil": "cosas"}
+                },
+                "my_entity_reference": {
+                    "scene_file_path": "",
+                    "PROPERTIES":{"_entity_id": "EntitySinProperties"}
+                },
                 "my_transform_3d": "Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 9, 9, 9)"
                 }
             },
-        "entity_sin_properties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},
+        "EntitySinProperties": {"scene_file_path" : "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"},
         "entity_sin_path":{},
         "entity_con_path_incorrecto": {
             "scene_file_path" : "res://my_entity/my_entity_no_existente.tscn"

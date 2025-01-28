@@ -33,12 +33,18 @@ func set_properties(properties: Dictionary) -> void:
 
 func _get_groups() -> PackedStringArray:
 	var groups: PackedStringArray = []
-	return groups
+	return _extra_groups(groups)
 
 
 func _add_groups() -> void:
 	for g: String in _get_groups():
 		add_to_group(g)
+
+
+## Sobreescribir para agregar grupos extras, el nodo será agregado a esos
+## grupos.
+func _extra_groups(groups: PackedStringArray) -> PackedStringArray:
+	return groups
 
 
 func _set_property(key: String, property: Variant) -> void:
@@ -159,6 +165,7 @@ func _set_null_node_variable(key: String, property: Dictionary) -> void:
 
 	data.name = key.capitalize().replace(" ", "")
 	set(key, data)
+	data.set_unique(false)
 	var force_readable_name: bool = true
 	add_child(data, force_readable_name)
 

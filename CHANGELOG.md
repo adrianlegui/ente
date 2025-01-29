@@ -1,3 +1,9 @@
+## v0.6.1 (2025-01-29)
+
+### Fix
+
+- **DataList**: método get_data_node falla al no poder convertir Array[Node] en Array[Data]
+
 ## v0.6.0 (2025-01-29)
 
 ### Feat

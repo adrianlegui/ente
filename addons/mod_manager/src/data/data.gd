@@ -1,5 +1,4 @@
 class_name Data extends Node
-## @experimental
 
 ## Nombre de la propiedad con la ruta a la escena.
 const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
@@ -12,6 +11,7 @@ func _ready() -> void:
 	_add_groups()
 
 
+## Obtiene un [Dictionary] con la información persistente del nodo.
 func get_data() -> Dictionary:
 	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
 	data[KEY_PROPERTIES] = get_properties()

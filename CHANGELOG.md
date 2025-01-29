@@ -1,3 +1,9 @@
+## v0.6.0 (2025-01-29)
+
+### Feat
+
+- agrego docstring a las clases
+
 ## v0.5.1 (2025-01-28)
 
 ### Fix

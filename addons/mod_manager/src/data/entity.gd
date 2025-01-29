@@ -1,10 +1,5 @@
 class_name Entity extends Data
 ## Clase base para los nodos que reciben la información de los mods.
-##
-## Los nodos que hereden de esta clase tiene que estar en el grupo
-## [constant GROUP_PERSISTENT] para que sean guardados.
-##
-## @experimental
 
 ## Nombre del grupo de nodos persistentes.
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
@@ -24,23 +19,27 @@ func get_entity(entity_name: String) -> Entity:
 	return entity
 
 
-## Se llama cuando el juego es iniciado.
+## Se llama cuando el juego es iniciado.[br]
+## [color=yellow]Método virtual.[/color]
 func _on_game_event_started() -> void:
 	pass
 
 
-## Se llama luego de agregar todas las entidades al arbol.
+## Se llama luego de agregar todas las entidades al arbol.[br]
+## [color=yellow]Método virtual.[/color]
 func _on_game_event_before_starting() -> void:
 	pass
 
 
-## Se llama al limpiar el arbol de nodos.
+## Se llama al limpiar el arbol de nodos.[br]
+## [color=yellow]Método virtual.[/color]
 func _on_game_event_clean_scene_tree() -> void:
 	queue_free()
 
 
 ## Se llama luego de que se agregaron todas las entidades al
-## SceneTree.
+## SceneTree.[br]
+## [color=yellow]Método virtual.[/color]
 func _on_game_event_all_entities_added() -> void:
 	pass
 
@@ -56,5 +55,6 @@ func _get_groups() -> PackedStringArray:
 	return groups
 
 
-static func create_entity(dict: Dictionary) -> Entity:
-	return Data.create_data_node(dict)
+## Regresa una [Entity] con los datos de [param data].
+static func create_entity(data: Dictionary) -> Entity:
+	return Data.create_data_node(data)

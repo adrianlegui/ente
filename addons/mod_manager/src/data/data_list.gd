@@ -27,7 +27,9 @@ func get_data() -> Dictionary:
 
 ## Obtiene el [Array] de nodos [Data].
 func get_data_nodes() -> Array[Data]:
-	return get_children() as Array[Data]
+	var array: Array[Data]
+	array.assign(get_children())
+	return array
 
 
 ## Agrega un nodo [Data] a la lista.
@@ -40,3 +42,8 @@ func add_data(data_node: Data) -> void:
 ## [param id]: nombre del nodo.
 func get_data_by_name(id: String) -> Data:
 	return get_node_or_null(id)
+
+
+## Regresa [code]true[/code] si [param data] se encuentra en la lista.
+func has_data_node(data: Data) -> bool:
+	return get_node_or_null(NodePath(data.name)) != null

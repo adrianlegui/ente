@@ -1,3 +1,9 @@
+## v0.6.2 (2025-01-29)
+
+### Fix
+
+- **DataList**: no puede remover nodos data de la lista
+
 ## v0.6.1 (2025-01-29)
 
 ### Fix

@@ -25,7 +25,7 @@ func _on_game_event_started() -> void:
 	pass
 
 
-## Se llama luego de agregar todas las entidades al arbol.[br]
+## Se llama luego de agregar todas las entidades al [SceneTree].[br]
 ## [color=yellow]Método virtual.[/color]
 func _on_game_event_before_starting() -> void:
 	pass
@@ -37,10 +37,15 @@ func _on_game_event_clean_scene_tree() -> void:
 	queue_free()
 
 
-## Se llama luego de que se agregaron todas las entidades al
-## SceneTree.[br]
+## Se llama luego de que se agregaron todas las entidades al [SceneTree].[br]
 ## [color=yellow]Método virtual.[/color]
 func _on_game_event_all_entities_added() -> void:
+	pass
+
+
+## Se llama antes de guardar la partida.[br]
+## [color=yellow]Método virtual.[/color]
+func _on_game_event_before_saving() -> void:
 	pass
 
 

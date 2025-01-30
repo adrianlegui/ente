@@ -33,7 +33,8 @@ func set_properties(properties: Dictionary) -> void:
 
 func _get_groups() -> PackedStringArray:
 	var groups: PackedStringArray = []
-	return _extra_groups(groups)
+	_add_extra_groups(groups)
+	return groups
 
 
 func _add_groups() -> void:
@@ -42,9 +43,10 @@ func _add_groups() -> void:
 
 
 ## Sobreescribir para agregar grupos extras, el nodo será agregado a esos
-## grupos.
-func _extra_groups(groups: PackedStringArray) -> PackedStringArray:
-	return groups
+## grupos.[br]
+## [color=yellow]Método virtual.[/color]
+func _add_extra_groups(groups: PackedStringArray) -> void:
+	pass
 
 
 func _set_property(key: String, property: Variant) -> void:

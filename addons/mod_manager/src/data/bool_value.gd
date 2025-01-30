@@ -9,8 +9,10 @@ signal bloker_added(blocker: Data)
 ## Se emite cuando se quita un nodo bloqueador
 signal bloker_removed(blocker: Data)
 
+## Valor predeteminado
 @export var _default: bool = true
 
+# Arreglo de bloqueadores.
 var _blockers: PackedStringArray = []
 
 ## Configura valor default.

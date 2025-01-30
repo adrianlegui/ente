@@ -33,9 +33,10 @@ func get_data_nodes() -> Array[Data]:
 
 
 ## Agrega un nodo [Data] a la lista.
-func add_data(data_node: Data) -> void:
+func add_data(data: Data) -> void:
+	data.set_unique(false)
 	var force_readable_name: bool = true
-	add_child(data_node, force_readable_name)
+	add_child(data, force_readable_name)
 
 
 ## Obtiene un nodo [Data] por su identificador.[br]
@@ -45,5 +46,14 @@ func get_data_by_name(id: String) -> Data:
 
 
 ## Regresa [code]true[/code] si [param data] se encuentra en la lista.
-func has_data_node(data: Data) -> bool:
-	return get_node_or_null(NodePath(data.name)) != null
+func has_data(data: Data) -> bool:
+	return data in get_children()
+
+
+## Quita nodo [param data] de la lista. Si [param destroy] es [code]true[/code]
+## Quita el nodo y lo borra.
+func remove_data(data: Data, destroy: bool = false) -> void:
+	if has_data(data):
+		remove_child(data)
+		if destroy:
+			data.delete()

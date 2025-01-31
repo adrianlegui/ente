@@ -19,6 +19,11 @@ func set_entity_id(entity_id: String) -> void:
 	_entity_id = entity_id
 
 
+## Regresa [code]true[/code] si la entidad existe.
+func entity_exists() -> bool:
+	return MOD_MANAGER.entity_exists(get_entity_id())
+
+
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
 	keys.append("_entity_id")

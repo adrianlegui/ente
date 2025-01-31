@@ -293,6 +293,11 @@ func delete_entity_by_id(entity_id: String) -> void:
 	entity.delete()
 
 
+## Regresa [code]true[/code] si la entidad existe.
+func entity_exists(entity_id: String) -> bool:
+	return get_entity(entity_id) != null
+
+
 ## Fusiona diccionarios de forma recursiva y devuelve un diccionario nuevo.
 ## Fusiona [param dictionary_b] con [param dictionary_a].
 func merge_dictionary(

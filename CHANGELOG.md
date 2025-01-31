@@ -1,3 +1,9 @@
+## v0.7.0 (2025-01-31)
+
+### Feat
+
+- **EntityReference**: agrego método entity_exists, se usa para comprobar que la entidad que se referencia existe
+
 ## v0.6.2 (2025-01-29)
 
 ### Fix

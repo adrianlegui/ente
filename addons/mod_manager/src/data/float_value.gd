@@ -2,11 +2,35 @@
 class_name FloatValue extends Data
 ## Usado para guardar valores [code]float[/code].
 
-# Valor base.
+## Valor base.
 @export var _base: float = 0.0
+## Si es [code]true[/code] el valor base es persistente.
+@export var _base_persistent: bool = true
+## Si es [code]true[/code] el modificador del valor es persistente.
+@export var _mod_persistent: bool = true
 
-# Modificador del valor.
+## Modificador del valor.
 var _mod: float = 0.0
+
+## Regresa [code]true[/code] si el modificador del valor es persistente.
+func is_base_persistent() -> bool:
+	return _base_persistent
+
+
+## Configura si el valor base es persistente.
+func set_base_persistent(base_persistent: bool) -> void:
+	_base_persistent = base_persistent
+
+
+## Regresa [code]true[/code] si el valor base es persistente.
+func is_mod_persistent() -> bool:
+	return _mod_persistent
+
+
+## Configura si el modificador del valor es persistente.
+func set_mod_persistent(mod_persistent: bool) -> void:
+	_mod_persistent = mod_persistent
+
 
 ## Configura el valor base.
 func set_base_value(value: float) -> void:
@@ -45,5 +69,8 @@ func get_current_value() -> float:
 
 func _get_persistent_keys() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append_array(["_base", "_mod"])
+	if is_base_persistent():
+		keys.append("_base")
+	if is_mod_persistent():
+		keys.append("_mod")
 	return keys

@@ -20,8 +20,13 @@ func test_get_current_value() -> void:
 
 func test__get_persistent_keys() -> void:
 	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
-	var vars: PackedStringArray = float_value._get_persistent_keys()
-	assert_array(vars).contains_same(["_base", "_mod"])
+	assert_array(
+		float_value._get_persistent_keys()
+	).contains_same(["_base", "_mod"])
+	float_value.set_base_persistent(false)
+	assert_array(float_value._get_persistent_keys()).not_contains(["_base"])
+	float_value.set_mod_persistent(false)
+	assert_array(float_value._get_persistent_keys()).not_contains(["_mod"])
 
 
 func test_add_mod_value() -> void:
@@ -62,3 +67,27 @@ func test_set_base_value() -> void:
 	var base: float = 9.0
 	float_value.set_base_value(base)
 	assert_float(float_value.get_base_value()).is_equal_approx(base, APPROX)
+
+
+func test_is_base_persistent() -> void:
+	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
+	assert_bool(float_value.is_base_persistent()).is_true()
+
+
+func test_set_base_persistent() -> void:
+	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
+	assert_bool(float_value.is_base_persistent()).is_true()
+	float_value.set_base_persistent(false)
+	assert_bool(float_value.is_base_persistent()).is_false()
+
+
+func test_is_mod_persistent() -> void:
+	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
+	assert_bool(float_value.is_mod_persistent()).is_true()
+
+
+func test_set_mod_persistent() -> void:
+	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
+	assert_bool(float_value.is_mod_persistent()).is_true()
+	float_value.set_mod_persistent(false)
+	assert_bool(float_value.is_mod_persistent()).is_false()

@@ -1,3 +1,11 @@
+## v0.8.0 (2025-02-05)
+
+### Feat
+
+- agrego clase Scene, mantiene una escena cargada aunque no este siendo usada
+- **IntValue**: se puede configurar si el valor base y el modificador del valor son persistentes
+- **FloatValue**: se puede configurar si el valor base y el modificador del valor son persistentes
+
 ## v0.7.0 (2025-01-31)
 
 ### Feat

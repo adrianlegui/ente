@@ -9,6 +9,14 @@ func get_reference() -> Entity:
 	return MOD_MANAGER.get_entity(_entity_id)
 
 
+## Configura el identificador.
+func set_entity_id_using_entity(entity: Entity) -> void:
+	if not entity.is_inside_tree():
+		push_error("entidad %s no esta en el arbol de nodos." % entity.name)
+		return
+	set_entity_id(entity.name)
+
+
 ## Obtiene el identificador de la entidad
 func get_entity_id() -> String:
 	return _entity_id

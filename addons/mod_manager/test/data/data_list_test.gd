@@ -21,8 +21,8 @@ func test_add_data() -> void:
 	var data_list: DataList = auto_free(DataList.new()) as DataList
 	var data: Data = auto_free(Data.new()) as Data
 	data_list.add_data(data)
-	assert_bool(data.is_unique()).is_true()
-	var result: bool = data_list.has_data_node(data)
+	assert_bool(data.is_unique()).is_false()
+	var result: bool = data_list.has_data(data)
 	assert_bool(result).is_true()
 
 
@@ -40,7 +40,7 @@ func test_has_data_node() -> void:
 	var data_list: DataList = auto_free(DataList.new()) as DataList
 	var data: Data = auto_free(Data.new()) as Data
 	data_list.add_data(data)
-	var result: bool = data_list.has_data_node(data)
+	var result: bool = data_list.has_data(data)
 	assert_bool(result).is_true()
 
 

@@ -6,40 +6,50 @@ extends GdUnitTestSuite
 
 # TestSuite generated from
 const __source = 'res://addons/mod_manager/src/data/entity_reference.gd'
-var ref: EntityReference
+var entity_reference: EntityReference
 var ent: Entity
 
 func before_test() -> void:
-	ref = auto_free(EntityReference.new()) as EntityReference
+	entity_reference = auto_free(EntityReference.new()) as EntityReference
 	ent = auto_free(Entity.new()) as Entity
-	ent.add_child(ref)
+	ent.add_child(entity_reference)
 	MOD_MANAGER.add_entity(ent)
 
 
 func test_get_reference() -> void:
-	ref.set_entity_id(ent.name)
-	assert_object(ref.get_reference()).is_same(ent)
+	entity_reference.set_entity_id(ent.name)
+	assert_object(entity_reference.get_reference()).is_same(ent)
 
 
 func test_get_entity_id() -> void:
 	var id_0: String = "Id0"
-	ref.set_entity_id(id_0)
-	assert_str(ref.get_entity_id()).is_equal(id_0)
+	entity_reference.set_entity_id(id_0)
+	assert_str(entity_reference.get_entity_id()).is_equal(id_0)
 
 
 func test_set_entity_id() -> void:
 	var id: String = ent.name
-	ref.set_entity_id(id)
-	assert_str(ref.get_entity_id()).is_equal(id)
+	entity_reference.set_entity_id(id)
+	assert_str(entity_reference.get_entity_id()).is_equal(id)
 
 
 func test__get_persistent_keys() -> void:
-	var result: PackedStringArray = ref._get_persistent_keys()
+	var result: PackedStringArray = entity_reference._get_persistent_keys()
 	assert_array(result).contains(["_entity_id"])
 
 
 func test_entity_exists() -> void:
-	ref.set_entity_id("no_existe")
-	assert_bool(ref.entity_exists()).is_false()
-	ref.set_entity_id(ent.name)
-	assert_bool(ref.entity_exists()).is_true()
+	entity_reference.set_entity_id("no_existe")
+	assert_bool(entity_reference.entity_exists()).is_false()
+	entity_reference.set_entity_id(ent.name)
+	assert_bool(entity_reference.entity_exists()).is_true()
+
+
+func test_set_entity_id_using_entity() -> void:
+	var entity_reference: EntityReference = (
+		auto_free(EntityReference.new()) as EntityReference
+	)
+	var entity: Entity = auto_free(Entity.new())
+	MOD_MANAGER.add_entity(entity)
+	entity_reference.set_entity_id_using_entity(entity)
+	assert_object(entity_reference.get_reference()).is_same(entity)

@@ -1,5 +1,5 @@
 {
-    "GAME_ID" : "mod_manager",
+    "GAME_ID" : "game_id",
     "DEPENDENCIES" : [],
     "PCKS" : [],
     "ENTITIES" : {

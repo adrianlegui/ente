@@ -45,3 +45,13 @@ static func get_path_to_savegame(savegame_name: String) -> String:
 		get_savegame_folder_path().path_join(savegame_name),
 		MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
 	]
+
+
+static func get_game_id() -> String:
+	var game_id: String = ProjectSettings.get_setting(
+		GAME_ID_PROPERTY_PATH,
+		ProjectSettings.get_setting(GAME_NAME_PROPERTY_PATH)
+		) as String
+	if game_id.is_empty():
+		push_error("%s está vacio." % GAME_ID_PROPERTY_PATH)
+	return game_id

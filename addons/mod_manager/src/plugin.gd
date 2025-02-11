@@ -6,9 +6,11 @@ const MOD_MANAGER_PATH = (
 )
 const SINGLETON_NAME: String = "ModManager"
 
+var mod_folder_path_property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
+var game_id_property_path: String = ModManagerProperties.GAME_ID_PROPERTY_PATH
+
 func _enter_tree() -> void:
 	init()
-
 
 
 func _exit_tree() -> void:
@@ -20,18 +22,45 @@ func init() -> void:
 		SINGLETON_NAME,
 		MOD_MANAGER_PATH
 	)
-	var property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
-	ProjectSettings.set(property_path, "user://mods")
+	add_properties()
+	ProjectSettings.save()
+
+
+func add_properties() -> void:
+	add_mod_folder_property()
+	add_game_id_property()
+
+
+func add_game_id_property() -> void:
+	ProjectSettings.set(
+		game_id_property_path,
+		"game_id"
+	)
 	var property_info = {
-		"name": property_path,
+		"name": game_id_property_path,
 		"type": TYPE_STRING
 	}
 	ProjectSettings.add_property_info(property_info)
-	ProjectSettings.save()
+
+
+func add_mod_folder_property() -> void:
+	ProjectSettings.set(
+		mod_folder_path_property_path,
+		ModManagerProperties.MODS_FOLDER_PATH
+	)
+	var property_info = {
+		"name": mod_folder_path_property_path,
+		"type": TYPE_STRING
+	}
+	ProjectSettings.add_property_info(property_info)
+
+
+func remove_properties() -> void:
+	ProjectSettings.set(mod_folder_path_property_path, null)
+	ProjectSettings.set(game_id_property_path, null)
 
 
 func clean() -> void:
 	remove_autoload_singleton(SINGLETON_NAME)
-	var property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
-	ProjectSettings.set(property_path, null)
+	remove_properties()
 	ProjectSettings.save()

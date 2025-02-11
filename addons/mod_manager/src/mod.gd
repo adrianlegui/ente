@@ -1,21 +1,15 @@
 class_name Mod extends RefCounted
-## @experimental
-
 
 const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_DEPENDENCIES: StringName = &"DEPENDENCIES"
 const KEY_PCKS: StringName = &"PCKS"
 const KEY_ENTITIES: StringName = &"ENTITIES"
-const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
-const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
-
 
 var game_id: String = ""
 var dependencies: PackedStringArray = []
 var pcks: PackedStringArray = []
 var entities: Dictionary = {}
 var same_game: bool = false
-
 
 func _init(data_mod: Dictionary) -> void:
 	game_id = data_mod.get(KEY_GAME_ID, "")
@@ -27,6 +21,6 @@ func _init(data_mod: Dictionary) -> void:
 
 static func get_game_id() -> String:
 	return ProjectSettings.get_setting(
-		GAME_ID_PROPERTY_PATH,
-		ProjectSettings.get_setting(GAME_NAME_PROPERTY_PATH)
+		ModManagerProperties.GAME_ID_PROPERTY_PATH,
+		ProjectSettings.get_setting(ModManagerProperties.GAME_NAME_PROPERTY_PATH)
 		)

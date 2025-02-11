@@ -13,7 +13,7 @@ func before_test() -> void:
 	entity_reference = auto_free(EntityReference.new()) as EntityReference
 	ent = auto_free(Entity.new()) as Entity
 	ent.add_child(entity_reference)
-	MOD_MANAGER.add_entity(ent)
+	ModManager.add_entity(ent)
 
 
 func test_get_reference() -> void:
@@ -50,6 +50,6 @@ func test_set_entity_id_using_entity() -> void:
 		auto_free(EntityReference.new()) as EntityReference
 	)
 	var entity: Entity = auto_free(Entity.new())
-	MOD_MANAGER.add_entity(entity)
+	ModManager.add_entity(entity)
 	entity_reference.set_entity_id_using_entity(entity)
 	assert_object(entity_reference.get_reference()).is_same(entity)

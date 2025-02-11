@@ -9,11 +9,11 @@ const SINGLETON_NAME: String = "ModManager"
 var mod_folder_path_property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
 var game_id_property_path: String = ModManagerProperties.GAME_ID_PROPERTY_PATH
 
-func _enter_tree() -> void:
+func _enable_plugin() -> void:
 	init()
 
 
-func _exit_tree() -> void:
+func _disable_plugin() -> void:
 	clean()
 
 

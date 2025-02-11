@@ -1,10 +1,10 @@
 @tool
 extends EditorPlugin
 
-
-const MOD_MANAGER_PATH: String = "res://addons/mod_manager/src/mm/mod_manager.tscn"
-const SINGLETON_NAME: String = "MOD_MANAGER"
-
+const MOD_MANAGER_PATH = (
+	"res://addons/mod_manager/src/mod_manager/mod_manager.tscn"
+)
+const SINGLETON_NAME: String = "ModManager"
 
 func _enter_tree() -> void:
 	add_autoload_singleton(

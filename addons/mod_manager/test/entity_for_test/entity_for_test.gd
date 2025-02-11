@@ -51,4 +51,4 @@ func _on_game_event_started() -> void:
 	print(name +": " + "iniciando")
 	if name == "EntityForTest":
 		print("guardando partida")
-		MOD_MANAGER.save_game("partida_guardada")
+		ModManager.save_game("partida_guardada")

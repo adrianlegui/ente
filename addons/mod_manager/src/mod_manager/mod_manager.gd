@@ -1,8 +1,6 @@
-@icon("res://addons/mod_manager/src/mm/icon.svg")
-class_name ModManager extends Node
+@icon("res://addons/mod_manager/src/mod_manager/icon.svg")
+extends Node
 ## Controla la carga de mods y packs de recursos.
-##
-## @experimental
 
 ## Se emite si no se puedo abrir el fichero load_order.txt
 signal could_not_open_load_order_file
@@ -102,7 +100,7 @@ func start_game() -> void:
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
-		_entities = merge_dictionary(_entities, mod.entities)
+		_entities = DictionaryMerger.merge(_entities, mod.entities)
 
 	_scene_tree.paused = true
 	_thread = Thread.new()
@@ -126,7 +124,7 @@ func load_savegame(savegame_name: String) -> void:
 	var entities: Dictionary = {}
 	for mod_name in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
-		entities = merge_dictionary(entities, mod.entities)
+		entities = DictionaryMerger.merge(entities, mod.entities)
 
 	var ents: Dictionary = {}
 	var ext: String = path_to_savegame.get_extension()
@@ -147,7 +145,7 @@ func load_savegame(savegame_name: String) -> void:
 		return
 
 	_scene_tree.paused = true
-	savegame_entities = merge_dictionary(entities, ents)
+	savegame_entities = DictionaryMerger.merge(entities, ents)
 	_thread = Thread.new()
 	_thread.start(_start_game.bind(savegame_entities))
 
@@ -296,29 +294,6 @@ func delete_entity_by_id(entity_id: String) -> void:
 ## Regresa [code]true[/code] si la entidad existe.
 func entity_exists(entity_id: String) -> bool:
 	return get_entity(entity_id) != null
-
-
-## Fusiona diccionarios de forma recursiva y devuelve un diccionario nuevo.
-## Fusiona [param dictionary_b] con [param dictionary_a].
-func merge_dictionary(
-	dictionary_a: Dictionary,
-	dictionary_b: Dictionary
-) -> Dictionary:
-	var deep: bool = true
-	var output: Dictionary = dictionary_a.duplicate(deep)
-	return _merge_dictionary(
-		output,
-		dictionary_b
-	)
-
-
-func _merge_dictionary(dict_a: Dictionary, dict_b: Dictionary) -> Dictionary:
-	for key in dict_b:
-		if dict_a.has(key) and typeof(dict_a[key]) == TYPE_DICTIONARY:
-			_merge_dictionary(dict_a[key], dict_b[key])
-		else:
-			dict_a[key] = dict_b[key]
-	return dict_a
 
 
 func _load_json(json_path: String) -> Dictionary:

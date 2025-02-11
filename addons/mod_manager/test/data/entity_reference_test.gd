@@ -33,9 +33,14 @@ func test_set_entity_id() -> void:
 	assert_str(entity_reference.get_entity_id()).is_equal(id)
 
 
-func test__get_persistent_keys() -> void:
-	var result: PackedStringArray = entity_reference._get_persistent_keys()
-	assert_array(result).contains(["_entity_id"])
+func test__get_persistent_properties() -> void:
+	assert_array(
+		entity_reference._get_persistent_properties()
+	).contains(["_entity_id", "_persistent_entity_id"])
+	entity_reference.set_persistent_entity_id(false)
+	assert_array(
+		entity_reference._get_persistent_properties()
+	).not_contains(["_entity_id"])
 
 
 func test_entity_exists() -> void:

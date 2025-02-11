@@ -67,8 +67,8 @@ func has_blocker(blocker: Data) -> bool:
 	return _blockers.has(blocker.name)
 
 
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = super._get_persistent_keys()
+func _get_persistent_properties() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_properties()
 	keys.append_array(
 		[
 			"_blockers",

@@ -18,15 +18,15 @@ func test_get_current_value() -> void:
 	assert_float(result).is_equal_approx(base + mod, APPROX)
 
 
-func test__get_persistent_keys() -> void:
+func test__get_persistent_properties() -> void:
 	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
 	assert_array(
-		float_value._get_persistent_keys()
-	).contains_same(["_base", "_mod"])
+		float_value._get_persistent_properties()
+	).contains_same(["_base", "_mod", "_base_persistent","_mod_persistent"])
 	float_value.set_base_persistent(false)
-	assert_array(float_value._get_persistent_keys()).not_contains(["_base"])
+	assert_array(float_value._get_persistent_properties()).not_contains(["_base"])
 	float_value.set_mod_persistent(false)
-	assert_array(float_value._get_persistent_keys()).not_contains(["_mod"])
+	assert_array(float_value._get_persistent_properties()).not_contains(["_mod"])
 
 
 func test_add_mod_value() -> void:

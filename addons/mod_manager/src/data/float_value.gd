@@ -67,8 +67,14 @@ func get_current_value() -> float:
 	return _base + _mod
 
 
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = super._get_persistent_keys()
+func _get_persistent_properties() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_properties()
+	keys.append_array(
+		[
+			"_base_persistent",
+			"_mod_persistent"
+		]
+	)
 	if is_base_persistent():
 		keys.append("_base")
 	if is_mod_persistent():

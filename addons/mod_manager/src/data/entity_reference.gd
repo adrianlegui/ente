@@ -3,6 +3,15 @@ class_name EntityReference extends Data
 ## entidad.
 
 @export var _entity_id: StringName = &""
+@export var _persistent_entity_id: bool = true
+
+func is_persistent_entity_id() -> bool:
+	return _persistent_entity_id
+
+
+func set_persistent_entity_id(persistent: bool) -> void:
+	_persistent_entity_id = persistent
+
 
 ## Obtiene una referencia a la entidad configurada.
 func get_reference() -> Entity:
@@ -32,7 +41,9 @@ func entity_exists() -> bool:
 	return ModManager.entity_exists(get_entity_id())
 
 
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = super._get_persistent_keys()
-	keys.append("_entity_id")
+func _get_persistent_properties() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_properties()
+	keys.append("_persistent_entity_id")
+	if is_persistent_entity_id():
+		keys.append("_entity_id")
 	return keys

@@ -80,9 +80,14 @@ func get_scene() -> Node:
 	return scene
 
 
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: = super._get_persistent_keys()
-	keys.append("_unloaded")
+func _get_persistent_properties() -> PackedStringArray:
+	var keys: = super._get_persistent_properties()
+	keys.append_array(
+		[
+			"_unloaded",
+			"_scene_path_persistent"
+		]
+	)
 	if is_scene_path_persistent():
 		keys.append("_scene_path")
 	return keys

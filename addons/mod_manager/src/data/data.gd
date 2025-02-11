@@ -1,4 +1,5 @@
 class_name Data extends Node
+## Nodo con propiedades persistentes.
 
 ## Nombre de la propiedad con la ruta a la escena.
 const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
@@ -18,6 +19,7 @@ func get_data() -> Dictionary:
 	return data
 
 
+## Configura el nodo.
 func set_data(data: Dictionary) -> void:
 	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
 	if properties.is_empty():
@@ -25,12 +27,13 @@ func set_data(data: Dictionary) -> void:
 	set_properties(properties)
 
 
-# Configura las propiedades
+## Configura las propiedades persistentes del nodo.
 func set_properties(properties: Dictionary) -> void:
 	for key in properties.keys():
 		_set_property(key, properties[key])
 
 
+# regresa los grupos al que será agregado el nodo en _ready.
 func _get_groups() -> PackedStringArray:
 	var groups: PackedStringArray = []
 	_add_extra_groups(groups)
@@ -49,6 +52,7 @@ func _add_extra_groups(groups: PackedStringArray) -> void:
 	pass
 
 
+# configura una propiedad.
 func _set_property(key: String, property: Variant) -> void:
 		if key in _get_not_settable_keys():
 			return
@@ -72,10 +76,10 @@ func _set_property(key: String, property: Variant) -> void:
 			set(key, property)
 
 
-## Obtiene la información del nodo.
+## Obtiene las propiedades persitentes del nodo.
 func get_properties() -> Dictionary:
 	var properties: Dictionary = {}
-	for key in _get_persistent_keys():
+	for key in _get_persistent_properties():
 		var v_node = get(key) # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
 			var data: Data = v_node as Data
@@ -113,18 +117,28 @@ func delete() -> void:
 	if is_unique():
 		push_error("No se pudo borrar %s por que es único" % name)
 		return
-
 	queue_free()
 
 
+## Será llamado al ejecutar [method delete]. Sobreescribir para dar funcionalidad.
+## [color=yellow]Método virtual.[/color]
 func _before_deleting() -> void:
 	pass
 
 
-## Devuelve [PackedStringArray] con las claves usadas para configurar el nodo.
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = ["process_mode", "_unique"]
-	return keys
+# Regresa [PackedStringArray] con las propiedades persistentes.
+func _get_persistent_properties() -> PackedStringArray:
+	var properties: PackedStringArray = ["process_mode", "_unique"]
+	_add_extra_persistent_properties(properties)
+	return properties
+
+
+## Sobreescribir para agregar propiedades persistentes.
+## [color=yellow]Método virtual.[/color]
+func _add_extra_persistent_properties(
+	persistent_properties: PackedStringArray
+) -> void:
+	pass
 
 
 ## Devuelve [PackedStringArray] con las claves que no tiene que configurar.
@@ -159,6 +173,7 @@ func _can_be_saved(variable) -> bool:
 		type == TYPE_TRANSFORM3D
 	)
 
+
 func _set_null_node_variable(key: String, property: Dictionary) -> void:
 	var data: Data = create_data_node(property)
 
@@ -181,6 +196,12 @@ func _set_object_node_variable(key: String, property: Dictionary) -> void:
 		push_warning("variable %s.%s no es de clase Data" % [name, key])
 
 
+func _to_string() -> String:
+	return "%s: %s" % [name, JSON.stringify(get_data(), "\t")]
+
+
+## Regresa un nodo de clase [Data] con las propiedades persistentes
+## configuradas.
 static func create_data_node(dict: Dictionary) -> Data:
 	var data: Data = null
 	var path: String = dict.get(KEY_SCENE_FILE_PATH, "") as String

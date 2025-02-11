@@ -78,7 +78,7 @@ func test_has_blocker() -> void:
 	assert_bool(bool_value.has_blocker(blocker_1)).is_true()
 
 
-func test__get_persistent_keys() -> void:
+func test__get_persistent_properties() -> void:
 	var bool_value: BoolValue = auto_free(BoolValue.new()) as BoolValue
 	var keys: PackedStringArray = ["_blockers", "_default"]
-	assert_array(bool_value._get_persistent_keys()).contains(keys)
+	assert_array(bool_value._get_persistent_properties()).contains(keys)

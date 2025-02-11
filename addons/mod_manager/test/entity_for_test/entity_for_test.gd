@@ -15,8 +15,8 @@ var my_array: Array = []
 var my_transform_3d: Transform3D = Transform3D.IDENTITY
 
 
-func _get_persistent_keys() -> PackedStringArray:
-	var keys: PackedStringArray = super._get_persistent_keys()
+func _get_persistent_properties() -> PackedStringArray:
+	var keys: PackedStringArray = super._get_persistent_properties()
 	keys.append_array(
 		[
 			"my_bool",

@@ -57,13 +57,13 @@ func test_get_current_value() -> void:
 	assert_int(int_value.get_current_value()).is_equal(base + mod)
 
 
-func test__get_persistent_keys() -> void:
+func test__get_persistent_properties() -> void:
 	var int_value: IntValue = auto_free(IntValue.new()) as IntValue
-	assert_array(int_value._get_persistent_keys()).contains(["_base", "_mod"])
+	assert_array(int_value._get_persistent_properties()).contains(["_base", "_mod"])
 	int_value.set_base_persistent(false)
-	assert_array(int_value._get_persistent_keys()).not_contains(["_base"])
+	assert_array(int_value._get_persistent_properties()).not_contains(["_base"])
 	int_value.set_mod_persistent(false)
-	assert_array(int_value._get_persistent_keys()).not_contains(["_mod"])
+	assert_array(int_value._get_persistent_properties()).not_contains(["_mod"])
 
 
 func test_is_base_persistent() -> void:

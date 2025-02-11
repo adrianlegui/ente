@@ -81,13 +81,15 @@ func test_get_scene() -> void:
 	assert_str(node.scene_file_path).is_equal(SCENE_PATH)
 
 
-func test__get_persistent_keys() -> void:
+func test__get_persistent_properties() -> void:
 	var scene = auto_free(SCENE.instantiate()) as Scene
-	assert_array(scene._get_persistent_keys()).contains(["_unloaded"])
+	assert_array(
+		scene._get_persistent_properties()
+	).contains(["_unloaded", "_scene_path_persistent"])
 	scene.set_scene_path_persistent(false)
-	assert_array(scene._get_persistent_keys()).not_contains(["_scene_path"])
+	assert_array(scene._get_persistent_properties()).not_contains(["_scene_path"])
 	scene.set_scene_path_persistent(true)
-	assert_array(scene._get_persistent_keys()).contains(["_scene_path"])
+	assert_array(scene._get_persistent_properties()).contains(["_scene_path"])
 
 
 func test_has_unload_blocker() -> void:

@@ -1,6 +1,5 @@
 extends Entity
 
-
 @export var my_data: Data
 @export var my_data_null: Data
 @export var my_not_data_node: Node

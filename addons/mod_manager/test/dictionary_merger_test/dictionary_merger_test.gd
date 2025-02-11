@@ -9,7 +9,6 @@ const __source = (
 	'res://addons/mod_manager/src/dictionary_merger/dictionary_merger.gd'
 )
 
-
 func test_merge() -> void:
 	var key: String = "key"
 	var key_overwrite: String = "key_overwrite"

@@ -6,7 +6,7 @@ class_name EntityReference extends Data
 
 ## Obtiene una referencia a la entidad configurada.
 func get_reference() -> Entity:
-	return MOD_MANAGER.get_entity(_entity_id)
+	return ModManager.get_entity(_entity_id)
 
 
 ## Configura el identificador.
@@ -29,7 +29,7 @@ func set_entity_id(entity_id: String) -> void:
 
 ## Regresa [code]true[/code] si la entidad existe.
 func entity_exists() -> bool:
-	return MOD_MANAGER.entity_exists(get_entity_id())
+	return ModManager.entity_exists(get_entity_id())
 
 
 func _get_persistent_keys() -> PackedStringArray:

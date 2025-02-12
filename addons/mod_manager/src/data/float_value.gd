@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/src/icons/float_value.svg")
+@icon("res://addons/mod_manager/resources/icons/float_value.svg")
 class_name FloatValue extends Data
 ## Usado para guardar valores [code]float[/code].
 

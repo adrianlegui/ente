@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cumxboyr7ra8f"
-path="res://.godot/imported/float_value.svg-f2caa1110e58d5a24361bc9344258a88.ctex"
+uid="uid://d0cuimtj477y7"
+path="res://.godot/imported/bool_value.svg-1716bcbbde3ad8f08ded95b0ac3dcf2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/mod_manager/src/icons/float_value.svg"
-dest_files=["res://.godot/imported/float_value.svg-f2caa1110e58d5a24361bc9344258a88.ctex"]
+source_file="res://addons/mod_manager/resources/icons/bool_value.svg"
+dest_files=["res://.godot/imported/bool_value.svg-1716bcbbde3ad8f08ded95b0ac3dcf2a.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/src/mod_manager/icon.svg")
+@icon("res://addons/mod_manager/resources/icons/mod_manager.svg")
 extends Node
 ## Controla la carga de mods y packs de recursos.
 

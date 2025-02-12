@@ -70,8 +70,6 @@ func _set_property(key: String, property: Variant) -> void:
 				]
 			)
 			return
-		elif _needs_conversion(v_node):
-			set(key, str_to_var(property))
 		else:
 			set(key, property)
 
@@ -96,8 +94,6 @@ func get_properties() -> Dictionary:
 				]
 			)
 			continue
-		elif _needs_conversion(v_node):
-			properties[key] = var_to_str(v_node)
 		else:
 			properties[key] = v_node
 
@@ -148,14 +144,14 @@ func _get_not_settable_keys() -> PackedStringArray:
 	return keys
 
 
-func _needs_conversion(variant: Variant) -> bool:
-	var type: int = typeof(variant)
-	return (
-		type == TYPE_VECTOR2 or
-		type == TYPE_VECTOR3 or
-		type == TYPE_TRANSFORM2D or
-		type == TYPE_TRANSFORM3D
-	)
+#func _needs_conversion(variant: Variant) -> bool:
+	#var type: int = typeof(variant)
+	#return (
+		#type == TYPE_VECTOR2 or
+		#type == TYPE_VECTOR3 or
+		#type == TYPE_TRANSFORM2D or
+		#type == TYPE_TRANSFORM3D
+	#)
 
 
 func _can_be_saved(variable) -> bool:

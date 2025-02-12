@@ -62,7 +62,7 @@ func start_game() -> void:
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
-		_entities = DictionaryMerger.merge(_entities, mod.entities)
+		_entities = DictionaryMerger.merge(_entities, mod.get_entities())
 
 	_scene_tree.paused = true
 	_thread = Thread.new()
@@ -90,15 +90,13 @@ func load_savegame(savegame_name: String) -> void:
 
 	var ents: Dictionary = {}
 	var ext: String = path_to_savegame.get_extension()
+	var cfg: ConfigFile = ConfigFile.new()
 	if ext == ModManagerProperties.MOD_EXTENSION:
-		var savegame_data: Dictionary = _load_json(path_to_savegame)
-		ents = savegame_data[Mod.KEY_ENTITIES]
+		cfg.load(path_to_savegame)
+		ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
 	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
-		var text: String = EncryptDecrypt.load_encrypted_file(
-			path_to_savegame,
-			_get_encryption_key()
-		)
-		ents = _json_parse(text).get(Mod.KEY_ENTITIES, {})
+		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
+		ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
 	else:
 		push_error(
 			"falló la carga de partida guardada: %s" % path_to_savegame
@@ -135,36 +133,27 @@ func save_game(savegame_name: String) -> void:
 		)
 		return
 
-	var data: Dictionary = {}
-	data[Mod.KEY_GAME_ID] = Mod.get_game_id()
-	data[Mod.KEY_DEPENDENCIES] = _loaded_mod.keys()
-	data[Mod.KEY_ENTITIES] = ents
-	var file: FileAccess
+	var cfg: ConfigFile = ConfigFile.new()
+	var section: String = Mod.KEY_MOD
+	cfg.set_value(section, Mod.KEY_GAME_ID, Mod.get_game_id())
+	cfg.set_value(section, Mod.KEY_DEPENDENCIES, _loaded_mod.keys())
+	cfg.set_value(section, Mod.KEY_ENTITIES, ents)
+
 	var not_encrypted: bool = (
 		ModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
 	)
-	var json_data: String = (
-		JSON.stringify(data, "\t", true) if not_encrypted else JSON.stringify(data)
-	)
 	var file_path: String = get_path_to_savegame(savegame_name)
 	if not_encrypted:
-		file = FileAccess.open(file_path, FileAccess.WRITE)
-		if not is_instance_valid(file):
-			push_error("no se pudo crear fichero %s, " % [
-				file_path,
-				error_string(FileAccess.get_open_error())
+		var state: int = cfg.save(file_path)
+		if state != OK:
+			push_error(
+				"error al guardar la partida %s: %s" % [
+					savegame_name,
+					error_string(state)
 				]
 			)
-			return
-
-		file.store_line(json_data)
-		file.close()
 	else:
-		EncryptDecrypt.save_encrypted_file(
-			json_data,
-			file_path,
-			_get_encryption_key()
-		)
+		cfg.save_encrypted_pass(file_path, _get_encryption_key())
 
 
 ## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
@@ -190,14 +179,16 @@ func check_savegame(savegame_name: String) -> SavegameInfo:
 	var ext: String = path_to_savegame.get_extension()
 	var data: Dictionary = {}
 	if FileAccess.file_exists(path_to_savegame):
+		var cfg: ConfigFile = ConfigFile.new()
 		if ext == ModManagerProperties.MOD_EXTENSION:
-			data = _load_json(path_to_savegame)
+			cfg.load(path_to_savegame)
+			data = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
 		elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
-			var text: String = EncryptDecrypt.load_encrypted_file(
+			cfg.load_encrypted_pass(
 				path_to_savegame,
 				_get_encryption_key()
 			)
-			data = _json_parse(text)
+			data = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
 			save_game.set_data(
 				data,
 				path_to_savegame.get_file().get_basename(),
@@ -207,11 +198,6 @@ func check_savegame(savegame_name: String) -> SavegameInfo:
 			push_error(
 				"partida guardada %s no es un fichero válido" % path_to_savegame
 			)
-	save_game.set_data(
-		data,
-		path_to_savegame.get_file().get_basename(),
-		_loaded_mod.keys()
-	)
 	return save_game
 
 
@@ -263,52 +249,6 @@ func delete_entity_by_id(entity_id: String) -> void:
 ## Regresa [code]true[/code] si la entidad existe.
 func entity_exists(entity_id: String) -> bool:
 	return get_entity(entity_id) != null
-
-
-func _load_json(json_path: String) -> Dictionary:
-	var dict: Dictionary = {}
-	if FileAccess.file_exists(json_path):
-		var file_access: FileAccess = FileAccess.open(
-			json_path,
-			FileAccess.READ
-		)
-		var json_text: String = file_access.get_as_text()
-		file_access.close()
-
-		var json: JSON = JSON.new()
-		var error: int = json.parse(json_text)
-		if error == OK:
-			if typeof(json.data) == TYPE_DICTIONARY:
-				dict = json.data
-		else:
-			print_debug(
-				"%s: %s en linea %s" % [
-					json_path,
-					json.get_error_message(),
-					json.get_error_line()
-				]
-			)
-	else:
-		push_error("%s no existe." % json_path)
-
-	return dict
-
-
-func _json_parse(text: String) -> Dictionary:
-	var dict: Dictionary = {}
-	var json: JSON = JSON.new()
-	var error: int = json.parse(text)
-	if error == OK:
-		if typeof(json.data) == TYPE_DICTIONARY:
-			dict = json.data
-	else:
-		push_error(
-			"%s en linea %s" % [
-				json.get_error_message(),
-				json.get_error_line()
-			]
-		)
-	return dict
 
 
 func _mod_exists(mod_name) -> bool:
@@ -398,16 +338,19 @@ func _emit_could_not_open_load_order_file() -> void:
 func _load_mod_data(mod_names) -> void:
 	for mod_name: String in mod_names:
 		if _mod_exists(mod_name):
-			var json_path: String = "%s.%s" % [
+			var mod_path: String = "%s.%s" % [
 				ModManagerProperties.get_mods_folder_path().path_join(mod_name),
 				ModManagerProperties.MOD_EXTENSION
 				]
-			var data: Dictionary = _load_json(json_path)
-			var mod: Mod = Mod.new(data)
+			var cfg: ConfigFile = ConfigFile.new()
+			var state: int = cfg.load(mod_path)
+			if state != OK:
+				push_error("error al cargar mod %s" % mod_name)
+				continue
+
+			var mod: Mod = Mod.new(cfg)
 			if (
-				data.is_empty() or
-				not data.has(Mod.KEY_GAME_ID) or
-				data[Mod.KEY_GAME_ID] != Mod.get_game_id() or
+				not mod.is_same_game() or
 				not _has_all_dependencies(mod)
 			):
 				_failed_mod[mod_name] = mod
@@ -422,7 +365,7 @@ func _get_encryption_key() -> String:
 
 
 func _has_all_dependencies(mod: Mod) -> bool:
-	for name: String in mod.dependencies:
+	for name: String in mod.get_dependencies():
 		if not name in _loaded_mod.keys():
 			return false
 	return true
@@ -432,7 +375,7 @@ func _load_pcks(mods: Dictionary) -> void:
 	var failed: PackedStringArray = []
 	for name: String in mods:
 		var mod: Mod = mods[name]
-		for pck: String in  mod.pcks:
+		for pck: String in  mod.get_pcks():
 			var path: String = ModManagerProperties.get_mods_folder_path().path_join(pck)
 			if (
 				FileAccess.file_exists(path) and

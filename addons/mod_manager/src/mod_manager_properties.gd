@@ -7,7 +7,7 @@ const MODS_FOLDER_PATH: String = "user://mods"
 ## Ruta a la propiedad que contiene la ruta al directorio de mods
 const MODS_FOLDER_PATH_PROPERTY: String = "mod_manager/mods_folder_path"
 ## Extension de los fichero de los mod.
-const MOD_EXTENSION: String = "json"
+const MOD_EXTENSION: String = "cfg"
 ## Ruta al directorio de las partidas guardadas.
 const SAVEGAME_FOLDER_PATH: String = "user://save"
 const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
@@ -17,7 +17,7 @@ const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 ## Al ser usado las partidas guardadas serán creadas como json.
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
 ## Extensión usada en las partidas guardadas cifradas.
-const ENCRYPTED_EXTENSION: String = "sav"
+const ENCRYPTED_EXTENSION: String = "save"
 
 ## Devuelve la ruta del directorio donde se encuentran los mods.
 static func get_mods_folder_path() -> String:

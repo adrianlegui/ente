@@ -1,13 +1,10 @@
 class_name SavegameInfo extends RefCounted
-## @experimental
-
 
 var _savegame_name: String
 var _same_game: bool = false
 var _missing_mods: PackedStringArray = []
-var _empty: bool = false
+var _empty: bool = true
 var _has_entities: bool = false
-
 
 func set_data(
 	data: Dictionary,

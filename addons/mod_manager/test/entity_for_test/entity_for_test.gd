@@ -12,6 +12,7 @@ var my_string_name: StringName = "my_string_name"
 var my_float: float = 0.0
 var my_packed_string_array: PackedStringArray = []
 var my_array: Array = []
+var my_vector_3: Vector3 = Vector3.RIGHT
 var my_transform_3d: Transform3D = Transform3D.IDENTITY
 
 
@@ -31,7 +32,8 @@ func _get_persistent_properties() -> PackedStringArray:
 			"my_not_data_node",
 			"my_entity_reference",
 			"my_transform_3d",
-			"my_data_list"
+			"my_data_list",
+			"my_vector_3"
 		]
 	)
 	return keys

@@ -4,19 +4,36 @@ const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_DEPENDENCIES: StringName = &"DEPENDENCIES"
 const KEY_PCKS: StringName = &"PCKS"
 const KEY_ENTITIES: StringName = &"ENTITIES"
+const KEY_MOD: String = "MOD"
 
-var game_id: String = ""
-var dependencies: PackedStringArray = []
-var pcks: PackedStringArray = []
-var entities: Dictionary = {}
-var same_game: bool = false
+var _game_id: String = ""
+var _dependencies: PackedStringArray = []
+var _pcks: PackedStringArray = []
+var _entities: Dictionary = {}
+var _same_game: bool = false
 
-func _init(data_mod: Dictionary) -> void:
-	game_id = data_mod.get(KEY_GAME_ID, "")
-	same_game = game_id == get_game_id()
-	pcks = data_mod.get(KEY_PCKS, [])
-	dependencies = data_mod.get(KEY_DEPENDENCIES, [])
-	entities = data_mod.get(KEY_ENTITIES, {})
+func _init(cfg: ConfigFile) -> void:
+	_game_id = cfg.get_value(KEY_MOD, KEY_GAME_ID, "")
+	_same_game = _game_id == get_game_id()
+	_pcks = cfg.get_value(KEY_MOD, KEY_PCKS, [])
+	_dependencies = cfg.get_value(KEY_MOD, KEY_DEPENDENCIES, [])
+	_entities = cfg.get_value(KEY_MOD, KEY_ENTITIES, {})
+
+
+func is_same_game() -> bool:
+	return _same_game
+
+
+func get_dependencies() -> PackedStringArray:
+	return _dependencies
+
+
+func get_pcks() -> PackedStringArray:
+	return _pcks
+
+
+func get_entities() -> Dictionary:
+	return _entities
 
 
 static func get_game_id() -> String:

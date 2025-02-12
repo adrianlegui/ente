@@ -1,3 +1,29 @@
+## v0.9.0 (2025-02-12)
+
+### BREAKING CHANGE
+
+- los mods tienen que ser actualizados para funcionar y las partidas guardadas en formato json dejan de funcionar
+
+### Feat
+
+- **EntityRefence**: agrego método para configurar id utilizando una entidad, set_entity_id_using_entity
+
+### Fix
+
+- **ModManager**: configuraciones son borradas al recargar el proyecto
+- **ModManager**: no se utiliza game_id aunque este configurado
+
+### Refactor
+
+- muevo iconos al directorio icons dentro de resources
+- borro fichero encryt_decrypt.gd ya no es necesario
+- **ModManager**: utliza ConfigFile para las partidas guardadas y mods, antes usaba json
+- **Data**: método _get_persistent_keys pasa a llamarse _get_persistent_properties
+- **ModManager**: quito constantes y metodos que se encuentran en ModManagerProperties
+- **ModManager**: extraigo constantes y métodos, los convierto en clase ModManagerProperties
+- cambio el nombre del singleton MOD_MANAGER a ModManager
+- **ModManager**: extraigo codigo para la fusión de diccionarios y lo convierto en clase DictionaryMerger
+
 ## v0.8.0 (2025-02-05)
 
 ### Feat

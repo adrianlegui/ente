@@ -19,7 +19,7 @@ func get_reference() -> Entity:
 
 
 ## Configura el identificador.
-func set_entity_id_using_entity(entity: Entity) -> void:
+func set_entity(entity: Entity) -> void:
 	if not entity.is_inside_tree():
 		push_error("entidad %s no esta en el arbol de nodos." % entity.name)
 		return

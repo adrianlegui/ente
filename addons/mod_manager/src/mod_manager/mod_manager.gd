@@ -88,21 +88,12 @@ func load_savegame(savegame_name: String) -> void:
 		var mod: Mod = _loaded_mod[mod_name]
 		entities = DictionaryMerger.merge(entities, mod.entities)
 
-	var ents: Dictionary = {}
-	var ext: String = path_to_savegame.get_extension()
-	var cfg: ConfigFile = ConfigFile.new()
-	if ext == ModManagerProperties.MOD_EXTENSION:
-		cfg.load(path_to_savegame)
-		ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
-	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
-		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
-		ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
-	else:
-		push_error(
-			"falló la carga de partida guardada: %s" % path_to_savegame
-		)
-		failed_to_load_savegame.emit()
+	var cfg: ConfigFile = _load_savegame_cfg(path_to_savegame)
+	if cfg == null:
 		return
+
+	var ents: Dictionary = {}
+	ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
 
 	_scene_tree.paused = true
 	savegame_entities = DictionaryMerger.merge(entities, ents)
@@ -113,24 +104,8 @@ func load_savegame(savegame_name: String) -> void:
 ## Salva la información de los nodos que se encuentran en el grupo
 ## [constant EntityData.GROUP_PERSISTENT].
 func save_game(savegame_name: String) -> void:
-	var persistent: Array[Node] = get_tree().get_nodes_in_group(
-		Entity.GROUP_PERSISTENT
-	)
-	var ents: Dictionary = {}
-	for node: Entity in persistent:
-		var node_data: Dictionary = node.get_data()
-		if not node_data.is_empty():
-			ents[node.name] = node_data
-
-	var err_creating_dir: int
-	if not DirAccess.dir_exists_absolute(ModManagerProperties.get_savegame_folder_path()):
-		err_creating_dir = DirAccess.make_dir_recursive_absolute(
-			ModManagerProperties.get_savegame_folder_path()
-		)
-	if err_creating_dir != OK:
-		push_error(
-			"no se pudo crear directorio: %s" % ModManagerProperties.get_savegame_folder_path()
-		)
+	var ents: Dictionary = _get_data_from_entities()
+	if _failed_to_create_save_directory():
 		return
 
 	var cfg: ConfigFile = ConfigFile.new()
@@ -395,3 +370,47 @@ func _load_mods_and_pcks() -> void:
 	_load_mod_data(names)
 	_load_pcks(_loaded_mod)
 	call_deferred("_emit_finished")
+
+
+func _failed_to_create_save_directory() -> bool:
+	var err_creating_dir: int
+	if not DirAccess.dir_exists_absolute(
+		ModManagerProperties.get_savegame_folder_path()
+	):
+		err_creating_dir = DirAccess.make_dir_recursive_absolute(
+			ModManagerProperties.get_savegame_folder_path()
+		)
+	if err_creating_dir != OK:
+		push_error(
+			"no se pudo crear directorio: %s" % ModManagerProperties.get_savegame_folder_path()
+		)
+		return true
+	return false
+
+
+func _get_data_from_entities() -> Dictionary:
+	var persistent: Array[Node] = get_tree().get_nodes_in_group(
+		Entity.GROUP_PERSISTENT
+	)
+	var ents: Dictionary = {}
+	for node: Entity in persistent:
+		var node_data: Dictionary = node.get_data()
+		if not node_data.is_empty():
+			ents[node.name] = node_data
+	return ents
+
+
+func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
+	var cfg: ConfigFile = ConfigFile.new()
+	var ext: String = path_to_savegame.get_extension()
+	if ext == ModManagerProperties.MOD_EXTENSION:
+		cfg.load(path_to_savegame)
+	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
+		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
+	else:
+		push_error(
+			"falló la carga de partida guardada: %s" % path_to_savegame
+		)
+		failed_to_load_savegame.emit()
+		return null
+	return cfg

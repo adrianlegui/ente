@@ -50,11 +50,11 @@ func test_entity_exists() -> void:
 	assert_bool(entity_reference.entity_exists()).is_true()
 
 
-func test_set_entity_id_using_entity() -> void:
+func test_set_entity() -> void:
 	var entity_reference: EntityReference = (
 		auto_free(EntityReference.new()) as EntityReference
 	)
 	var entity: Entity = auto_free(Entity.new())
 	ModManager.add_entity(entity)
-	entity_reference.set_entity_id_using_entity(entity)
+	entity_reference.set_entity(entity)
 	assert_object(entity_reference.get_reference()).is_same(entity)

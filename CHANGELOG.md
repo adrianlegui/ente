@@ -1,3 +1,13 @@
+## v0.10.0 (2025-02-14)
+
+### Feat
+
+- agregué clase OneShot, llama a método _on_first_start al iniciar la partida por primera véz
+
+### Refactor
+
+- **ModManager**: reducí la complejidad de los método save_game y load_savegame
+
 ## v0.9.0 (2025-02-12)
 
 ### BREAKING CHANGE

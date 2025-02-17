@@ -16,7 +16,7 @@
 
 ### Feat
 
-- **EntityRefence**: agrego método para configurar id utilizando una entidad, set_entity_id_using_entity
+- **EntityRefence**: agrego método para configurar id utilizando una entidad
 
 ### Fix
 
@@ -29,7 +29,6 @@
 - borro fichero encryt_decrypt.gd ya no es necesario
 - **ModManager**: utliza ConfigFile para las partidas guardadas y mods, antes usaba json
 - **Data**: método _get_persistent_keys pasa a llamarse _get_persistent_properties
-- **ModManager**: quito constantes y metodos que se encuentran en ModManagerProperties
 - **ModManager**: extraigo constantes y métodos, los convierto en clase ModManagerProperties
 - cambio el nombre del singleton MOD_MANAGER a ModManager
 - **ModManager**: extraigo codigo para la fusión de diccionarios y lo convierto en clase DictionaryMerger
@@ -62,7 +61,7 @@
 
 ## v0.6.0 (2025-01-29)
 
-### Feat
+### Docs
 
 - agrego docstring a las clases
 
@@ -86,12 +85,7 @@
 ### Feat
 
 - **Data**: tipos Vector2, Transform2D y Transform3D pueden ser guardados
-- **BoolValue**: agrego señal default_changed que se emite cuando _default cambia
-- agrego clase BoolValue
-
-### Fix
-
-- **BoolValue**: variable _default no es persistente
+- agrego clase BoolValue, usado para guardar variable bool
 
 ### Refactor
 
@@ -113,8 +107,6 @@
 ### Refactor
 
 - método create_data_node se pasa a llamar create_entity y pasa a estar en entity.gd, antes estaba en data.gd
-- **EntityReference**: agrego variable entity_id como clave persistente
-- **EntityReference**: simplifico la clase usando método de ModManager
 - los nombres de los eventos del juego y nombre de los métodos pasan a la clase GameEvents
 - **Entity**: reemplazo get_node por get_node_or_null en método get_entity
 
@@ -132,7 +124,6 @@
 - **Data**: agrego comprobación de tipos que pueden ser guardados
 - **Data**: _set_data pasa a recibir diccionario data, antes recibia PROPERTIES
 - **Data**: par clave y valor de las variables pasan a diccionario PROPERTIES
-- quito escenas que ya no son necesarias
 
 ## v0.2.0 (2025-01-12)
 
@@ -144,7 +135,6 @@
 ### Fix
 
 - **ScriptCreator**: Parse Error: Cannot find member "KEY_ENTITIES" in base "ModManager"
-- cannot call method 'get_open_error' on a null value
 - **SaveGameInfo**: invalid type in function 'set_data'
 - **Data**: variables del tipo StringName no son configuradas
 - entidades no reciben eventos GAME_EVENT_BEFORE_STARTING y GAME_EVENT_STARTED
@@ -160,36 +150,16 @@
 
 ### Feat
 
+- guarda y carga partidas del juego
 - carga asincrónica de partida guardada
-- agrego escena que crea script con constantes con los nombres de las entidades de un fichero json
 - agrego IntValue, nodo personalizado que contiene valor int
 - agrego FloatValue, nodo personalizado que contiene valor float
 - **EntityData**: agrego método para obtener entidad por su nombre
 - **EntityData**: agrego variable active para controlar si el nodo esta activo
 - **ModManager**: agrego método para fusionar diccionarios de forma recursiva
 - **InfoSavegame**: agrego métodos is_corrupt y is_correct para comprobar la partida guardada
-- guarda y carga partidas del juego
 - agrego escena para ser usada en autoload para cargar los mods de forma automática
 - carga mods en formato json y recursos en ficheros pck
 - agrego señales que indican que mod fue cargado con exito y cual fallo
-- los mod se cargar usando threads
+- los mod se cargar usando thread
 - carga mods indicados en user://mods/load_order.txt
-
-### Fix
-
-- no carga la última linea de load_order.txt
-- **EntityData**: Cannot find member "KEY_SCENE_FILE_PATH" in base "EntityData"
-- **EntityData**: no se llama al setter cuando se configura variable active
-- **ModManager**: acceso inválido a diccionario cuando no contiene GAME_ID
-- no se puede puede usar get_open_error() en null
-
-### Refactor
-
-- **ModManager**: método clean_scene_tree usa método call_group para limpiar el arbol, antes usaba un buqle for
-- **Data**: quito variable active por que no es necesaria ya que existe process_mode
-- **Data**: el parse se pasa a realizar usando los métodos str_to_var y var_to_str
-- **EntityData**: las nombres de las variables persistentes se obtiene con método, ántes se usaba constantes
-- pongo EntityData en una carpeta y el ejemplo de mod en otra, y agrego escena principal simple
-- cambio GAME_NAME por GAME_ID
-- renombro métodos y constantes con nombres mas explicitos
-- reestructuración del proyecto

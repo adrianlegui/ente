@@ -16,7 +16,7 @@ addons/mod_manager/plugin.cfc
 Si está usando [gd-plug](https://github.com/imjp94/gd-plug), agregar los siguiente al fichero plug.gd.
 ```gdscript
 plug(
-	"git@gitlab.com:adrian.luis.leguizamon/mod_manager.git",
+	"adrianlegui/mod_manager",
 	{"exclude": ["addons/mod_manager/test", "addons/mod_manager/schema"], "tag": "TAG_A_INSTALAR"}
 )
 ```
@@ -24,4 +24,3 @@ Reemplazar ```TAG_A_INSTALAR``` con el nombre del tag que se quiere instalar.
 ## License
 
 [MIT](./LICENSE)
-

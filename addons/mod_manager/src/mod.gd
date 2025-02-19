@@ -21,6 +21,22 @@ func _init(cfg: ConfigFile = null) -> void:
 	load_data(cfg)
 
 
+func set_game_id(game_id) -> void:
+	_game_id = game_id
+
+
+func set_pcks(pcks: PackedStringArray) -> void:
+	_pcks = pcks
+
+
+func set_dependencies(dependencies: PackedStringArray) -> void:
+	_dependencies = dependencies
+
+
+func set_entities(entities: Dictionary) -> void:
+	_entities = entities
+
+
 func is_same_game() -> bool:
 	return _same_game
 
@@ -65,19 +81,6 @@ func load_data_from_file(file_path: String) -> void:
 	load_data(cfg)
 
 
-func _load_cfg(file_path: String) -> ConfigFile:
-	var cfg: ConfigFile = ConfigFile.new()
-	var ext: String = file_path.get_extension()
-	if ext == ModManagerProperties.MOD_EXTENSION:
-		cfg.load(file_path)
-	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
-		cfg.load_encrypted_pass(file_path, get_game_id())
-	else:
-		push_error("falló la cargar del fichero: %s" % file_path)
-		return null
-	return cfg
-
-
 func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	var cfg: ConfigFile = ConfigFile.new()
 	var section: String = Mod.KEY_MOD
@@ -100,3 +103,16 @@ func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	else:
 		push_error("error al guardar %s: %s" % [file_path, error_string(state)])
 		return false
+
+
+func _load_cfg(file_path: String) -> ConfigFile:
+	var cfg: ConfigFile = ConfigFile.new()
+	var ext: String = file_path.get_extension()
+	if ext == ModManagerProperties.MOD_EXTENSION:
+		cfg.load(file_path)
+	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
+		cfg.load_encrypted_pass(file_path, get_game_id())
+	else:
+		push_error("falló la cargar del fichero: %s" % file_path)
+		return null
+	return cfg

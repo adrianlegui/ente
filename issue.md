@@ -1,8 +1,7 @@
 ---
-title: agregar herramienta para manejar los ficheros cfg
+title: agregar validación de escena al agregar Data a DataList
 assignees: adrianlegui
 labels: enhancement
 milestone: 0.11
 ---
-Tiene que poder quitar una entidad. Tiene que poder agregar una entidad. Tiene que poder quitar todas las entidades.
-Tiene que poder quitar entidades utilizando prefijos. Tiene que poder agregar entidades que estan en un directorio. Tiene que poder obtener todas las entidades con su información.
+El método add_data tiene que tener parametro only_one con valor predeterminado false; si only_one es true tiene que comprobar si ya existe un nodo Data de la misma escena; si existe, lanzar un error y regresa null, si no existe agregar el nodo Data a la lista y regresar el nodo agregado.

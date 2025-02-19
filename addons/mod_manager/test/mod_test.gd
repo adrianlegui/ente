@@ -1,11 +1,11 @@
 # GdUnit generated TestSuite
 class_name ModTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/mod.gd'
+const __source = "res://addons/mod_manager/src/mod.gd"
 
 
 func test__init() -> void:

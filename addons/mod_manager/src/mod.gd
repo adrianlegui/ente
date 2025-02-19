@@ -41,7 +41,7 @@ static func get_game_id() -> String:
 	return ProjectSettings.get_setting(
 		ModManagerProperties.GAME_ID_PROPERTY_PATH,
 		ProjectSettings.get_setting(ModManagerProperties.GAME_NAME_PROPERTY_PATH)
-		)
+	)
 
 
 func load_data(cfg: ConfigFile) -> void:
@@ -73,9 +73,7 @@ func _load_cfg(file_path: String) -> ConfigFile:
 	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
 		cfg.load_encrypted_pass(file_path, get_game_id())
 	else:
-		push_error(
-			"falló la cargar del fichero: %s" % file_path
-		)
+		push_error("falló la cargar del fichero: %s" % file_path)
 		return null
 	return cfg
 
@@ -100,10 +98,5 @@ func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	if state == OK:
 		return true
 	else:
-		push_error(
-			"error al guardar %s: %s" % [
-				file_path,
-				error_string(state)
-			]
-		)
+		push_error("error al guardar %s: %s" % [file_path, error_string(state)])
 		return false

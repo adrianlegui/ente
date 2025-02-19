@@ -3,6 +3,7 @@ class_name Mod extends RefCounted
 const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_DEPENDENCIES: StringName = &"DEPENDENCIES"
 const KEY_PCKS: StringName = &"PCKS"
+const SECTION_ENTITIES: StringName = &"ENTITIES"
 const KEY_ENTITIES: StringName = &"ENTITIES"
 const KEY_MOD: String = "MOD"
 
@@ -12,12 +13,20 @@ var _pcks: PackedStringArray = []
 var _entities: Dictionary = {}
 var _same_game: bool = false
 
-func _init(cfg: ConfigFile) -> void:
+func _init(cfg: ConfigFile = null) -> void:
+	if cfg == null:
+		return
+
 	_game_id = cfg.get_value(KEY_MOD, KEY_GAME_ID, "")
 	_same_game = _game_id == get_game_id()
 	_pcks = cfg.get_value(KEY_MOD, KEY_PCKS, [])
 	_dependencies = cfg.get_value(KEY_MOD, KEY_DEPENDENCIES, [])
-	_entities = cfg.get_value(KEY_MOD, KEY_ENTITIES, {})
+
+	if not cfg.has_section(SECTION_ENTITIES):
+		return
+
+	for key: String in cfg.get_section_keys(SECTION_ENTITIES):
+		_entities[key] = cfg.get_value(SECTION_ENTITIES, key, {})
 
 
 func is_same_game() -> bool:

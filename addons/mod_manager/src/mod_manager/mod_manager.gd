@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/resources/icons/mod_manager.svg")
+@icon("res://addons/mod_manager/src/resources/icons/mod_manager.svg")
 extends Node
 ## Controla la carga de mods y packs de recursos.
 
@@ -92,8 +92,9 @@ func load_savegame(savegame_name: String) -> void:
 	if cfg == null:
 		return
 
+	var mod: Mod = Mod.new(cfg)
 	var ents: Dictionary = {}
-	ents = cfg.get_value(Mod.KEY_MOD, Mod.KEY_ENTITIES, {})
+	ents = mod.get_entities()
 
 	_scene_tree.paused = true
 	savegame_entities = DictionaryMerger.merge(entities, ents)
@@ -112,7 +113,9 @@ func save_game(savegame_name: String) -> void:
 	var section: String = Mod.KEY_MOD
 	cfg.set_value(section, Mod.KEY_GAME_ID, Mod.get_game_id())
 	cfg.set_value(section, Mod.KEY_DEPENDENCIES, _loaded_mod.keys())
-	cfg.set_value(section, Mod.KEY_ENTITIES, ents)
+
+	for key: String in ents:
+		cfg.set_value(Mod.SECTION_ENTITIES, key, ents[key])
 
 	var not_encrypted: bool = (
 		ModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()

@@ -1,6 +1,7 @@
 class_name DataList extends Data
 ## Lista de nodos [Data].
 
+
 ## Configura los nodos [Data] de la lista.
 func set_data(data: Dictionary) -> void:
 	for id in data:

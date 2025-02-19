@@ -109,29 +109,18 @@ func save_game(savegame_name: String) -> void:
 	if _failed_to_create_save_directory():
 		return
 
-	var cfg: ConfigFile = ConfigFile.new()
-	var section: String = Mod.KEY_MOD
-	cfg.set_value(section, Mod.KEY_GAME_ID, Mod.get_game_id())
-	cfg.set_value(section, Mod.KEY_DEPENDENCIES, _loaded_mod.keys())
-
-	for key: String in ents:
-		cfg.set_value(Mod.SECTION_ENTITIES, key, ents[key])
+	var mod: Mod = Mod.new()
+	mod.set_game_id(Mod.get_game_id())
+	mod.set_dependencies(_loaded_mod.keys())
+	mod.set_entities(ents)
 
 	var not_encrypted: bool = (
 		ModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
 	)
 	var file_path: String = get_path_to_savegame(savegame_name)
-	if not_encrypted:
-		var state: int = cfg.save(file_path)
-		if state != OK:
-			push_error(
-				"error al guardar la partida %s: %s" % [
-					savegame_name,
-					error_string(state)
-				]
-			)
-	else:
-		cfg.save_encrypted_pass(file_path, _get_encryption_key())
+	var fail: bool = not mod.save_data(file_path, not_encrypted)
+	if fail:
+		push_error("no se pudo guardar partida %s" % savegame_name)
 
 
 ## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
@@ -365,7 +354,6 @@ func _load_pcks(mods: Dictionary) -> void:
 				failed.append(pck)
 
 	_failed_pcks = failed
-
 
 
 func _load_mods_and_pcks() -> void:

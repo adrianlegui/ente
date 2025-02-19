@@ -1,6 +1,7 @@
 class_name DataList extends Data
 ## Lista de nodos [Data].
 
+
 ## Configura los nodos [Data] de la lista.
 func set_data(data: Dictionary) -> void:
 	for id in data:
@@ -32,11 +33,28 @@ func get_data_nodes() -> Array[Data]:
 	return array
 
 
-## Agrega un nodo [Data] a la lista.
-func add_data(data: Data) -> void:
+## Agrega [param data] a la lista y luego regresa el mismo nodo. Si [param only_one] es
+## [code]true[/code] se comprobará si ya existe algún nodo con la misma scene_file_path, si existe
+## no se agregará y se regresará el ya nodo existente.
+func add_data(data: Data, only_one: bool = false) -> Data:
 	data.set_unique(false)
 	var force_readable_name: bool = true
+
+	if only_one:
+		if data.scene_file_path.is_empty():
+			push_error("%s no es una escena. No se pudo agregar a %s" % [data.name, name])
+			return null
+
+		for node: Node in get_data_nodes():
+			var path: String = node.scene_file_path
+			if path.is_empty():
+				continue
+			elif path == data.scene_file_path:
+				return node
+
 	add_child(data, force_readable_name)
+
+	return data
 
 
 ## Obtiene un nodo [Data] por su identificador.[br]

@@ -1,11 +1,13 @@
 # GdUnit generated TestSuite
 class_name DataListTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/data/data_list.gd'
+const __source = "res://addons/mod_manager/src/data/data_list.gd"
+const MY_DATA = preload("res://addons/mod_manager/test/entity_for_test/my_data.tscn")
+
 
 func test_get_data_nodes() -> void:
 	var data_list: DataList = auto_free(DataList.new()) as DataList
@@ -17,13 +19,38 @@ func test_get_data_nodes() -> void:
 	assert_array(datas).contains([data_0, data_1])
 
 
-func test_add_data() -> void:
+func test_add_data_only_one_false() -> void:
 	var data_list: DataList = auto_free(DataList.new()) as DataList
 	var data: Data = auto_free(Data.new()) as Data
 	data_list.add_data(data)
 	assert_bool(data.is_unique()).is_false()
 	var result: bool = data_list.has_data(data)
 	assert_bool(result).is_true()
+
+
+func test_add_data_only_one_true_is_not_scene() -> void:
+	var data_list: DataList = auto_free(DataList.new()) as DataList
+	var only_one: bool = true
+	assert_object(data_list.add_data(auto_free(Data.new()), only_one)).is_null()
+
+
+func test_add_data_only_one_true_non_existent_data() -> void:
+	var data_list: DataList = auto_free(DataList.new()) as DataList
+	var data: Data = auto_free(MY_DATA.instantiate()) as Data
+	var only_one: bool = true
+	assert_object(data_list.add_data(data, only_one)).is_same(data)
+	assert_bool(data_list.has_data(data)).is_true()
+
+
+func test_add_data_only_one_true_existing_data() -> void:
+	var data_list: DataList = auto_free(DataList.new()) as DataList
+	var only_one: bool = true
+	var existing_data: Data = data_list.add_data(auto_free(MY_DATA.instantiate()), only_one)
+	var data: Data = auto_free(MY_DATA.instantiate()) as Data
+	var added_data: Data = data_list.add_data(data, only_one)
+	assert_object(added_data).is_not_same(data)
+	assert_object(added_data).is_same(existing_data)
+	assert_bool(data_list.has_data(data)).is_false()
 
 
 func test_get_data_by_name() -> void:

@@ -1,3 +1,19 @@
+## 0.11.0 (2025-02-19)
+
+### BREAKING CHANGE
+
+- Los ficheros cfg de mods tienen que ser convertidos para poder funcionar y las partidas guardadas dejan de funcionar.
+
+### Feat
+
+- **Mod**: agregué métodos para cargar y guardar ficheros cfg
+
+### Refactor
+
+- **ModManager**: reducí la complejidad del método save_game
+- **DataList**: agregué validación al método add_data
+- cambie la forma de organización de los ficheros cfg
+
 ## v0.10.0 (2025-02-14)
 
 ### Feat

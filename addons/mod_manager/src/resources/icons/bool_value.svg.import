@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6ui0vr1kcjel"
-path="res://.godot/imported/mod_manager.svg-b9d318912d800e9f2cf36f4541beca2e.ctex"
+uid="uid://d0cuimtj477y7"
+path="res://.godot/imported/bool_value.svg-7225a2b5c0c2b2c6d37f765cf2d105da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/mod_manager/resources/icons/mod_manager.svg"
-dest_files=["res://.godot/imported/mod_manager.svg-b9d318912d800e9f2cf36f4541beca2e.ctex"]
+source_file="res://addons/mod_manager/src/resources/icons/bool_value.svg"
+dest_files=["res://.godot/imported/bool_value.svg-7225a2b5c0c2b2c6d37f765cf2d105da.ctex"]
 
 [params]
 

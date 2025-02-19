@@ -1,4 +1,4 @@
-@icon("res://addons/mod_manager/resources/icons/bool_value.svg")
+@icon("res://addons/mod_manager/src/resources/icons/bool_value.svg")
 class_name BoolValue extends Data
 ## Configura y administra variable [code]bool[/code],
 

@@ -14,7 +14,7 @@ config/name="mod_manager"
 config/tags=PackedStringArray("plugin_development")
 run/main_scene="res://addons/mod_manager/src/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://addons/mod_manager/resources/icons/mod_manager.svg"
+config/icon="res://addons/mod_manager/src/resources/icons/mod_manager.svg"
 
 [autoload]
 

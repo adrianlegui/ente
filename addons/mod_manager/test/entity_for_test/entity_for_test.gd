@@ -40,16 +40,16 @@ func _get_persistent_properties() -> PackedStringArray:
 
 
 func _on_game_event_all_entities_added() -> void:
-	print(name +": " + "todas las entidades agregadas")
+	print(name + ": " + "todas las entidades agregadas")
 
 
 func _on_game_event_before_starting() -> void:
-	print(name +": " + "antes de iniciar")
+	print(name + ": " + "antes de iniciar")
 
 
 ## Se llama cuando el juego es iniciado.
 func _on_game_event_started() -> void:
-	print(name +": " + "iniciando")
+	print(name + ": " + "iniciando")
 	if name == "EntityForTest":
 		print("guardando partida")
 		ModManager.save_game("partida_guardada")

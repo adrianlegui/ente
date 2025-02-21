@@ -8,6 +8,7 @@ const KEY_PROPERTIES: StringName = &"PROPERTIES"
 
 var _unique: bool = true
 
+
 func _ready() -> void:
 	_add_groups()
 
@@ -54,31 +55,27 @@ func _add_extra_groups(groups: PackedStringArray) -> void:
 
 # configura una propiedad.
 func _set_property(key: String, property: Variant) -> void:
-		if key in _get_not_settable_keys():
-			return
-		var v_node = get(key)
-		if v_node == null and typeof(property) == TYPE_DICTIONARY:
-			_set_null_node_variable(key, property)
-		elif typeof(v_node) == TYPE_OBJECT:
-			_set_object_node_variable(key, property)
-		elif not _can_be_saved(v_node):
-			push_warning(
-				"%s.%s es de tipo %s y no puede ser cargado" % [
-					name,
-					key,
-					type_string(typeof(v_node))
-				]
-			)
-			return
-		else:
-			set(key, property)
+	if key in _get_not_settable_keys():
+		return
+	var v_node = get(key)
+	if v_node == null and typeof(property) == TYPE_DICTIONARY:
+		_set_null_node_variable(key, property)
+	elif typeof(v_node) == TYPE_OBJECT:
+		_set_object_node_variable(key, property)
+	elif not _can_be_saved(v_node):
+		push_warning(
+			"%s.%s es de tipo %s y no puede ser cargado" % [name, key, type_string(typeof(v_node))]
+		)
+		return
+	else:
+		set(key, property)
 
 
 ## Obtiene las propiedades persitentes del nodo.
 func get_properties() -> Dictionary:
 	var properties: Dictionary = {}
 	for key in _get_persistent_properties():
-		var v_node = get(key) # variable del nodo
+		var v_node = get(key)  # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
 			var data: Data = v_node as Data
 			if is_instance_valid(data):
@@ -87,11 +84,10 @@ func get_properties() -> Dictionary:
 				push_warning("variable %s.%s no es de clase Data" % [name, key])
 		elif not _can_be_saved(v_node):
 			push_warning(
-				"%s.%s es de tipo %s y no puede ser guardado" % [
-					name,
-					key,
-					type_string(typeof(v_node))
-				]
+				(
+					"%s.%s es de tipo %s y no puede ser guardado"
+					% [name, key, type_string(typeof(v_node))]
+				)
 			)
 			continue
 		else:
@@ -131,9 +127,7 @@ func _get_persistent_properties() -> PackedStringArray:
 
 ## Sobreescribir para agregar propiedades persistentes.
 ## [color=yellow]Método virtual.[/color]
-func _add_extra_persistent_properties(
-	persistent_properties: PackedStringArray
-) -> void:
+func _add_extra_persistent_properties(persistent_properties: PackedStringArray) -> void:
 	pass
 
 
@@ -144,29 +138,19 @@ func _get_not_settable_keys() -> PackedStringArray:
 	return keys
 
 
-#func _needs_conversion(variant: Variant) -> bool:
-	#var type: int = typeof(variant)
-	#return (
-		#type == TYPE_VECTOR2 or
-		#type == TYPE_VECTOR3 or
-		#type == TYPE_TRANSFORM2D or
-		#type == TYPE_TRANSFORM3D
-	#)
-
-
 func _can_be_saved(variable) -> bool:
 	var type: int = typeof(variable)
 	return (
-		type == TYPE_BOOL or
-		type == TYPE_INT or
-		type == TYPE_FLOAT or
-		type == TYPE_STRING or
-		type == TYPE_STRING_NAME or
-		type == TYPE_VECTOR2 or
-		type == TYPE_VECTOR3 or
-		type == TYPE_PACKED_STRING_ARRAY or
-		type == TYPE_TRANSFORM2D or
-		type == TYPE_TRANSFORM3D
+		type == TYPE_BOOL
+		or type == TYPE_INT
+		or type == TYPE_FLOAT
+		or type == TYPE_STRING
+		or type == TYPE_STRING_NAME
+		or type == TYPE_VECTOR2
+		or type == TYPE_VECTOR3
+		or type == TYPE_PACKED_STRING_ARRAY
+		or type == TYPE_TRANSFORM2D
+		or type == TYPE_TRANSFORM3D
 	)
 
 

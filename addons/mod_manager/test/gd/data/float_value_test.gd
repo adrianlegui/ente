@@ -1,12 +1,13 @@
 # GdUnit generated TestSuite
 class_name FloatValueTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/gd/data/float_value.gd'
+const __source = "res://addons/mod_manager/src/gd/data/float_value.gd"
 const APPROX: float = 0.0001
+
 
 func test_get_current_value() -> void:
 	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
@@ -20,9 +21,9 @@ func test_get_current_value() -> void:
 
 func test__get_persistent_properties() -> void:
 	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
-	assert_array(
-		float_value._get_persistent_properties()
-	).contains_same(["_base", "_mod", "_base_persistent","_mod_persistent"])
+	assert_array(float_value._get_persistent_properties()).contains_same(
+		["_base", "_mod", "_base_persistent", "_mod_persistent"]
+	)
 	float_value.set_base_persistent(false)
 	assert_array(float_value._get_persistent_properties()).not_contains(["_base"])
 	float_value.set_mod_persistent(false)
@@ -51,7 +52,7 @@ func test_set_mod_value() -> void:
 
 func test_add_base_value() -> void:
 	var float_value: FloatValue = auto_free(FloatValue.new()) as FloatValue
-	var base:float = 9.0
+	var base: float = 9.0
 	float_value.add_base_value(base)
 	float_value.add_base_value(base)
 	assert_float(float_value.get_base_value()).is_equal_approx(base * 2, APPROX)

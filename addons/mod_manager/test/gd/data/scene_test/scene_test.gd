@@ -1,20 +1,19 @@
 # GdUnit generated TestSuite
 class_name SceneTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/gd/data/scene/scene.gd'
+const __source = "res://addons/mod_manager/src/gd/data/scene/scene.gd"
 const SCENE = preload("res://addons/mod_manager/src/gd/data/scene/scene.tscn")
 const ENTITY_FOR_TEST = preload(
 	"res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"
 )
-const SCENE_PATH: String = (
-	"res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"
-)
+const SCENE_PATH: String = "res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"
 
 var _entity: Entity
+
 
 func before() -> void:
 	_entity = auto_free(ENTITY_FOR_TEST.instantiate()) as Entity
@@ -83,9 +82,9 @@ func test_get_scene() -> void:
 
 func test__get_persistent_properties() -> void:
 	var scene = auto_free(SCENE.instantiate()) as Scene
-	assert_array(
-		scene._get_persistent_properties()
-	).contains(["_unloaded", "_scene_path_persistent"])
+	assert_array(scene._get_persistent_properties()).contains(
+		["_unloaded", "_scene_path_persistent"]
+	)
 	scene.set_scene_path_persistent(false)
 	assert_array(scene._get_persistent_properties()).not_contains(["_scene_path"])
 	scene.set_scene_path_persistent(true)

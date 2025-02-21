@@ -4,6 +4,7 @@ class_name Entity extends Data
 ## Nombre del grupo de nodos persistentes.
 const GROUP_PERSISTENT: StringName = &"PERSISTENT"
 
+
 ## Obtiene una entidad
 func get_entity(entity_name: String) -> Entity:
 	var entity: Entity = null
@@ -13,9 +14,7 @@ func get_entity(entity_name: String) -> Entity:
 		else:
 			push_error("entity_name esta vacio")
 	else:
-		push_error(
-			"llamando get_entity en %s que no esta en SceneTree, retorno null" % name
-		)
+		push_error("llamando get_entity en %s que no esta en SceneTree, retorno null" % name)
 	return entity
 
 
@@ -51,12 +50,7 @@ func _on_game_event_before_saving() -> void:
 
 func _get_groups() -> PackedStringArray:
 	var groups: PackedStringArray = super._get_groups()
-	groups.append_array(
-		[
-			GROUP_PERSISTENT,
-			GameEvents.GROUP
-		]
-	)
+	groups.append_array([GROUP_PERSISTENT, GameEvents.GROUP])
 	return groups
 
 

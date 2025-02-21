@@ -1,6 +1,7 @@
 class_name DictionaryMerger extends RefCounted
 ## Fusiona [Dictionary].
 
+
 ## Fusiona [param dictionary_b] con [param dictionary_a].
 static func merge(dict_a: Dictionary, dict_b: Dictionary) -> Dictionary:
 	for key in dict_b:

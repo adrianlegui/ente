@@ -1,13 +1,14 @@
 # GdUnit generated TestSuite
 class_name EntityReferenceTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/gd/data/entity_reference.gd'
+const __source = "res://addons/mod_manager/src/gd/data/entity_reference.gd"
 var entity_reference: EntityReference
 var ent: Entity
+
 
 func before_test() -> void:
 	entity_reference = auto_free(EntityReference.new()) as EntityReference
@@ -34,13 +35,11 @@ func test_set_entity_id() -> void:
 
 
 func test__get_persistent_properties() -> void:
-	assert_array(
-		entity_reference._get_persistent_properties()
-	).contains(["_entity_id", "_persistent_entity_id"])
+	assert_array(entity_reference._get_persistent_properties()).contains(
+		["_entity_id", "_persistent_entity_id"]
+	)
 	entity_reference.set_persistent_entity_id(false)
-	assert_array(
-		entity_reference._get_persistent_properties()
-	).not_contains(["_entity_id"])
+	assert_array(entity_reference._get_persistent_properties()).not_contains(["_entity_id"])
 
 
 func test_entity_exists() -> void:
@@ -51,9 +50,7 @@ func test_entity_exists() -> void:
 
 
 func test_set_entity() -> void:
-	var entity_reference: EntityReference = (
-		auto_free(EntityReference.new()) as EntityReference
-	)
+	var entity_reference: EntityReference = auto_free(EntityReference.new()) as EntityReference
 	var entity: Entity = auto_free(Entity.new())
 	ModManager.add_entity(entity)
 	entity_reference.set_entity(entity)

@@ -1,11 +1,11 @@
 # GdUnit generated TestSuite
 class_name IntValueTest
 extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
+@warning_ignore("unused_parameter")
+@warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/gd/data/int_value.gd'
+const __source = "res://addons/mod_manager/src/gd/data/int_value.gd"
 
 
 func test_set_base_value() -> void:

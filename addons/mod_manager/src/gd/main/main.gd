@@ -3,9 +3,7 @@ extends Node
 
 func _ready() -> void:
 	ModManager.finished.connect(_on_finished)
-	ModManager.could_not_open_load_order_file.connect(
-		_on_could_not_open_load_order_file
-	)
+	ModManager.could_not_open_load_order_file.connect(_on_could_not_open_load_order_file)
 	ModManager.start()
 
 

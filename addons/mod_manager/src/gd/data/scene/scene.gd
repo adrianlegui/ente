@@ -12,6 +12,7 @@ class_name Scene extends Entity
 # Referencia a la escena, usada para mantenerla cargada.
 var _pck: PackedScene
 
+
 func _ready() -> void:
 	super._ready()
 	_load_scene()
@@ -81,13 +82,8 @@ func get_scene() -> Node:
 
 
 func _get_persistent_properties() -> PackedStringArray:
-	var keys: = super._get_persistent_properties()
-	keys.append_array(
-		[
-			"_unloaded",
-			"_scene_path_persistent"
-		]
-	)
+	var keys := super._get_persistent_properties()
+	keys.append_array(["_unloaded", "_scene_path_persistent"])
 	if is_scene_path_persistent():
 		keys.append("_scene_path")
 	return keys

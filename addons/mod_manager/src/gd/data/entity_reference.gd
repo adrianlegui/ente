@@ -5,6 +5,7 @@ class_name EntityReference extends Data
 @export var _entity_id: StringName = &""
 @export var _persistent_entity_id: bool = true
 
+
 func is_persistent_entity_id() -> bool:
 	return _persistent_entity_id
 

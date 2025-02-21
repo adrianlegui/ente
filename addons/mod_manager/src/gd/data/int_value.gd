@@ -12,6 +12,7 @@ class_name IntValue extends Data
 ## Modificador del valor.
 var _mod: int = 0
 
+
 ## Regresa [code]true[/code] si el modificador del valor es persistente.
 func is_base_persistent() -> bool:
 	return _base_persistent
@@ -69,12 +70,7 @@ func get_current_value() -> int:
 
 func _get_persistent_properties() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_properties()
-	keys.append_array(
-		[
-			"_base_persistent",
-			"_mod_persistent"
-		]
-	)
+	keys.append_array(["_base_persistent", "_mod_persistent"])
 	if is_base_persistent():
 		keys.append("_base")
 	if is_mod_persistent():

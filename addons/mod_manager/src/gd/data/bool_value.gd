@@ -15,6 +15,7 @@ signal bloker_removed(blocker: Data)
 # Arreglo de bloqueadores.
 var _blockers: PackedStringArray = []
 
+
 ## Configura valor default.
 func set_default(value: bool, force: bool = false) -> void:
 	if _default == value:
@@ -33,6 +34,7 @@ func set_default(value: bool, force: bool = false) -> void:
 ## Obtine valor default.
 func get_default() -> bool:
 	return _default
+
 
 ## Regresa [code]true[/code] si [BoolValue] es [code]true[/code].
 func is_true() -> bool:
@@ -69,10 +71,5 @@ func has_blocker(blocker: Data) -> bool:
 
 func _get_persistent_properties() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_properties()
-	keys.append_array(
-		[
-			"_blockers",
-			"_default"
-		]
-	)
+	keys.append_array(["_blockers", "_default"])
 	return keys

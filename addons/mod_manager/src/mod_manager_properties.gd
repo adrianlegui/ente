@@ -11,8 +11,10 @@ const MOD_EXTENSION: String = "cfg"
 ## Ruta al directorio de las partidas guardadas.
 const SAVEGAME_FOLDER_PATH: String = "user://save"
 const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
-## Ruta a la propiedad con el nombre del juego
+## Ruta a la propiedad con el nombre del juego.
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
+## Ruta a la propiedad con la versión del juego.
+const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
 ## Parametro usado para Debug.
 ## Al ser usado las partidas guardadas serán creadas como json.
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
@@ -55,3 +57,10 @@ static func get_game_id() -> String:
 	if game_id.is_empty():
 		push_error("%s está vacio." % GAME_ID_PROPERTY_PATH)
 	return game_id
+
+
+static func get_version() -> String:
+	var version: String = ProjectSettings.get_setting(GAME_VERSION_PROPERTY_PATH, "")
+	if version.is_empty():
+		push_error("%s está vacio." % GAME_VERSION_PROPERTY_PATH)
+	return version

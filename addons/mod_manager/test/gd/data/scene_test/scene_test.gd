@@ -5,8 +5,8 @@ extends GdUnitTestSuite
 @warning_ignore('return_value_discarded')
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/data/scene/scene.gd'
-const SCENE = preload("res://addons/mod_manager/src/data/scene/scene.tscn")
+const __source = 'res://addons/mod_manager/src/gd/data/scene/scene.gd'
+const SCENE = preload("res://addons/mod_manager/src/gd/data/scene/scene.tscn")
 const ENTITY_FOR_TEST = preload(
 	"res://addons/mod_manager/test/entity_for_test/entity_for_test.tscn"
 )

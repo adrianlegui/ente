@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore('return_value_discarded')
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/data/float_value.gd'
+const __source = 'res://addons/mod_manager/src/gd/data/float_value.gd'
 const APPROX: float = 0.0001
 
 func test_get_current_value() -> void:

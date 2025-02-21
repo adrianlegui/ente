@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ds851gk14fytt"]
 
-[ext_resource type="Script" path="res://addons/mod_manager/src/mod_manager/mod_manager.gd" id="1_nb5kl"]
+[ext_resource type="Script" path="res://addons/mod_manager/src/gd/mod_manager/mod_manager.gd" id="1_nb5kl"]
 
 [node name="ModManager" type="Node" groups=["NOT_DELETE"]]
 script = ExtResource("1_nb5kl")

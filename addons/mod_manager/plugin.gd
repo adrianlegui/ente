@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const MOD_MANAGER_PATH = (
-	"res://addons/mod_manager/src/mod_manager/mod_manager.tscn"
+	"res://addons/mod_manager/src/gd/mod_manager/mod_manager.tscn"
 )
 const SINGLETON_NAME: String = "ModManager"
 

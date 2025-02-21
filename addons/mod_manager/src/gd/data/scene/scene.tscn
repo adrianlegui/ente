@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4dttkgjkmgar"]
 
-[ext_resource type="Script" path="res://addons/mod_manager/src/data/scene/scene.gd" id="1_f1j7r"]
-[ext_resource type="Script" path="res://addons/mod_manager/src/data/bool_value.gd" id="2_cn8cv"]
+[ext_resource type="Script" path="res://addons/mod_manager/src/gd/data/scene/scene.gd" id="1_f1j7r"]
+[ext_resource type="Script" path="res://addons/mod_manager/src/gd/data/bool_value.gd" id="2_cn8cv"]
 
 [node name="Scene" type="Node" node_paths=PackedStringArray("_unloaded")]
 script = ExtResource("1_f1j7r")

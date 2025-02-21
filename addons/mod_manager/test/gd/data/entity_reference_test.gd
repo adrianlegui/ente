@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore('return_value_discarded')
 
 # TestSuite generated from
-const __source = 'res://addons/mod_manager/src/data/entity_reference.gd'
+const __source = 'res://addons/mod_manager/src/gd/data/entity_reference.gd'
 var entity_reference: EntityReference
 var ent: Entity
 

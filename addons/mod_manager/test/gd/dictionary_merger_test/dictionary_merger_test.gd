@@ -6,7 +6,7 @@ extends GdUnitTestSuite
 
 # TestSuite generated from
 const __source = (
-	'res://addons/mod_manager/src/dictionary_merger/dictionary_merger.gd'
+	'res://addons/mod_manager/src/gd/dictionary_merger/dictionary_merger.gd'
 )
 
 func test_merge() -> void:

@@ -12,13 +12,13 @@ config_version=5
 
 config/name="mod_manager"
 config/tags=PackedStringArray("plugin_development")
-run/main_scene="res://addons/mod_manager/src/main/main.tscn"
+run/main_scene="res://addons/mod_manager/src/gd/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://addons/mod_manager/src/resources/icons/mod_manager.svg"
 
 [autoload]
 
-ModManager="*res://addons/mod_manager/src/mod_manager/mod_manager.tscn"
+ModManager="*res://addons/mod_manager/src/gd/mod_manager/mod_manager.tscn"
 
 [editor]
 
@@ -30,7 +30,7 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_m
 
 [mod_manager]
 
-mods_folder_path="res://addons/mod_manager/test/mods/"
+mods_folder_path="res://addons/mod_manager/test/mods"
 game_id="game_id"
 
 [rendering]

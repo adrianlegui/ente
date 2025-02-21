@@ -21,6 +21,7 @@ var _thread: Thread
 
 @onready var _scene_tree: SceneTree = get_tree()
 
+
 func _exit_tree() -> void:
 	if is_instance_valid(_thread) and not _thread.is_alive():
 		_thread.wait_to_finish()
@@ -92,8 +93,7 @@ func load_savegame(savegame_name: String) -> void:
 		var mod: Mod = _loaded_mod[mod_name]
 		entities = DictionaryMerger.merge(entities, mod.entities)
 	var savegame_entities: Dictionary = DictionaryMerger.merge(
-		entities,
-		savegame_info.get_entities()
+		entities, savegame_info.get_entities()
 	)
 	_scene_tree.paused = true
 	_thread = Thread.new()
@@ -115,8 +115,7 @@ func save_game(savegame_name: String) -> void:
 
 	var file_path: String = get_path_to_savegame(savegame_name)
 	var fail: bool = not mod.save_data(
-		file_path,
-		ModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
+		file_path, ModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
 	)
 	if fail:
 		push_error("no se pudo guardar partida %s" % savegame_name)
@@ -125,15 +124,12 @@ func save_game(savegame_name: String) -> void:
 ## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
 ## [constant EntityData.GROUP_PERSISTENT] serán borrados.
 func clean_scene_tree() -> void:
-	_scene_tree.call_group(
-		GameEvents.GROUP,
-		GameEvents.GAME_EVENT_CLEAN_SCENE_TREE
-	)
+	_scene_tree.call_group(GameEvents.GROUP, GameEvents.GAME_EVENT_CLEAN_SCENE_TREE)
 
 
 ## Borra partida guardada.
 func delete_savegame(savegame_name: String) -> void:
-	var file_path: String =  get_path_to_savegame(savegame_name)
+	var file_path: String = get_path_to_savegame(savegame_name)
 	if FileAccess.file_exists(file_path):
 		OS.move_to_trash(ProjectSettings.globalize_path(file_path))
 
@@ -154,10 +150,10 @@ func get_path_to_savegame(savegame_name: String) -> String:
 		extension = ModManagerProperties.MOD_EXTENSION
 	else:
 		extension = ModManagerProperties.ENCRYPTED_EXTENSION
-	return "%s.%s" % [
-		ModManagerProperties.get_savegame_folder_path().path_join(savegame_name),
-		extension
-	]
+	return (
+		"%s.%s"
+		% [ModManagerProperties.get_savegame_folder_path().path_join(savegame_name), extension]
+	)
 
 
 ## Agrega entidad al SceneTree.
@@ -197,10 +193,13 @@ func entity_exists(entity_id: String) -> bool:
 
 
 func _mod_exists(mod_name) -> bool:
-	var path: String = "%s.%s" % [
-		ModManagerProperties.get_mods_folder_path().path_join(mod_name),
-		ModManagerProperties.MOD_EXTENSION
-	]
+	var path: String = (
+		"%s.%s"
+		% [
+			ModManagerProperties.get_mods_folder_path().path_join(mod_name),
+			ModManagerProperties.MOD_EXTENSION
+		]
+	)
 	return FileAccess.file_exists(path)
 
 
@@ -220,23 +219,17 @@ func _start_game(_entities: Dictionary) -> void:
 	await Engine.get_main_loop().process_frame
 
 	_scene_tree.call_group_flags(
-		SceneTree.GROUP_CALL_DEFERRED,
-		GameEvents.GROUP,
-		GameEvents.GAME_EVENT_ALL_ENTITIES_ADDED
+		SceneTree.GROUP_CALL_DEFERRED, GameEvents.GROUP, GameEvents.GAME_EVENT_ALL_ENTITIES_ADDED
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
-		SceneTree.GROUP_CALL_DEFERRED,
-		GameEvents.GROUP,
-		GameEvents.GAME_EVENT_BEFORE_STARTING
+		SceneTree.GROUP_CALL_DEFERRED, GameEvents.GROUP, GameEvents.GAME_EVENT_BEFORE_STARTING
 	)
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
-		SceneTree.GROUP_CALL_DEFERRED,
-		GameEvents.GROUP,
-		GameEvents.GAME_EVENT_STARTED
+		SceneTree.GROUP_CALL_DEFERRED, GameEvents.GROUP, GameEvents.GAME_EVENT_STARTED
 	)
 
 	started_game.emit()
@@ -246,10 +239,7 @@ func _start_game(_entities: Dictionary) -> void:
 func _get_mod_names() -> PackedStringArray:
 	var names: PackedStringArray = []
 	var file_path: String = ModManagerProperties.get_load_order_file_path()
-	var file = FileAccess.open(
-		file_path,
-		FileAccess.READ
-	)
+	var file = FileAccess.open(file_path, FileAccess.READ)
 	if is_instance_valid(file):
 		while not file.eof_reached():
 			var line: String = file.get_line()
@@ -267,12 +257,7 @@ func _get_mod_names() -> PackedStringArray:
 	else:
 		call_deferred("_emit_could_not_open_load_order_file")
 		var error: int = FileAccess.get_open_error()
-		push_error(
-			"no se pudo abrir fichero %s. error: %s" % [
-				file_path,
-				error_string(error)
-			]
-		)
+		push_error("no se pudo abrir fichero %s. error: %s" % [file_path, error_string(error)])
 	return names
 
 
@@ -283,10 +268,13 @@ func _emit_could_not_open_load_order_file() -> void:
 func _load_mod_data(mod_names) -> void:
 	for mod_name: String in mod_names:
 		if _mod_exists(mod_name):
-			var mod_path: String = "%s.%s" % [
-				ModManagerProperties.get_mods_folder_path().path_join(mod_name),
-				ModManagerProperties.MOD_EXTENSION
+			var mod_path: String = (
+				"%s.%s"
+				% [
+					ModManagerProperties.get_mods_folder_path().path_join(mod_name),
+					ModManagerProperties.MOD_EXTENSION
 				]
+			)
 			var cfg: ConfigFile = ConfigFile.new()
 			var state: int = cfg.load(mod_path)
 			if state != OK:
@@ -294,10 +282,7 @@ func _load_mod_data(mod_names) -> void:
 				continue
 
 			var mod: Mod = Mod.new(cfg)
-			if (
-				not mod.is_same_game() or
-				not _has_all_dependencies(mod)
-			):
+			if not mod.is_same_game() or not _has_all_dependencies(mod):
 				_failed_mod[mod_name] = mod
 			else:
 				_loaded_mod[mod_name] = mod
@@ -320,12 +305,9 @@ func _load_pcks(mods: Dictionary) -> void:
 	var failed: PackedStringArray = []
 	for name: String in mods:
 		var mod: Mod = mods[name]
-		for pck: String in  mod.get_pcks():
+		for pck: String in mod.get_pcks():
 			var path: String = ModManagerProperties.get_mods_folder_path().path_join(pck)
-			if (
-				FileAccess.file_exists(path) and
-				ProjectSettings.load_resource_pack(path)
-			):
+			if FileAccess.file_exists(path) and ProjectSettings.load_resource_pack(path):
 				continue
 			else:
 				push_error("no se pudo cargar pack de recursos %s" % path)
@@ -343,9 +325,7 @@ func _load_mods_and_pcks() -> void:
 
 func _failed_to_create_save_directory() -> bool:
 	var err_creating_dir: int
-	if not DirAccess.dir_exists_absolute(
-		ModManagerProperties.get_savegame_folder_path()
-	):
+	if not DirAccess.dir_exists_absolute(ModManagerProperties.get_savegame_folder_path()):
 		err_creating_dir = DirAccess.make_dir_recursive_absolute(
 			ModManagerProperties.get_savegame_folder_path()
 		)
@@ -358,9 +338,7 @@ func _failed_to_create_save_directory() -> bool:
 
 
 func _get_data_from_entities() -> Dictionary:
-	var persistent: Array[Node] = get_tree().get_nodes_in_group(
-		Entity.GROUP_PERSISTENT
-	)
+	var persistent: Array[Node] = get_tree().get_nodes_in_group(Entity.GROUP_PERSISTENT)
 	var ents: Dictionary = {}
 	for node: Entity in persistent:
 		var node_data: Dictionary = node.get_data()
@@ -377,9 +355,7 @@ func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
 	elif ext == ModManagerProperties.ENCRYPTED_EXTENSION:
 		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
 	else:
-		push_error(
-			"falló la carga de partida guardada: %s" % path_to_savegame
-		)
+		push_error("falló la carga de partida guardada: %s" % path_to_savegame)
 		failed_to_load_savegame.emit()
 		return null
 	return cfg

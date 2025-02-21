@@ -36,10 +36,7 @@ func get_version() -> String:
 ## tiene entidades y no tiene dependencias faltantes.
 func is_correct() -> bool:
 	return (
-		is_same_game() and
-		is_same_version() and
-		not is_corrupt() and
-		not has_missing_dependencies()
+		is_same_game() and is_same_version() and not is_corrupt() and not has_missing_dependencies()
 	)
 
 

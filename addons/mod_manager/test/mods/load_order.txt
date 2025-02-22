@@ -1,1 +1,2 @@
-game.cfg
+# Mods
+non_existent_mod.cfg

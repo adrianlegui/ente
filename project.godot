@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="mod_manager"
+config/version="0.0.1"
 config/tags=PackedStringArray("plugin_development")
 run/main_scene="res://addons/mod_manager/src/gd/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
@@ -30,8 +31,10 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_m
 
 [mod_manager]
 
-mods_folder_path="res://addons/mod_manager/test/mods"
-game_id="game_id"
+config/multi_mode/mods_folder_path="res://addons/mod_manager/test/mods"
+config/game_id="game_id"
+config/sigle_mode/active=false
+config/main_mod="res://addons/mod_manager/test/mods/game.cfg"
 
 [rendering]
 

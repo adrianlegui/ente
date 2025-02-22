@@ -238,6 +238,7 @@ func _start_game(_entities: Dictionary) -> void:
 
 func _get_mod_names() -> PackedStringArray:
 	var names: PackedStringArray = []
+
 	var file_path: String = ModManagerProperties.get_load_order_file_path()
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if is_instance_valid(file):
@@ -265,7 +266,25 @@ func _emit_could_not_open_load_order_file() -> void:
 	could_not_open_load_order_file.emit()
 
 
+func _load_main_mod() -> void:
+	var main_mod: String = ModManagerProperties.get_main_mod()
+	if main_mod.is_empty():
+		push_warning("main_mod está vacío.")
+	else:
+		var mod: Mod = Mod.new()
+		mod.load_data_from_file(main_mod)
+		if not mod.is_same_game() or not _has_all_dependencies(mod):
+			_failed_mod[main_mod] = mod
+		else:
+			_loaded_mod[main_mod] = mod
+
+
 func _load_mod_data(mod_names) -> void:
+	_load_main_mod()
+
+	if ModManagerProperties.is_single_mode_active():
+		return
+
 	for mod_name: String in mod_names:
 		if _mod_exists(mod_name):
 			var mod_path: String = (

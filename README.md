@@ -46,4 +46,4 @@ Reemplazar ```TAG_A_INSTALAR``` con el nombre del tag que se quiere instalar.
 
 ## License
 
-Mod Manager se proporciona bajo la licencia [MIT](./LICENSE).
+Mod Manager se proporciona bajo la licencia [MIT](./addons/mod_manager/LICENSE).

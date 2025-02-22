@@ -1,16 +1,17 @@
 class_name ModManagerProperties extends Node
+## Contiene las constantes y métodos para obtener propiedades de ModManager
 
 ## Nombre del fichero que contiene el orden de carga de los mods.
 const LOAD_ORDER_FILE: String = "load_order.txt"
 ## Ruta al directorio donde se encuentran los mods.
 const MODS_FOLDER_PATH: String = "user://mods"
 ## Ruta a la propiedad que contiene la ruta al directorio de mods
-const MODS_FOLDER_PATH_PROPERTY: String = "mod_manager/mods_folder_path"
+const MODS_FOLDER_PATH_PROPERTY: String = "mod_manager/config/multi_mode/mods_folder_path"
 ## Extension de los fichero de los mod.
 const MOD_EXTENSION: String = "cfg"
 ## Ruta al directorio de las partidas guardadas.
 const SAVEGAME_FOLDER_PATH: String = "user://save"
-const GAME_ID_PROPERTY_PATH: String = "mod_manager/game_id"
+const GAME_ID_PROPERTY_PATH: String = "mod_manager/config/game_id"
 ## Ruta a la propiedad con el nombre del juego.
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 ## Ruta a la propiedad con la versión del juego.
@@ -20,6 +21,19 @@ const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
 ## Extensión usada en las partidas guardadas cifradas.
 const ENCRYPTED_EXTENSION: String = "save"
+## Ruta a la propiedad que configura el modo único.
+const SINGLE_MODE_PROPERTY_PATH: String = "mod_manager/config/sigle_mode/active"
+## Ruta a la propiedad que configura la ruta al mod usado en el modo único.
+const SINGLE_MOD_PROPERTY_PATH: String = "mod_manager/config/sigle_mode/unique_mod"
+
+
+static func get_unique_mod() -> String:
+	return ProjectSettings.get_setting(SINGLE_MOD_PROPERTY_PATH, "")
+
+
+static func is_unique_mode_active() -> bool:
+	var single_mode: bool = false
+	return ProjectSettings.get_setting(SINGLE_MODE_PROPERTY_PATH, single_mode)
 
 
 ## Devuelve la ruta del directorio donde se encuentran los mods.

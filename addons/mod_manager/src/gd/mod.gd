@@ -12,7 +12,6 @@ var _game_id: String = ""
 var _dependencies: PackedStringArray = []
 var _pcks: PackedStringArray = []
 var _entities: Dictionary = {}
-var _same_game: bool = false
 var _version: String = ""
 
 
@@ -134,7 +133,7 @@ func load_data_from_file(file_path: String) -> void:
 	if cfg == null:
 		push_error("no se pudo cargar la información desde fichero %s" % file_path)
 		return
-	set_name(file_path.get_file().replace(file_path.get_extension(), ""))
+	set_name(file_path.get_file().replace(".%s" % file_path.get_extension(), ""))
 	load_data(cfg)
 
 

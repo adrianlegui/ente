@@ -24,14 +24,14 @@ const ENCRYPTED_EXTENSION: String = "save"
 ## Ruta a la propiedad que configura el modo único.
 const SINGLE_MODE_PROPERTY_PATH: String = "mod_manager/config/sigle_mode/active"
 ## Ruta a la propiedad que configura la ruta al mod usado en el modo único.
-const SINGLE_MOD_PROPERTY_PATH: String = "mod_manager/config/sigle_mode/unique_mod"
+const MAIN_MOD_PROPERTY_PATH: String = "mod_manager/config/main_mod"
 
 
-static func get_unique_mod() -> String:
-	return ProjectSettings.get_setting(SINGLE_MOD_PROPERTY_PATH, "")
+static func get_main_mod() -> String:
+	return ProjectSettings.get_setting(MAIN_MOD_PROPERTY_PATH, "")
 
 
-static func is_unique_mode_active() -> bool:
+static func is_single_mode_active() -> bool:
 	var single_mode: bool = false
 	return ProjectSettings.get_setting(SINGLE_MODE_PROPERTY_PATH, single_mode)
 

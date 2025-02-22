@@ -7,7 +7,7 @@ const SINGLETON_NAME: String = "ModManager"
 var mod_folder_path_property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
 var game_id_property_path: String = ModManagerProperties.GAME_ID_PROPERTY_PATH
 var single_mode_path: String = ModManagerProperties.SINGLE_MODE_PROPERTY_PATH
-var single_mod_path: String = ModManagerProperties.SINGLE_MOD_PROPERTY_PATH
+var main_mod_path: String = ModManagerProperties.MAIN_MOD_PROPERTY_PATH
 
 
 func _enable_plugin() -> void:
@@ -39,9 +39,9 @@ func add_unique_mode_property() -> void:
 
 
 func add_unique_mod_property() -> void:
-	ProjectSettings.set(single_mod_path, "")
+	ProjectSettings.set(main_mod_path, "")
 
-	var property_info = {"name": single_mod_path, "type": TYPE_STRING}
+	var property_info = {"name": main_mod_path, "type": TYPE_STRING}
 	ProjectSettings.add_property_info(property_info)
 
 
@@ -62,7 +62,7 @@ func remove_properties() -> void:
 	ProjectSettings.set(mod_folder_path_property_path, null)
 	ProjectSettings.set(game_id_property_path, null)
 	ProjectSettings.set(single_mode_path, null)
-	ProjectSettings.set(single_mod_path, null)
+	ProjectSettings.set(main_mod_path, null)
 
 
 func clean() -> void:

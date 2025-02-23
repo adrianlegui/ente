@@ -1,3 +1,23 @@
+## 0.12.0 (2025-02-23)
+
+### BREAKING CHANGE
+
+- Cambio de nombre del proyecto. Borrar completamente el complemento antes de instalar la nueva versión.
+
+### Feat
+
+- **ModManager**: agregué single_mode; cuando está activo, ModManager solo carga main_mod
+- agrego comprobación de versión en los mods y partidas guardadas
+
+### Refactor
+
+- **ModManager**: extrajé código repetido y lo convertí en método _thread_wait_to_finish
+- renombré el proyecto de Mod Manager a Ente
+- renombré variables path a property_path
+- agregué configuración para single_mode
+- moví scripts y escenas a directorio addons/mod_manager/src/gd
+- **DataList**: renombré métodos que agregan, borran o obtienen nodos Data
+
 ## 0.11.0 (2025-02-19)
 
 ### BREAKING CHANGE

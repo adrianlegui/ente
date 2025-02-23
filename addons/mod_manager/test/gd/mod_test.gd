@@ -48,11 +48,11 @@ func test_load_data() -> void:
 	var mod: Mod = Mod.new()
 	var cfg: ConfigFile = mock(ConfigFile) as ConfigFile
 	var game_id: String = "game_id"
-	do_return(game_id).on(cfg).get_value(Mod.KEY_MOD, Mod.KEY_GAME_ID, "")
+	do_return(game_id).on(cfg).get_value(Mod.SECTION_MOD, Mod.KEY_GAME_ID, "")
 	var pcks: PackedStringArray = []
-	do_return(pcks).on(cfg).get_value(Mod.KEY_MOD, Mod.KEY_PCKS, mod._pcks)
+	do_return(pcks).on(cfg).get_value(Mod.SECTION_MOD, Mod.KEY_PCKS, mod._pcks)
 	var dependencies: PackedStringArray = []
-	do_return(dependencies).on(cfg).get_value(Mod.KEY_MOD, Mod.KEY_DEPENDENCIES, mod._dependencies)
+	do_return(dependencies).on(cfg).get_value(Mod.SECTION_MOD, Mod.KEY_DEPENDENCIES, mod._dependencies)
 	do_return(false).on(cfg).has_section(Mod.SECTION_ENTITIES)
 	mod.load_data(cfg)
 	assert_str(mod.get_game_id()).is_equal(game_id)

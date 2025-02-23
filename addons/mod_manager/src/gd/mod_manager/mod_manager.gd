@@ -238,6 +238,8 @@ func _start_game(_entities: Dictionary) -> void:
 
 func _get_mod_names() -> PackedStringArray:
 	var names: PackedStringArray = []
+	if ModManagerProperties.is_single_mode_active():
+		return names
 
 	var file_path: String = ModManagerProperties.get_load_order_file_path()
 	var file = FileAccess.open(file_path, FileAccess.READ)

@@ -3,6 +3,8 @@ class_name ModManagerProperties extends Node
 
 ## Nombre del fichero que contiene el orden de carga de los mods.
 const LOAD_ORDER_FILE: String = "load_order.txt"
+## Ruta predeterminada a mod principal.
+const MAIN_MOD_DEFAULT_PATH: String = "res://main_mod/game.cfg"
 ## Ruta al directorio donde se encuentran los mods.
 const MODS_FOLDER_PATH: String = "user://mods"
 ## Ruta a la propiedad que contiene la ruta al directorio de mods
@@ -22,7 +24,7 @@ const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
 ## Extensión usada en las partidas guardadas cifradas.
 const ENCRYPTED_EXTENSION: String = "save"
 ## Ruta a la propiedad que configura el modo único.
-const SINGLE_MODE_PROPERTY_PATH: String = "mod_manager/config/sigle_mode/active"
+const SINGLE_MODE_PROPERTY_PATH: String = "mod_manager/config/single_mode/active"
 ## Ruta a la propiedad que configura la ruta al mod usado en el modo único.
 const MAIN_MOD_PROPERTY_PATH: String = "mod_manager/config/main_mod"
 

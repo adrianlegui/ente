@@ -23,9 +23,7 @@ var _thread: Thread
 
 
 func _exit_tree() -> void:
-	if is_instance_valid(_thread) and not _thread.is_alive():
-		_thread.wait_to_finish()
-		_thread = null
+	_thread_wait_to_finish()
 
 
 ## Regresa [code]true[/code] si hubo fallos en la carga de pack de recursos.
@@ -61,16 +59,13 @@ func _emit_finished() -> void:
 
 ## Inicia el juego. Emite [signal started_game] al finalizar.
 func start_game() -> void:
-	while _thread.is_alive():
-		await Engine.get_main_loop().process_frame
-	_thread.wait_to_finish()
-
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
 		_entities = DictionaryMerger.merge(_entities, mod.get_entities())
 
 	_scene_tree.paused = true
+	_thread_wait_to_finish()
 	_thread = Thread.new()
 	_thread.start(_start_game.bind(_entities))
 
@@ -84,10 +79,6 @@ func load_savegame(savegame_name: String) -> void:
 		failed_to_load_savegame.emit()
 		return
 
-	while _thread.is_alive():
-		await Engine.get_main_loop().process_frame
-	_thread.wait_to_finish()
-
 	var entities: Dictionary = {}
 	for mod_name in _loaded_mod:
 		var mod: Mod = _loaded_mod[mod_name]
@@ -95,7 +86,9 @@ func load_savegame(savegame_name: String) -> void:
 	var savegame_entities: Dictionary = DictionaryMerger.merge(
 		entities, savegame_info.get_entities()
 	)
+
 	_scene_tree.paused = true
+	_thread_wait_to_finish()
 	_thread = Thread.new()
 	_thread.start(_start_game.bind(savegame_entities))
 
@@ -380,3 +373,11 @@ func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
 		failed_to_load_savegame.emit()
 		return null
 	return cfg
+
+
+func _thread_wait_to_finish() -> void:
+	if _thread != null and _thread.is_started():
+		while _thread.is_alive():
+			await Engine.get_main_loop().process_frame
+		_thread.wait_to_finish()
+		_thread = null

@@ -31,10 +31,10 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_m
 
 [mod_manager]
 
+config/main_mod="res://main_mod/game.cfg"
+config/single_mode/active=true
 config/multi_mode/mods_folder_path="res://addons/mod_manager/test/mods"
 config/game_id="game_id"
-config/sigle_mode/active=false
-config/main_mod="res://addons/mod_manager/test/mods/game.cfg"
 
 [rendering]
 

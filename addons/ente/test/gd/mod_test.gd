@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = "res://addons/mod_manager/src/gd/mod.gd"
+const __source = "res://addons/ente/src/gd/mod.gd"
 
 
 func test__init() -> void:

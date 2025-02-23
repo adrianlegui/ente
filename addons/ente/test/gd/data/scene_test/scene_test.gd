@@ -73,10 +73,10 @@ func test_set_preloaded() -> void:
 	assert_bool(scene.is_preloaded()).is_true()
 
 
-func test_get_scene() -> void:
+func test_get_scene_instance() -> void:
 	var scene = auto_free(SCENE.instantiate()) as Scene
 	scene.set_scene_path(SCENE_PATH)
-	var node: Node = auto_free(scene.get_scene() as Node)
+	var node: Node = auto_free(scene.get_scene_instance() as Node)
 	assert_str(node.scene_file_path).is_equal(SCENE_PATH)
 
 
@@ -96,3 +96,17 @@ func test_has_unload_blocker() -> void:
 	assert_bool(scene.has_unload_blocker(_entity)).is_false()
 	scene.add_unload_blocker(_entity)
 	assert_bool(scene.has_unload_blocker(_entity)).is_true()
+
+
+func test__load_scene() -> void:
+	var scene = auto_free(SCENE.instantiate()) as Scene
+
+	scene._pck = null
+	scene.set_scene_path(SCENE_PATH)
+	scene.set_preloaded(true)
+	scene._load_scene()
+	assert_object(scene._pck).is_not_null()
+
+	scene.set_preloaded(false)
+	scene._load_scene()
+	assert_object(scene._pck).is_null()

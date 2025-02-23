@@ -66,9 +66,9 @@ func set_preloaded(preloaded: bool) -> void:
 
 
 ## Regresa una instancia de la escena.
-func get_scene() -> Node:
+func get_scene_instance() -> Node:
 	if get_scene_path().is_empty():
-		push_error("_scene_path está vacio, regresando null")
+		push_error("%s: _scene_path está vacio, regresando null" % name)
 		return null
 
 	var scene: Node = null

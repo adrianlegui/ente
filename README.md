@@ -1,4 +1,4 @@
-# Mod Manager
+# Ente
 
 Complemento para [Godot Engine 4](https://godotengine.org/).
 
@@ -7,7 +7,7 @@ Complemento para [Godot Engine 4](https://godotengine.org/).
 - Carga escenas inciales de la partida
 - Carga Mods del juego
 - Mods basados en escenas
-- Mods en formato [ConfigFile](./addons/mod_manager/schema/mod.cfg)
+- Mods en formato [ConfigFile](./addons/ente/schema/mod.cfg)
 - Carga [paquetes de recursos](https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html#overview-of-pck-files)
 - Guarda y carga partida
 - Las partidas están cifradas
@@ -26,4 +26,4 @@ Complemento para [Godot Engine 4](https://godotengine.org/).
 
 ## License
 
-Mod Manager se proporciona bajo la licencia [MIT](./addons/mod_manager/LICENSE).
+Ente se proporciona bajo la licencia [MIT](./addons/ente/LICENSE).

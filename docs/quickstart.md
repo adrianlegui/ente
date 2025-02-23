@@ -1,9 +1,9 @@
-# Quickstart guide for Mod Manager
+# Quickstart guide for Ente
 
-Guía para utilizar [Mod Manager](https://github.com/adrianlegui/mod_manager).
+Guía para utilizar [Ente](https://github.com/adrianlegui/ente).
 
 ## 1. Getting Started
-Mod Manager es un complemento para **Godot Engine 4** que permite agregar escenas al _SceneTree_ al iniciar el juego, persistir la información de las mismas y cargar mods que modifiquen las escenas del juego.
+Ente es un complemento para **Godot Engine 4** que permite agregar escenas al _SceneTree_ al iniciar el juego, persistir la información de las mismas y cargar mods que modifiquen las escenas del juego.
 
 ## 2. Installation
 
@@ -11,22 +11,22 @@ Mod Manager es un complemento para **Godot Engine 4** que permite agregar escena
 
 Solo es necesario copiar lo siguiente:
 ```
-addons/mod_manager/plugin.cfc
-addons/mod_manager/src
+addons/ente/plugin.cfc
+addons/ente/src
 ```
 Si está usando [gd-plug](https://github.com/imjp94/gd-plug), agregar los siguiente al fichero plug.gd.
 ```gdscript
 plug(
-	"adrianlegui/mod_manager",
-	{"exclude": ["addons/mod_manager/test", "addons/mod_manager/schema", "addons/mod_manager/docs"], "tag": "TAG_A_INSTALAR"}
+	"adrianlegui/ente",
+	{"exclude": ["addons/ente/test", "addons/ente/schema", "addons/ente/docs"], "tag": "TAG_A_INSTALAR"}
 )
 ```
 Reemplazar ```TAG_A_INSTALAR``` con el nombre del tag que se quiere instalar.
 
-Luego, activar **Mod Manager**.
+Luego, activar **Ente**.
 
 ## 3. Configuration
-Activar advance settings para poder configurar __Mod Manager__.
+Activar advance settings para poder configurar __Ente__.
 
 ![Configuration](./img/configuration.png)
 
@@ -98,7 +98,7 @@ MyEntity1={"scene_file_path" : "res://main_mod/my_entity.tscn"}
 ```
 
 ### 4.5 Start game
-Ejemplo de como inicializar **Mod Manager** e iniciar una partida.
+Ejemplo de como inicializar **Ente** e iniciar una partida.
 
 ``` gdscript
 extends Node

@@ -44,5 +44,4 @@ addons/*
 *.blend[0-9]*
 .venv/*
 .plugged/*
-!addons/mod_manager
 !addons/ente

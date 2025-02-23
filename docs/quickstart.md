@@ -112,13 +112,13 @@ func _ready() -> void:
 
 ## 5. How to save game
 Ejemplo de como guardar una partida.
-```
+``` gdscript
 ModManager.save_game("savegame_name")
 ```
 
 ## 6 How to load savegame
 Ejemplo de como cargar una partida.
-```
+``` gdscript
 ModManager.clean_scene_tree()
 ModManager.load_savegame("savegame_name")
 ```

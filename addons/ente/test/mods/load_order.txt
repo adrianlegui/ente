@@ -1,0 +1,3 @@
+# Mods
+test.cfg
+non_existent_mod.cfg

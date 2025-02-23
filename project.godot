@@ -13,13 +13,13 @@ config_version=5
 config/name="mod_manager"
 config/version="0.0.1"
 config/tags=PackedStringArray("plugin_development")
-run/main_scene="res://addons/mod_manager/src/gd/main/main.tscn"
+run/main_scene="res://addons/ente/src/gd/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://addons/mod_manager/src/resources/icons/mod_manager.svg"
+config/icon="res://addons/ente/src/resources/icons/mod_manager.svg"
 
 [autoload]
 
-ModManager="*res://addons/mod_manager/src/gd/mod_manager/mod_manager.tscn"
+ModManager="*res://addons/ente/src/gd/mod_manager/mod_manager.tscn"
 
 [editor]
 
@@ -27,14 +27,14 @@ run/main_run_args="++ --not-encrypted-savedgame"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/mod_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/ente/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
 
-[mod_manager]
+[ente]
 
-config/main_mod="res://main_mod/game.cfg"
-config/single_mode/active=true
-config/multi_mode/mods_folder_path="res://addons/mod_manager/test/mods"
+config/multi_mode/mods_folder_path="res://addons/ente/test/mods/"
 config/game_id="game_id"
+config/single_mode/active=false
+config/main_mod="res://main_mod/game.cfg"
 
 [rendering]
 

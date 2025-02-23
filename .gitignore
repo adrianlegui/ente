@@ -45,3 +45,4 @@ addons/*
 .venv/*
 .plugged/*
 !addons/mod_manager
+!addons/ente

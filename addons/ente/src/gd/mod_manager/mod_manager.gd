@@ -376,8 +376,9 @@ func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
 
 
 func _thread_wait_to_finish() -> void:
-	if _thread != null and _thread.is_started():
-		while _thread.is_alive():
-			await Engine.get_main_loop().process_frame
-		_thread.wait_to_finish()
+	if _thread != null:
+		if _thread.is_started():
+			while _thread.is_alive():
+				await Engine.get_main_loop().process_frame
+			_thread.wait_to_finish()
 		_thread = null

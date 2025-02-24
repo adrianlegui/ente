@@ -18,7 +18,7 @@ Si está usando [gd-plug](https://github.com/imjp94/gd-plug), agregar los siguie
 ```gdscript
 plug(
 	"adrianlegui/ente",
-	{"exclude": ["addons/ente/test", "addons/ente/schema", "addons/ente/docs"], "tag": "TAG_A_INSTALAR"}
+	{"exclude": ["addons/ente/test", "addons/ente/schema"], "tag": "TAG_A_INSTALAR"}
 )
 ```
 Reemplazar ```TAG_A_INSTALAR``` con el nombre del tag que se quiere instalar.
@@ -32,9 +32,11 @@ Activar advance settings para poder configurar __Ente__.
 
 **Main Mod**: ruta al mod principal del juego.
 
-**Game ID**: identificador usado para comprobar mod y partidas guardads.
+**Game ID**: identificador usado para comprobar mod y partidas guardada usuarios.
 
-**Single Mode**: si está activo, solo se cargará **Main Mod**; en caso contrario se cargará **Main Mod** y todos los mods indicados en __load_order.txt__
+**Single Mode**: si está activo, solo se cargará **Main Mod**; en caso contrario se cargará **Main Mod** y todos los mods indicados en _load_order.txt_.
+
+**Multi Mode / Mods Folder Path**: directorio en que se encuentra *load_order.txt*, contiene los mods a cargar y el orden de carga de los mismos; mods y ficheros *pck* también se encuentra en el mismo directorio.
 
 ## 4. How to use
 Crear directorio __main_mod__ en ```res://```.
@@ -104,10 +106,10 @@ Ejemplo de como inicializar **Ente** e iniciar una partida.
 extends Node
 
 func _ready() -> void:
-	ModManager.start()
-	await  ModManager.finished
-	ModManager.start_game()
-	queue_free()
+	ModManager.start() # Carga los mods y pck en otro hilo
+	await  ModManager.finished # Esperar a que termine la carga
+	ModManager.start_game() # Agrega todos las entidades(nodos) indicados en los mods
+	queue_free() # Quita este nodo del árbol de nodos y lo borra
 ```
 
 ## 5. How to save game
@@ -119,6 +121,6 @@ ModManager.save_game("savegame_name")
 ## 6 How to load savegame
 Ejemplo de como cargar una partida.
 ``` gdscript
-ModManager.clean_scene_tree()
+ModManager.clean_scene_tree() # Quita todos los nodos persistentes del árbol de nodos
 ModManager.load_savegame("savegame_name")
 ```

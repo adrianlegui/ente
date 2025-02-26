@@ -112,15 +112,18 @@ func _ready() -> void:
 	queue_free() # Quita este nodo del árbol de nodos y lo borra
 ```
 
-## 5. How to save game
+## 4.6 How to save game
 Ejemplo de como guardar una partida.
 ``` gdscript
 ModManager.save_game("savegame_name")
 ```
 
-## 6 How to load savegame
+## 4.7 How to load savegame
 Ejemplo de como cargar una partida.
 ``` gdscript
 ModManager.clean_scene_tree() # Quita todos los nodos persistentes del árbol de nodos
 ModManager.load_savegame("savegame_name")
 ```
+
+### 4.8 Export
+Al exportar el proyecto incluir directorio **res://main_mod**.

@@ -180,3 +180,15 @@ static func get_game_id() -> String:
 		ModManagerProperties.GAME_ID_PROPERTY_PATH,
 		ProjectSettings.get_setting(ModManagerProperties.GAME_NAME_PROPERTY_PATH)
 	)
+
+
+static func create_mod_from_current_game(
+	dependencies: PackedStringArray,
+	entities: Dictionary
+) -> Mod:
+	var mod: Mod = Mod.new()
+	mod.set_game_id(Mod.get_game_id())
+	mod.set_dependencies(dependencies)
+	mod.set_entities(entities)
+	mod.set_version(ModManagerProperties.get_version())
+	return mod

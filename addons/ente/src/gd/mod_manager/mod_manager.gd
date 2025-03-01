@@ -100,11 +100,7 @@ func save_game(savegame_name: String) -> void:
 	if _failed_to_create_save_directory():
 		return
 
-	var mod: Mod = Mod.new()
-	mod.set_game_id(Mod.get_game_id())
-	mod.set_dependencies(_loaded_mod.keys())
-	mod.set_entities(ents)
-	mod.set_version(ModManagerProperties.get_version())
+	var mod: Mod = Mod.create_mod_from_current_game(_loaded_mod.keys(), ents)
 
 	var file_path: String = get_path_to_savegame(savegame_name)
 	var fail: bool = not mod.save_data(
@@ -115,7 +111,7 @@ func save_game(savegame_name: String) -> void:
 
 
 ## Limpia el árbol de nodos. Todos los nodos que pertenescan al grupo
-## [constant EntityData.GROUP_PERSISTENT] serán borrados.
+## [constant GameEvents.GROUP] serán borrados.
 func clean_scene_tree() -> void:
 	_scene_tree.call_group(GameEvents.GROUP, GameEvents.GAME_EVENT_CLEAN_SCENE_TREE)
 

@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="mod_manager"
+config/name="ente"
 config/version="0.0.1"
 config/tags=PackedStringArray("plugin_development")
 run/main_scene="res://addons/ente/src/gd/main/main.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://addons/ente/src/resources/icons/mod_manager.svg"
 
 [autoload]

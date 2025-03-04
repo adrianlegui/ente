@@ -1,3 +1,14 @@
+## 0.13.0 (2025-03-04)
+
+### BREAKING CHANGE
+
+- Se necesita Godot 4.4+ para que el complemento funcione
+
+### Refactor
+
+- convertí variables Dictionary a Typed Dictionary
+- **ModManager**: reduje la complejidad del método save_game
+
 ## 0.12.0 (2025-02-23)
 
 ### BREAKING CHANGE

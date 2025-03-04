@@ -11,7 +11,7 @@ var _name: String = ""
 var _game_id: String = ""
 var _dependencies: PackedStringArray = []
 var _pcks: PackedStringArray = []
-var _entities: Dictionary = {}
+var _entities: Dictionary[String, Dictionary] = {}
 var _version: String = ""
 
 
@@ -95,7 +95,7 @@ func set_dependencies(dependencies: PackedStringArray) -> void:
 	_dependencies = dependencies
 
 
-func set_entities(entities: Dictionary) -> void:
+func set_entities(entities: Dictionary[String, Dictionary]) -> void:
 	_entities = entities
 
 
@@ -184,7 +184,7 @@ static func get_game_id() -> String:
 
 static func create_mod_from_current_game(
 	dependencies: PackedStringArray,
-	entities: Dictionary
+	entities: Dictionary[String, Dictionary]
 ) -> Mod:
 	var mod: Mod = Mod.new()
 	mod.set_game_id(Mod.get_game_id())

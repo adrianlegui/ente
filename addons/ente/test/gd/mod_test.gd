@@ -33,7 +33,7 @@ func test_get_pcks() -> void:
 
 func test_get_entities() -> void:
 	var mod: Mod = Mod.new()
-	var entities: Dictionary = {}
+	var entities: Dictionary[String, Dictionary] = {}
 	mod._entities = entities
 	assert_object(mod.get_entities()).is_same(entities)
 

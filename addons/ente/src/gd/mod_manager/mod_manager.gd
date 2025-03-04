@@ -347,9 +347,9 @@ func _failed_to_create_save_directory() -> bool:
 	return false
 
 
-func _get_data_from_entities() -> Dictionary:
+func _get_data_from_entities() -> Dictionary[String, Dictionary]:
 	var persistent: Array[Node] = get_tree().get_nodes_in_group(Entity.GROUP_PERSISTENT)
-	var ents: Dictionary = {}
+	var ents: Dictionary[String, Dictionary] = {}
 	for node: Entity in persistent:
 		var node_data: Dictionary = node.get_data()
 		if not node_data.is_empty():

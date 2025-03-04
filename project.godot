@@ -31,7 +31,7 @@ enabled=PackedStringArray("res://addons/ente/plugin.cfg", "res://addons/gdUnit4/
 
 [ente]
 
-config/multi_mode/mods_folder_path="res://addons/ente/test/mods/"
+config/multi_mode/mods_folder_path="res://addons/ente/test/mods"
 config/game_id="game_id"
 config/single_mode/active=false
 config/main_mod="res://main_mod/game.cfg"

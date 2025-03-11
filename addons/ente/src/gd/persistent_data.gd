@@ -1,21 +1,21 @@
-class_name Entity extends Data
+class_name PersistentData extends Data
 ## Clase base para los nodos que reciben la información de los mods.
 
 ## Nombre del grupo de nodos persistentes.
-const GROUP_PERSISTENT: StringName = &"PERSISTENT"
+const GROUP_PERSISTENT: StringName = &"PERSISTENT_DATA"
 
 
 ## Obtiene una entidad
-func get_entity(entity_name: String) -> Entity:
-	var entity: Entity = null
+func get_entity(entity_name: String) -> PersistentData:
+	var persistent_data: PersistentData = null
 	if is_inside_tree():
 		if not entity_name.is_empty():
-			entity = get_node_or_null("/root/" + entity_name)
+			persistent_data = get_node_or_null("/root/" + entity_name)
 		else:
 			push_error("entity_name esta vacio")
 	else:
 		push_error("llamando get_entity en %s que no esta en SceneTree, retorno null" % name)
-	return entity
+	return persistent_data
 
 
 ## Se llama cuando el juego es iniciado.[br]
@@ -55,5 +55,5 @@ func _get_groups() -> PackedStringArray:
 
 
 ## Regresa una [Entity] con los datos de [param data].
-static func create_entity(data: Dictionary) -> Entity:
+static func create_persistent_data(data: Dictionary) -> PersistentData:
 	return Data.create_data_node(data)

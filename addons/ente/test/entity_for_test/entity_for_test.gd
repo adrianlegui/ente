@@ -1,9 +1,9 @@
-extends Entity
+extends PersistentData
 
 @export var my_data: Data
 @export var my_data_null: Data
 @export var my_not_data_node: Node
-@export var my_entity_reference: EntityReference
+@export var my_entity_reference: PersistentDataReference
 @export var my_data_list: DataList
 var my_bool: bool = false
 var my_int: int = 0

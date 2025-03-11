@@ -1,11 +1,11 @@
 class_name Mod extends RefCounted
 
 const SECTION_MOD: StringName = &"MOD"
+const SECTION_PERSISTENT_DATA: StringName = PersistentData.GROUP_PERSISTENT
 const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_DEPENDENCIES: StringName = &"DEPENDENCIES"
 const KEY_PCKS: StringName = &"PCKS"
 const KEY_VERSION: StringName = &"VERSION"
-const SECTION_ENTITIES: StringName = &"ENTITIES"
 
 var _name: String = ""
 var _game_id: String = ""
@@ -120,12 +120,12 @@ func load_data(cfg: ConfigFile) -> void:
 	_pcks = cfg.get_value(SECTION_MOD, KEY_PCKS, _pcks)
 	_dependencies = cfg.get_value(SECTION_MOD, KEY_DEPENDENCIES, _dependencies)
 	_version = cfg.get_value(SECTION_MOD, KEY_VERSION, _version)
-
-	if not cfg.has_section(SECTION_ENTITIES):
+	var section: String = SECTION_PERSISTENT_DATA
+	if not cfg.has_section(section):
 		return
 
-	for key: String in cfg.get_section_keys(SECTION_ENTITIES):
-		_entities[key] = cfg.get_value(SECTION_ENTITIES, key, {})
+	for key: String in cfg.get_section_keys(section):
+		_entities[key] = cfg.get_value(section, key, {})
 
 
 func load_data_from_file(file_path: String) -> void:
@@ -139,7 +139,7 @@ func load_data_from_file(file_path: String) -> void:
 
 func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	var cfg: ConfigFile = ConfigFile.new()
-	var section: String = Mod.SECTION_MOD
+	var section: String = SECTION_PERSISTENT_DATA
 	cfg.set_value(section, Mod.KEY_GAME_ID, Mod.get_game_id())
 	cfg.set_value(section, Mod.KEY_PCKS, get_pcks())
 	cfg.set_value(section, Mod.KEY_DEPENDENCIES, get_dependencies())
@@ -147,7 +147,7 @@ func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 
 	var ents: Dictionary = get_entities()
 	for key: String in ents:
-		cfg.set_value(Mod.SECTION_ENTITIES, key, ents[key])
+		cfg.set_value(SECTION_PERSISTENT_DATA, key, ents[key])
 
 	var state: int
 	if not_encrypted:

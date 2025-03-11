@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const MOD_MANAGER_PATH = "res://addons/ente/src/gd/mod_manager/mod_manager.tscn"
+const MOD_MANAGER_PATH = "res://addons/ente/src/gd/mod_manager.tscn"
 const SINGLETON_NAME: String = "ModManager"
 
 var mod_folder_path_property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY

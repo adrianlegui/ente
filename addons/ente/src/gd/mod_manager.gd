@@ -146,39 +146,39 @@ func get_path_to_savegame(savegame_name: String) -> String:
 
 
 ## Agrega entidad al SceneTree.
-func add_entity(entity: Entity) -> void:
+func add_persistent_data(persistent_data: PersistentData) -> void:
 	var force_readable_name: bool = true
-	entity.set_unique(false)
-	_scene_tree.root.add_child(entity, force_readable_name)
+	persistent_data.set_unique(false)
+	_scene_tree.root.add_child(persistent_data, force_readable_name)
 
 
 ## Obtiene una entidad.
-func get_entity(entity_id: String) -> Entity:
-	var entity: Entity = null
-	if not entity_id.is_empty():
-		entity = get_node_or_null("/root/" + entity_id)
+func get_persistent_data(persistent_data_id: String) -> PersistentData:
+	var persistent_data: PersistentData = null
+	if not persistent_data_id.is_empty():
+		persistent_data = get_node_or_null("/root/" + persistent_data_id)
 	else:
-		push_error("entity_id esta vacio, regresando null")
-	return entity
+		push_error("persistent_data_id esta vacio, regresando null")
+	return persistent_data
 
 
 ## Borra entidad.
-func delete_entity_by_id(entity_id: String) -> void:
-	if entity_id.is_empty():
-		push_error("entity_id esta vacio")
+func delete_persistent_data_by_id(persistent_data_id: String) -> void:
+	if persistent_data_id.is_empty():
+		push_error("persistent_data_id esta vacio")
 		return
 
-	var entity: Entity = get_entity(entity_id)
-	if not is_instance_valid(entity):
-		push_error("entity %s no existe" % entity_id)
+	var persistent_data: PersistentData = get_persistent_data(persistent_data_id)
+	if not is_instance_valid(persistent_data):
+		push_error("entity %s no existe" % persistent_data_id)
 		return
 
-	entity.delete()
+	persistent_data.delete()
 
 
 ## Regresa [code]true[/code] si la entidad existe.
-func entity_exists(entity_id: String) -> bool:
-	return get_entity(entity_id) != null
+func persistent_data_exists(persistent_data_id: String) -> bool:
+	return get_persistent_data(persistent_data_id) != null
 
 
 func _mod_exists(mod_name) -> bool:
@@ -196,7 +196,7 @@ func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
-		var entity: Entity = Entity.create_entity(data)
+		var entity: PersistentData = PersistentData.create_persistent_data(data)
 		if entity:
 			entity.name = entity_name
 			root.call_deferred("add_child", entity)
@@ -348,9 +348,9 @@ func _failed_to_create_save_directory() -> bool:
 
 
 func _get_data_from_entities() -> Dictionary[String, Dictionary]:
-	var persistent: Array[Node] = get_tree().get_nodes_in_group(Entity.GROUP_PERSISTENT)
+	var persistent: Array[Node] = get_tree().get_nodes_in_group(PersistentData.GROUP_PERSISTENT)
 	var ents: Dictionary[String, Dictionary] = {}
-	for node: Entity in persistent:
+	for node: PersistentData in persistent:
 		var node_data: Dictionary = node.get_data()
 		if not node_data.is_empty():
 			ents[node.name] = node_data

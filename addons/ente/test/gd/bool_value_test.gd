@@ -5,17 +5,17 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = "res://addons/ente/src/gd/blocker/bool_value.gd"
+const __source = "res://addons/ente/src/gd/bool_value.gd"
 
 
 func test_set_default() -> void:
 	# cambia
-	var bool_value: BoolValue = BoolValue.new()
+	var bool_value := auto_free(BoolValue.new()) as BoolValue
 	bool_value.set_default(false)
 	assert_bool(bool_value.get_default()).is_false()
 
 	# no cambia
-	var entity: Entity = Entity.new()
+	var entity := auto_free(PersistentData.new()) as PersistentData
 	bool_value.add_blocker(entity)
 	bool_value.set_default(true)
 	assert_bool(bool_value.get_default()).is_false()
@@ -25,9 +25,6 @@ func test_set_default() -> void:
 	bool_value.set_default(true, force)
 	assert_bool(bool_value.get_default()).is_true()
 
-	# Limpiar
-	bool_value.queue_free()
-	entity.queue_free()
 
 
 func test_get_default() -> void:

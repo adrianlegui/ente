@@ -1,4 +1,4 @@
-extends Entity
+extends PersistentData
 
 var my_var: bool = true
 

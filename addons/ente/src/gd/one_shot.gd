@@ -1,4 +1,4 @@
-class_name OneShot extends Entity
+class_name OneShot extends PersistentData
 # Entidad que llama a un método al iniciar una partida por primera vez.
 
 var _first_start: bool = true

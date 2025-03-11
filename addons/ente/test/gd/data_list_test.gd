@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = "res://addons/ente/src/gd/data/data_list.gd"
+const __source = "res://addons/ente/src/gd/data_list.gd"
 const MY_DATA = preload("res://addons/ente/test/entity_for_test/my_data.tscn")
 
 

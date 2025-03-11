@@ -11,7 +11,7 @@ Ente es un complemento para **Godot Engine 4** que permite agregar escenas al _S
 
 Solo es necesario copiar lo siguiente:
 ```
-addons/ente/plugin.cfc
+addons/ente/plugin.cfg
 addons/ente/src
 ```
 Si está usando [gd-plug](https://github.com/imjp94/gd-plug), agregar los siguiente al fichero plug.gd.
@@ -32,7 +32,7 @@ Activar advance settings para poder configurar __Ente__.
 
 **Main Mod**: ruta al mod principal del juego.
 
-**Game ID**: identificador usado para comprobar mod y partidas guardada usuarios.
+**Game ID**: identificador usado para comprobar mod y partidas guardadas.
 
 **Single Mode**: si está activo, solo se cargará **Main Mod**; en caso contrario se cargará **Main Mod** y todos los mods indicados en _load_order.txt_.
 
@@ -41,16 +41,16 @@ Activar advance settings para poder configurar __Ente__.
 ## 4. How to use
 Crear directorio __main_mod__ en ```res://```.
 
-### 4.1 Creating a Entity
+### 4.1 Creating a PersistentData
 
 Crear una escena llamada __my_entity__ en el directorio ```res://main_mod``` con nodo root de clase Node.
 
 ![creating_entity](./img/creating_entity.png)
 
-Agregar script a la escena y cambiar la clase de la que hereda de __Node__ a __Entity__.
+Agregar script a la escena y cambiar la clase de la que hereda de __Node__ a __PersistentData__.
 
 ``` gdscript
-extends Entity
+extends PersistentData
 
 var my_var: bool = true
 ```
@@ -59,7 +59,7 @@ var my_var: bool = true
 Ejemplo de como configurar una variable para que sea persistente.
 
 ``` gdscript
-extends Entity
+extends PersistentData
 
 var my_var: bool = true
 
@@ -79,7 +79,7 @@ DEPENDENCIES=[]
 PCKS=[]
 VERSION="0.0.1"
 
-[ENTITIES]
+[PERSISTENT_DATA]
 ```
 
 ### 4.4 Add entities
@@ -93,7 +93,7 @@ DEPENDENCIES=[]
 PCKS=[]
 VERSION="0.0.1"
 
-[ENTITIES]
+[PERSISTENT_DATA]
 
 MyEntity0={"scene_file_path" : "res://main_mod/my_entity.tscn"}
 MyEntity1={"scene_file_path" : "res://main_mod/my_entity.tscn"}

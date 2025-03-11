@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 # TestSuite generated from
-const __source = "res://addons/ente/src/gd/dictionary_merger/dictionary_merger.gd"
+const __source = "res://addons/ente/src/gd/dictionary_merger.gd"
 
 
 func test_merge() -> void:

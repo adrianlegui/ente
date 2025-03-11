@@ -1,3 +1,13 @@
+## 0.14.0 (2025-03-11)
+
+### BREAKING CHANGE
+
+- las escenas que hereden de escenas de ente, deben ser actualizadas; clase **Entity** se convirtio en clase **PersistentData**; en los ficheros cfg, **[Entities]** pasa a llamarse **[PERSISTENT_DATA]**; clase **Scene** ya no existe.
+
+### Refactor
+
+- moví scripts y escenas al directorio gd
+
 ## 0.13.0 (2025-03-04)
 
 ### BREAKING CHANGE

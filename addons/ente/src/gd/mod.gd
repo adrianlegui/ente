@@ -139,7 +139,7 @@ func load_data_from_file(file_path: String) -> void:
 
 func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	var cfg: ConfigFile = ConfigFile.new()
-	var section: String = SECTION_PERSISTENT_DATA
+	var section: String = SECTION_MOD
 	cfg.set_value(section, Mod.KEY_GAME_ID, Mod.get_game_id())
 	cfg.set_value(section, Mod.KEY_PCKS, get_pcks())
 	cfg.set_value(section, Mod.KEY_DEPENDENCIES, get_dependencies())

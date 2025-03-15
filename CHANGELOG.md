@@ -1,3 +1,9 @@
+## 0.14.1 (2025-03-15)
+
+### Fix
+
+- **mod.gd**: se usa SECTION_PERSISTENT_DATA para la sección MOD
+
 ## 0.14.0 (2025-03-11)
 
 ### BREAKING CHANGE

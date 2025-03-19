@@ -1,3 +1,9 @@
+## 0.14.2 (2025-03-19)
+
+### Refactor
+
+- **ModManager**: nodos PersistentData son agregados a grupos antes de entrar al SceneTree
+
 ## 0.14.1 (2025-03-15)
 
 ### Fix

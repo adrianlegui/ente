@@ -6,15 +6,15 @@ const GROUP_PERSISTENT: StringName = &"PERSISTENT_DATA"
 
 
 ## Obtiene una entidad
-func get_entity(entity_name: String) -> PersistentData:
+func get_persistent_data(persistent_data_id: String) -> PersistentData:
 	var persistent_data: PersistentData = null
 	if is_inside_tree():
-		if not entity_name.is_empty():
-			persistent_data = get_node_or_null("/root/" + entity_name)
+		if not persistent_data_id.is_empty():
+			persistent_data = get_node_or_null("/root/" + persistent_data_id)
 		else:
-			push_error("entity_name esta vacio")
+			push_error("persistent_data_id esta vacio")
 	else:
-		push_error("llamando get_entity en %s que no esta en SceneTree, retorno null" % name)
+		push_error("%s: no esta en SceneTree, llamando get_persistent_data, retorno null" % name)
 	return persistent_data
 
 
@@ -46,12 +46,6 @@ func _on_game_event_all_entities_added() -> void:
 ## [color=yellow]Método virtual.[/color]
 func _on_game_event_before_saving() -> void:
 	pass
-
-
-func _get_groups() -> PackedStringArray:
-	var groups: PackedStringArray = super._get_groups()
-	groups.append_array([GROUP_PERSISTENT, GameEvents.GROUP])
-	return groups
 
 
 ## Regresa una [Entity] con los datos de [param data].

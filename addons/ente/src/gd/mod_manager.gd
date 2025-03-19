@@ -149,6 +149,7 @@ func get_path_to_savegame(savegame_name: String) -> String:
 func add_persistent_data(persistent_data: PersistentData) -> void:
 	var force_readable_name: bool = true
 	persistent_data.set_unique(false)
+	_add_groups_to_persistent_data(persistent_data)
 	_scene_tree.root.add_child(persistent_data, force_readable_name)
 
 
@@ -196,10 +197,11 @@ func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
-		var entity: PersistentData = PersistentData.create_persistent_data(data)
-		if entity:
-			entity.name = entity_name
-			root.call_deferred("add_child", entity)
+		var persistent_data: PersistentData = PersistentData.create_persistent_data(data)
+		if persistent_data != null:
+			persistent_data.name = entity_name
+			_add_groups_to_persistent_data(persistent_data)
+			root.call_deferred("add_child", persistent_data)
 		else:
 			push_error("fallo la carga de la entidad %s" % entity_name)
 
@@ -348,12 +350,11 @@ func _failed_to_create_save_directory() -> bool:
 
 
 func _get_data_from_entities() -> Dictionary[String, Dictionary]:
-	var persistent: Array[Node] = get_tree().get_nodes_in_group(PersistentData.GROUP_PERSISTENT)
 	var ents: Dictionary[String, Dictionary] = {}
-	for node: PersistentData in persistent:
-		var node_data: Dictionary = node.get_data()
-		if not node_data.is_empty():
-			ents[node.name] = node_data
+	for node: Node in _scene_tree.get_nodes_in_group(PersistentData.GROUP_PERSISTENT):
+		var persistent_data: PersistentData = node as PersistentData
+		if persistent_data != null:
+			ents[persistent_data.name] = persistent_data.get_data()
 	return ents
 
 
@@ -378,3 +379,8 @@ func _thread_wait_to_finish() -> void:
 				await Engine.get_main_loop().process_frame
 			_thread.wait_to_finish()
 		_thread = null
+
+
+func _add_groups_to_persistent_data(persistent_data: PersistentData) -> void:
+	persistent_data.add_to_group(PersistentData.GROUP_PERSISTENT)
+	persistent_data.add_to_group(GameEvents.GROUP)

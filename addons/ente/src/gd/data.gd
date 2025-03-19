@@ -9,10 +9,6 @@ const KEY_PROPERTIES: StringName = &"PROPERTIES"
 var _unique: bool = true
 
 
-func _ready() -> void:
-	_add_groups()
-
-
 ## Obtiene un [Dictionary] con la información persistente del nodo.
 func get_data() -> Dictionary:
 	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
@@ -32,25 +28,6 @@ func set_data(data: Dictionary) -> void:
 func set_properties(properties: Dictionary) -> void:
 	for key in properties.keys():
 		_set_property(key, properties[key])
-
-
-# regresa los grupos al que será agregado el nodo en _ready.
-func _get_groups() -> PackedStringArray:
-	var groups: PackedStringArray = []
-	_add_extra_groups(groups)
-	return groups
-
-
-func _add_groups() -> void:
-	for g: String in _get_groups():
-		add_to_group(g)
-
-
-## Sobreescribir para agregar grupos extras, el nodo será agregado a esos
-## grupos.[br]
-## [color=yellow]Método virtual.[/color]
-func _add_extra_groups(groups: PackedStringArray) -> void:
-	pass
 
 
 # configura una propiedad.

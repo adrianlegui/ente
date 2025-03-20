@@ -1,3 +1,9 @@
+## 0.14.3 (2025-03-20)
+
+### Refactor
+
+- **bool_value.gd**: se utiliza la ruta del blocker como id, antes se usaba el nombre
+
 ## 0.14.2 (2025-03-19)
 
 ### Refactor

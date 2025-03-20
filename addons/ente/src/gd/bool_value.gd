@@ -47,16 +47,26 @@ func can_be_true() -> bool:
 
 
 ## Agrega un nodo que bloquea al [BoolValue].
-func add_blocker(blocker: Data) -> void:
-	var id: String = blocker.name
+func add_blocker(blocker: Node) -> void:
+	var id: String = _get_node_id(blocker)
+
+	if id.is_empty():
+		push_error("no se pudo agregar blocker: %s" % blocker.name)
+		return
+
 	if not _blockers.has(id):
 		_blockers.append(id)
 		bloker_added.emit(blocker)
 
 
 ## Quita un nodo que bloquea al [BoolValue].
-func remove_blocker(blocker: Data) -> void:
-	var id: String = blocker.name
+func remove_blocker(blocker: Node) -> void:
+	var id: String = _get_node_id(blocker)
+
+	if id.is_empty():
+		push_error("no se pudo quitar blocker: %s" % blocker.name)
+		return
+
 	var idx: int = _blockers.find(id)
 	if idx != -1:
 		_blockers.remove_at(idx)
@@ -65,11 +75,20 @@ func remove_blocker(blocker: Data) -> void:
 
 ## Regresa [code]true[/code] si el nodo [param blocker] esta bloqueando el
 ## [BoolValue].
-func has_blocker(blocker: Data) -> bool:
-	return _blockers.has(blocker.name)
+func has_blocker(blocker: Node) -> bool:
+	return _blockers.has(_get_node_id(blocker))
 
 
 func _get_persistent_properties() -> PackedStringArray:
 	var keys: PackedStringArray = super._get_persistent_properties()
 	keys.append_array(["_blockers", "_default"])
 	return keys
+
+
+func _get_node_id(node: Node) -> String:
+	var id: String = node.get_path()
+	if id.is_empty():
+		push_error(
+			"no se pudo obtener id para el nodo %s porque no esta dentro del SceneTree" % node.name
+		)
+	return id

@@ -1,3 +1,9 @@
+## 0.14.4 (2025-03-25)
+
+### Refactor
+
+- **Data**: agregué lógica de PersistentData a Data y borré clase PersistentData
+
 ## 0.14.3 (2025-03-20)
 
 ### Refactor

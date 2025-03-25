@@ -1,3 +1,9 @@
+## 0.14.5 (2025-03-25)
+
+### Refactor
+
+- **bool_value.gd**: bloqueadores pasan a ser String, antes eran rutas de nodos
+
 ## 0.14.4 (2025-03-25)
 
 ### Refactor

@@ -1,4 +1,4 @@
-extends PersistentData
+extends Data
 
 @export var my_data: Data
 @export var my_data_null: Data

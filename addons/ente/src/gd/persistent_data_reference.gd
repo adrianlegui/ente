@@ -14,12 +14,12 @@ func set_persistent(persistent: bool) -> void:
 
 
 ## Obtiene una referencia a la entidad configurada.
-func get_reference() -> PersistentData:
+func get_reference() -> Data:
 	return ModManager.get_persistent_data(_persistent_data_id)
 
 
 ## Configura el identificador.
-func set_persistent_data(persistent_data: PersistentData) -> void:
+func set_persistent_data(persistent_data: Data) -> void:
 	if not persistent_data.is_inside_tree():
 		push_error("persistent_data %s no esta en el arbol de nodos." % persistent_data.name)
 		return

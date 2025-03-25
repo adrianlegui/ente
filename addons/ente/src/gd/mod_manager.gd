@@ -146,7 +146,7 @@ func get_path_to_savegame(savegame_name: String) -> String:
 
 
 ## Agrega entidad al SceneTree.
-func add_persistent_data(persistent_data: PersistentData) -> void:
+func add_persistent_data(persistent_data: Data) -> void:
 	var force_readable_name: bool = true
 	persistent_data.set_unique(false)
 	_add_groups_to_persistent_data(persistent_data)
@@ -154,8 +154,8 @@ func add_persistent_data(persistent_data: PersistentData) -> void:
 
 
 ## Obtiene una entidad.
-func get_persistent_data(persistent_data_id: String) -> PersistentData:
-	var persistent_data: PersistentData = null
+func get_persistent_data(persistent_data_id: String) -> Data:
+	var persistent_data: Data = null
 	if not persistent_data_id.is_empty():
 		persistent_data = get_node_or_null("/root/" + persistent_data_id)
 	else:
@@ -169,7 +169,7 @@ func delete_persistent_data_by_id(persistent_data_id: String) -> void:
 		push_error("persistent_data_id esta vacio")
 		return
 
-	var persistent_data: PersistentData = get_persistent_data(persistent_data_id)
+	var persistent_data: Data = get_persistent_data(persistent_data_id)
 	if not is_instance_valid(persistent_data):
 		push_error("entity %s no existe" % persistent_data_id)
 		return
@@ -197,7 +197,7 @@ func _start_game(_entities: Dictionary) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var data: Dictionary = _entities[entity_name]
-		var persistent_data: PersistentData = PersistentData.create_persistent_data(data)
+		var persistent_data: Data = Data.create_data_node(data)
 		if persistent_data != null:
 			persistent_data.name = entity_name
 			_add_groups_to_persistent_data(persistent_data)
@@ -351,8 +351,8 @@ func _failed_to_create_save_directory() -> bool:
 
 func _get_data_from_entities() -> Dictionary[String, Dictionary]:
 	var ents: Dictionary[String, Dictionary] = {}
-	for node: Node in _scene_tree.get_nodes_in_group(PersistentData.GROUP_PERSISTENT):
-		var persistent_data: PersistentData = node as PersistentData
+	for node: Node in _scene_tree.get_nodes_in_group(Mod.GROUP_PERSISTENT):
+		var persistent_data: Data = node as Data
 		if persistent_data != null:
 			ents[persistent_data.name] = persistent_data.get_data()
 	return ents
@@ -381,6 +381,6 @@ func _thread_wait_to_finish() -> void:
 		_thread = null
 
 
-func _add_groups_to_persistent_data(persistent_data: PersistentData) -> void:
-	persistent_data.add_to_group(PersistentData.GROUP_PERSISTENT)
-	persistent_data.add_to_group(GameEvents.GROUP)
+func _add_groups_to_persistent_data(data: Data) -> void:
+	data.add_to_group(Mod.GROUP_PERSISTENT)
+	data.add_to_group(GameEvents.GROUP)

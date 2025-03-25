@@ -41,16 +41,16 @@ Activar advance settings para poder configurar __Ente__.
 ## 4. How to use
 Crear directorio __main_mod__ en ```res://```.
 
-### 4.1 Creating a PersistentData
+### 4.1 Creating a persistent Data
 
 Crear una escena llamada __my_entity__ en el directorio ```res://main_mod``` con nodo root de clase Node.
 
 ![creating_entity](./img/creating_entity.png)
 
-Agregar script a la escena y cambiar la clase de la que hereda de __Node__ a __PersistentData__.
+Agregar script a la escena y cambiar la clase de la que hereda de __Node__ a __Data__.
 
 ``` gdscript
-extends PersistentData
+extends Data
 
 var my_var: bool = true
 ```

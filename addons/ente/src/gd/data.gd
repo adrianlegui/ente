@@ -9,6 +9,21 @@ const KEY_PROPERTIES: StringName = &"PROPERTIES"
 var _unique: bool = true
 
 
+## Regresa un nodo de clase [Data] con las propiedades persistentes
+## configuradas.
+static func create_data_node(dict: Dictionary) -> Data:
+	var data: Data = null
+	var path: String = dict.get(KEY_SCENE_FILE_PATH, "") as String
+	if path.is_empty():
+		push_error("falta scene_file_path")
+	else:
+		var pck: PackedScene = load(path) as PackedScene
+		if pck:
+			data = pck.instantiate() as Data
+			data.set_data(dict)
+	return data
+
+
 ## Obtiene un [Dictionary] con la información persistente del nodo.
 func get_data() -> Dictionary:
 	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
@@ -153,20 +168,5 @@ func _set_object_node_variable(key: String, property: Dictionary) -> void:
 		push_warning("variable %s.%s no es de clase Data" % [name, key])
 
 
-func _to_string() -> String:
-	return "%s: %s" % [name, JSON.stringify(get_data(), "\t")]
-
-
-## Regresa un nodo de clase [Data] con las propiedades persistentes
-## configuradas.
-static func create_data_node(dict: Dictionary) -> Data:
-	var data: Data = null
-	var path: String = dict.get(KEY_SCENE_FILE_PATH, "") as String
-	if path.is_empty():
-		push_error("falta scene_file_path")
-	else:
-		var pck: PackedScene = load(path) as PackedScene
-		if pck:
-			data = pck.instantiate()
-			data.set_data(dict)
-	return data
+func _on_game_event_clean_scene_tree() -> void:
+	queue_free()

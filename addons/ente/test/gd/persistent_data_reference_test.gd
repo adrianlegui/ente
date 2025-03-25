@@ -7,12 +7,12 @@ extends GdUnitTestSuite
 # TestSuite generated from
 const __source = "res://addons/ente/src/gd/persistent_data_reference.gd"
 var persistent_data_reference: PersistentDataReference
-var ent: PersistentData
+var ent: Data
 
 
 func before_test() -> void:
 	persistent_data_reference = auto_free(PersistentDataReference.new()) as PersistentDataReference
-	ent = auto_free(PersistentData.new()) as PersistentData
+	ent = auto_free(Data.new()) as Data
 	ent.add_child(persistent_data_reference)
 	ModManager.add_persistent_data(ent)
 
@@ -51,7 +51,7 @@ func test_persistent_data_exists() -> void:
 
 func test_set_persistent_data() -> void:
 	var persistent_data_reference := auto_free(PersistentDataReference.new()) as PersistentDataReference
-	var persistent_data := auto_free(PersistentData.new()) as PersistentData
+	var persistent_data := auto_free(Data.new()) as Data
 	ModManager.add_persistent_data(persistent_data)
 	persistent_data_reference.set_persistent_data(persistent_data)
 	assert_object(persistent_data_reference.get_reference()).is_same(persistent_data)

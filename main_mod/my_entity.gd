@@ -1,4 +1,4 @@
-extends PersistentData
+extends Data
 
 var my_var: bool = true
 

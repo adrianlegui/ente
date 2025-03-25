@@ -1,7 +1,8 @@
 class_name Mod extends RefCounted
 
+const GROUP_PERSISTENT: StringName = &"PERSISTENT_DATA"
 const SECTION_MOD: StringName = &"MOD"
-const SECTION_PERSISTENT_DATA: StringName = PersistentData.GROUP_PERSISTENT
+const SECTION_PERSISTENT_DATA: StringName = GROUP_PERSISTENT
 const KEY_GAME_ID: StringName = &"GAME_ID"
 const KEY_DEPENDENCIES: StringName = &"DEPENDENCIES"
 const KEY_PCKS: StringName = &"PCKS"

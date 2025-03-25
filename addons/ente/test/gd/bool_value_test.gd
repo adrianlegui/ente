@@ -15,7 +15,7 @@ func test_set_default() -> void:
 	assert_bool(bool_value.get_default()).is_false()
 
 	# no cambia
-	var entity := auto_free(PersistentData.new()) as PersistentData
+	var entity := auto_free(Data.new()) as Data
 	add_child(entity)
 	bool_value.add_blocker(entity)
 	bool_value.set_default(true)

@@ -148,7 +148,6 @@ func get_path_to_savegame(savegame_name: String) -> String:
 ## Agrega entidad al SceneTree.
 func add_persistent_data(persistent_data: Data) -> void:
 	var force_readable_name: bool = true
-	persistent_data.set_unique(false)
 	_add_groups_to_persistent_data(persistent_data)
 	_scene_tree.root.add_child(persistent_data, force_readable_name)
 

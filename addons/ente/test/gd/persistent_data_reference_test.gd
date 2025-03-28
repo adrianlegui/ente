@@ -39,7 +39,9 @@ func test__get_persistent_properties() -> void:
 		["_persistent_data_id"]
 	)
 	persistent_data_reference.set_persistent(false)
-	assert_array(persistent_data_reference._get_persistent_properties()).not_contains(["_persistent_data_id"])
+	assert_array(persistent_data_reference._get_persistent_properties()).not_contains(
+		["_persistent_data_id"]
+	)
 
 
 func test_persistent_data_exists() -> void:
@@ -50,7 +52,9 @@ func test_persistent_data_exists() -> void:
 
 
 func test_set_persistent_data() -> void:
-	var persistent_data_reference := auto_free(PersistentDataReference.new()) as PersistentDataReference
+	var persistent_data_reference := (
+		auto_free(PersistentDataReference.new()) as PersistentDataReference
+	)
 	var persistent_data := auto_free(Data.new()) as Data
 	ModManager.add_persistent_data(persistent_data)
 	persistent_data_reference.set_persistent_data(persistent_data)

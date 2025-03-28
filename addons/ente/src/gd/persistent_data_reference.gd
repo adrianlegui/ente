@@ -1,7 +1,7 @@
 class_name PersistentDataReference extends Data
 ## Guarda el id de una entidad y permite obtener una refencia a esa entidad.
 
-@export var _persistent_data_id: StringName = &""
+@export var _persistent_data_id: String = ""
 @export var _persistent: bool = true
 
 

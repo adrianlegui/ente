@@ -184,8 +184,7 @@ static func get_game_id() -> String:
 
 
 static func create_mod_from_current_game(
-	dependencies: PackedStringArray,
-	entities: Dictionary[String, Dictionary]
+	dependencies: PackedStringArray, entities: Dictionary[String, Dictionary]
 ) -> Mod:
 	var mod: Mod = Mod.new()
 	mod.set_game_id(Mod.get_game_id())

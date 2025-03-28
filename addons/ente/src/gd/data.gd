@@ -2,11 +2,7 @@ class_name Data extends Node
 ## Nodo con propiedades persistentes.
 
 ## Nombre de la propiedad con la ruta a la escena.
-const KEY_SCENE_FILE_PATH: StringName = &"scene_file_path"
-## Clave usada en el diccionario de persistencia.
-const KEY_PROPERTIES: StringName = &"PROPERTIES"
-
-var _unique: bool = true
+const KEY_SCENE_FILE_PATH: String = "scene_file_path"
 
 
 ## Regresa un nodo de clase [Data] con las propiedades persistentes
@@ -27,16 +23,15 @@ static func create_data_node(dict: Dictionary) -> Data:
 ## Obtiene un [Dictionary] con la información persistente del nodo.
 func get_data() -> Dictionary:
 	var data: Dictionary = {KEY_SCENE_FILE_PATH: scene_file_path}
-	data[KEY_PROPERTIES] = get_properties()
+	data = _get_properties(data)
 	return data
 
 
 ## Configura el nodo.
 func set_data(data: Dictionary) -> void:
-	var properties: Dictionary = data.get(KEY_PROPERTIES, {}) as Dictionary
-	if properties.is_empty():
+	if data.is_empty():
 		return
-	set_properties(properties)
+	set_properties(data)
 
 
 ## Configura las propiedades persistentes del nodo.
@@ -64,8 +59,7 @@ func _set_property(key: String, property: Variant) -> void:
 
 
 ## Obtiene las propiedades persitentes del nodo.
-func get_properties() -> Dictionary:
-	var properties: Dictionary = {}
+func _get_properties(properties: Dictionary) -> Dictionary:
 	for key in _get_persistent_properties():
 		var v_node = get(key)  # variable del nodo
 		if typeof(v_node) == TYPE_OBJECT:
@@ -88,31 +82,9 @@ func get_properties() -> Dictionary:
 	return properties
 
 
-func set_unique(value: bool) -> void:
-	_unique = value
-
-
-func is_unique() -> bool:
-	return _unique
-
-
-func delete() -> void:
-	_before_deleting()
-	if is_unique():
-		push_error("No se pudo borrar %s por que es único" % name)
-		return
-	queue_free()
-
-
-## Será llamado al ejecutar [method delete]. Sobreescribir para dar funcionalidad.
-## [color=yellow]Método virtual.[/color]
-func _before_deleting() -> void:
-	pass
-
-
 # Regresa [PackedStringArray] con las propiedades persistentes.
 func _get_persistent_properties() -> PackedStringArray:
-	var properties: PackedStringArray = ["process_mode", "_unique"]
+	var properties: PackedStringArray = []
 	_add_extra_persistent_properties(properties)
 	return properties
 
@@ -154,7 +126,6 @@ func _set_null_node_variable(key: String, property: Dictionary) -> void:
 
 	data.name = key.capitalize().replace(" ", "")
 	set(key, data)
-	data.set_unique(false)
 	var force_readable_name: bool = true
 	add_child(data, force_readable_name)
 

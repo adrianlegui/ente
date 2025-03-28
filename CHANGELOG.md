@@ -1,3 +1,9 @@
+## 0.14.6 (2025-03-28)
+
+### Fix
+
+- **data_list.gd**: si es root de una escena no funciona
+
 ## 0.14.5 (2025-03-25)
 
 ### Refactor

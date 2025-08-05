@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsa2jeick6am8"]
-
-[ext_resource type="Script" uid="uid://dghbuwxmd3ofl" path="res://addons/ente/test/entity_for_test/my_data.gd" id="1_gcbmr"]
-
-[node name="MyData" type="Node"]
-script = ExtResource("1_gcbmr")

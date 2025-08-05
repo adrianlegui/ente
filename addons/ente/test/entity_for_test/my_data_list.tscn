@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://n3bfo2le0mcv"]
-
-[ext_resource type="Script" uid="uid://glib0uw65dm" path="res://addons/ente/test/entity_for_test/my_data_list.gd" id="1_nw4st"]
-
-[node name="MyDataList" type="Node"]
-script = ExtResource("1_nw4st")
-metadata/_custom_type_script = "uid://v3255mq5f2qc"

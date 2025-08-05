@@ -1,3 +1,5 @@
 # Mods
+
+main.mod
 test.cfg
 non_existent_mod.cfg

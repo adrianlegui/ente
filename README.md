@@ -11,7 +11,6 @@ Complemento para [Godot Engine 4](https://godotengine.org/).
 - Carga [paquetes de recursos](https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html#overview-of-pck-files)
 - Guarda y carga partida
 - Las partidas están cifradas
-- Persistencia de propiedades facilmente configurable
 
 ## Quickstart
 [Quickstart](./docs/quickstart.md)

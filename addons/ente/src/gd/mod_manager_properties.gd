@@ -1,4 +1,4 @@
-class_name ModManagerProperties extends Node
+class_name EnteModManagerProperties extends Node
 ## Contiene las constantes y métodos para obtener propiedades de ModManager
 
 ## Nombre del fichero que contiene el orden de carga de los mods.
@@ -22,7 +22,7 @@ const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
 ## Al ser usado las partidas guardadas serán creadas como json.
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
 ## Extensión usada en las partidas guardadas cifradas.
-const ENCRYPTED_EXTENSION: String = "save"
+const ENCRYPTED_EXTENSION: String = "sav"
 ## Ruta a la propiedad que configura el modo único.
 const SINGLE_MODE_PROPERTY_PATH: String = "ente/config/single_mode/active"
 ## Ruta a la propiedad que configura la ruta al mod usado en el modo único.

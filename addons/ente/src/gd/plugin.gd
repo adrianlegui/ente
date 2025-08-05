@@ -2,13 +2,13 @@
 extends EditorPlugin
 
 const MOD_MANAGER_PATH = "res://addons/ente/src/gd/mod_manager.tscn"
-const SINGLETON_NAME: String = "ModManager"
+const SINGLETON_NAME: String = "EnteModManager"
 
-var mod_folder_path_property_path: String = ModManagerProperties.MODS_FOLDER_PATH_PROPERTY
-var game_id_property_path: String = ModManagerProperties.GAME_ID_PROPERTY_PATH
-var single_mode_property_path: String = ModManagerProperties.SINGLE_MODE_PROPERTY_PATH
-var main_mod_property_path: String = ModManagerProperties.MAIN_MOD_PROPERTY_PATH
-var main_mod_default_path: String = ModManagerProperties.MAIN_MOD_DEFAULT_PATH
+var mod_folder_path_property_path: String = EnteModManagerProperties.MODS_FOLDER_PATH_PROPERTY
+var game_id_property_path: String = EnteModManagerProperties.GAME_ID_PROPERTY_PATH
+var single_mode_property_path: String = EnteModManagerProperties.SINGLE_MODE_PROPERTY_PATH
+var main_mod_property_path: String = EnteModManagerProperties.MAIN_MOD_PROPERTY_PATH
+var main_mod_default_path: String = EnteModManagerProperties.MAIN_MOD_DEFAULT_PATH
 
 
 func _enable_plugin() -> void:
@@ -54,7 +54,7 @@ func add_game_id_property() -> void:
 
 
 func add_mod_folder_property() -> void:
-	ProjectSettings.set(mod_folder_path_property_path, ModManagerProperties.MODS_FOLDER_PATH)
+	ProjectSettings.set(mod_folder_path_property_path, EnteModManagerProperties.MODS_FOLDER_PATH)
 	var property_info = {"name": mod_folder_path_property_path, "type": TYPE_STRING}
 	ProjectSettings.add_property_info(property_info)
 

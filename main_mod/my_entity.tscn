@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://d24voafwkr46d" path="res://main_mod/my_entity.gd" id="1_d53fp"]
 
-[node name="MyEntity" type="Node"]
+[node name="MyEntity" type="Node" groups=["ENTE_PERSISTENT"]]
 script = ExtResource("1_d53fp")

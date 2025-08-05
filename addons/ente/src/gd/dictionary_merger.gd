@@ -2,7 +2,7 @@ class_name DictionaryMerger extends RefCounted
 ## Fusiona [Dictionary].
 
 
-## Fusiona [param dictionary_b] con [param dictionary_a].
+## Fusiona [param dict_b] con [param dict_a].
 static func merge(dict_a: Dictionary, dict_b: Dictionary) -> Dictionary:
 	for key in dict_b:
 		if dict_a.has(key) and typeof(dict_a[key]) == TYPE_DICTIONARY:

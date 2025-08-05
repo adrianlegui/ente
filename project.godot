@@ -13,13 +13,13 @@ config_version=5
 config/name="ente"
 config/version="0.0.1"
 config/tags=PackedStringArray("plugin_development")
-run/main_scene="res://addons/ente/src/gd/main.tscn"
+run/main_scene="res://main_mod/main.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://addons/ente/src/resources/icons/mod_manager.svg"
 
 [autoload]
 
-ModManager="*res://addons/ente/src/gd/mod_manager.tscn"
+EnteModManager="*res://addons/ente/src/gd/mod_manager.tscn"
 
 [editor]
 
@@ -27,13 +27,13 @@ run/main_run_args="++ --not-encrypted-savedgame"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ente/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
+enabled=PackedStringArray("res://addons/ente/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [ente]
 
-config/multi_mode/mods_folder_path="res://addons/ente/test/mods"
+config/multi_mode/mods_folder_path="user://mods"
 config/game_id="game_id"
-config/single_mode/active=false
+config/single_mode/active=true
 config/main_mod="res://main_mod/game.cfg"
 
 [rendering]

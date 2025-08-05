@@ -1,7 +1,12 @@
-extends Data
+extends Node
 
 var my_var: bool = true
 
+func ente_get_data() -> Dictionary:
+	var data: Dictionary = {}
+	data["my_var"] = my_var
+	return data
 
-func _add_extra_persistent_properties(persistent_properties: PackedStringArray) -> void:
-	persistent_properties.append("my_var")
+
+func ente_set_data(data: Dictionary) -> void:
+	my_var = data.get("my_var", false)

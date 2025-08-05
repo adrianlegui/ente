@@ -36,7 +36,7 @@ Activar advance settings para poder configurar __Ente__.
 
 **Single Mode**: si está activo, solo se cargará **Main Mod**; en caso contrario se cargará **Main Mod** y todos los mods indicados en _load_order.txt_.
 
-**Multi Mode / Mods Folder Path**: directorio en que se encuentra *load_order.txt*, contiene los mods a cargar y el orden de carga de los mismos; mods y ficheros *pck* también se encuentra en el mismo directorio.
+**Multi Mode / Mods Folder Path**: directorio en que se buscará *load_order.txt*, contiene los mods a cargar y el orden de carga de los mismos; mods y ficheros *pck* también se buscarán en el mismo directorio.
 
 ## 4. How to use
 Crear directorio __main_mod__ en ```res://```.
@@ -47,10 +47,10 @@ Crear una escena llamada __my_entity__ en el directorio ```res://main_mod``` con
 
 ![creating_entity](./img/creating_entity.png)
 
-Agregar script a la escena y cambiar la clase de la que hereda de __Node__ a __Data__.
+Agregar script a la escena.
 
 ``` gdscript
-extends Data
+extends Node
 
 var my_var: bool = true
 ```
@@ -63,9 +63,15 @@ extends PersistentData
 
 var my_var: bool = true
 
+func ente_get_data() -> Dictionary:
+	var data: Dictionary = {}
+	data["my_var"] = my_var
+	return data
 
-func _add_extra_persistent_properties(persistent_properties: PackedStringArray) -> void:
-	persistent_properties.append("my_var")
+
+func ente_set_data(data: Dictionary) -> void:
+	my_var = data.get("my_var", false)
+	
 ```
 
 ### 4.3 Creating Mod
@@ -79,7 +85,8 @@ DEPENDENCIES=[]
 PCKS=[]
 VERSION="0.0.1"
 
-[PERSISTENT_DATA]
+[PERSISTENT]
+
 ```
 
 ### 4.4 Add entities
@@ -96,7 +103,10 @@ VERSION="0.0.1"
 [PERSISTENT_DATA]
 
 MyEntity0={"scene_file_path" : "res://main_mod/my_entity.tscn"}
-MyEntity1={"scene_file_path" : "res://main_mod/my_entity.tscn"}
+MyEntity1={
+	"scene_file_path" : "res://main_mod/my_entity.tscn",
+	"DATA" : {"my_var" : false}
+}
 ```
 
 ### 4.5 Start game
@@ -106,24 +116,22 @@ Ejemplo de como inicializar **Ente** e iniciar una partida.
 extends Node
 
 func _ready() -> void:
-	ModManager.start() # Carga los mods y pck en otro hilo
-	await  ModManager.finished # Esperar a que termine la carga
-	ModManager.start_game() # Agrega todos las entidades(nodos) indicados en los mods
+	EnteModManager.start() # Carga los mods y pck
+	EnteModManager.start_game() # Agrega todos las entidades(nodos) indicados en los mods
 	queue_free() # Quita este nodo del árbol de nodos y lo borra
 ```
 
 ## 4.6 How to save game
 Ejemplo de como guardar una partida.
 ``` gdscript
-ModManager.save_game("savegame_name")
+EnteModManager.save_game("savegame_name")
 ```
 
 ## 4.7 How to load savegame
 Ejemplo de como cargar una partida.
 ``` gdscript
-ModManager.clean_scene_tree() # Quita todos los nodos persistentes del árbol de nodos
-ModManager.load_savegame("savegame_name")
+EnteModManager.load_savegame("savegame_name")
 ```
 
 ### 4.8 Export
-Al exportar el proyecto incluir directorio **res://main_mod**.
+Al exportar el proyecto agregar fichero cfg con la configuración de las entidades.

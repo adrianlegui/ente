@@ -73,7 +73,7 @@ func load_savegame(savegame_name: String) -> void:
 	var entities: Dictionary = {}
 	for mod_name in _loaded_mod:
 		var mod: EnteMod = _loaded_mod[mod_name]
-		entities = DictionaryMerger.merge(entities, mod.entities)
+		entities = DictionaryMerger.merge(entities, mod.get_entities())
 	var savegame_entities: Dictionary = DictionaryMerger.merge(
 		entities, savegame_info.get_entities()
 	)

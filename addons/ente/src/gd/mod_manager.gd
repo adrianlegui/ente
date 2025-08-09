@@ -165,7 +165,7 @@ func _create_node(entity_name: String, data: Dictionary) -> Node:
 
 func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 	if conf.is_empty():
-		push_warning("%s no tiene configuración" % entity_name)
+		return
 	else:
 		if node.has_method(METHOD_SET_DATA):
 			node.call_deferred(METHOD_SET_DATA, conf)

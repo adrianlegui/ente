@@ -47,7 +47,7 @@ Crear una escena llamada __my_entity__ en el directorio ```res://main_mod``` con
 
 ![creating_entity](./img/creating_entity.png)
 
-Agregar script a la escena.
+Agregar script a la escena y agregar el nodo raíz al grupo __ENTE_PERSISTENT__.
 
 ``` gdscript
 extends Node
@@ -59,7 +59,7 @@ var my_var: bool = true
 Ejemplo de como configurar una variable para que sea persistente.
 
 ``` gdscript
-extends PersistentData
+extends Node
 
 var my_var: bool = true
 
@@ -100,7 +100,7 @@ DEPENDENCIES=[]
 PCKS=[]
 VERSION="0.0.1"
 
-[PERSISTENT_DATA]
+[PERSISTENT]
 
 MyEntity0={"scene_file_path" : "res://main_mod/my_entity.tscn"}
 MyEntity1={

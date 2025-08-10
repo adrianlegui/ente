@@ -129,10 +129,7 @@ func get_path_to_savegame(savegame_name: String) -> String:
 		extension = EnteModManagerProperties.ENCRYPTED_EXTENSION
 	return (
 		"%s.%s"
-		% [
-		EnteModManagerProperties.get_savegame_folder_path().path_join(savegame_name),
-		extension
-		]
+		% [EnteModManagerProperties.get_savegame_folder_path().path_join(savegame_name), extension]
 	)
 
 
@@ -168,13 +165,13 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 		return
 	else:
 		if node.has_method(METHOD_SET_DATA):
-			node.call_deferred(METHOD_SET_DATA, conf)
+			node.call(METHOD_SET_DATA, conf)
 		else:
 			push_error(
-				"la entidad %s no pudo ser configurada porque no tiene método %s" % [
-					entity_name,
-					METHOD_SET_DATA
-				]
+				(
+					"la entidad %s no pudo ser configurada porque no tiene método %s"
+					% [entity_name, METHOD_SET_DATA]
+				)
 			)
 
 
@@ -350,10 +347,8 @@ func _get_data_from_entities() -> Dictionary[String, Dictionary]:
 	for node: Node in _scene_tree.root.get_children():
 		if node.is_in_group(EnteMod.GROUP_PERSISTENT):
 			if node.scene_file_path.is_empty():
-				push_warning(
-					"scene_file_path del nodo %s esta vacia" % node.name
-				)
-			var data: Dictionary = {KEY_SCENE_FILE_PATH : node.scene_file_path}
+				push_warning("scene_file_path del nodo %s esta vacia" % node.name)
+			var data: Dictionary = {KEY_SCENE_FILE_PATH: node.scene_file_path}
 			if node.has_method(METHOD_GET_DATA):
 				data[KEY_DATA] = node.call(METHOD_GET_DATA)
 			ents[node.name] = data

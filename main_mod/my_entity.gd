@@ -2,6 +2,7 @@ extends Node
 
 var my_var: bool = true
 
+
 func ente_get_data() -> Dictionary:
 	var data: Dictionary = {}
 	data["my_var"] = my_var

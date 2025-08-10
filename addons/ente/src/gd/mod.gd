@@ -3,7 +3,6 @@ class_name EnteMod extends RefCounted
 ##
 ## Long description
 
-
 #region Constants
 const GROUP_PERSISTENT: StringName = &"ENTE_PERSISTENT"
 const SECTION_MOD: StringName = &"MOD"
@@ -31,6 +30,8 @@ func _init(cfg: ConfigFile = null, name: String = "mod name") -> void:
 
 	_name = name
 	load_data(cfg)
+
+
 #endregion
 
 
@@ -48,11 +49,7 @@ func get_version() -> String:
 ## Regresa [code]true[/code] si es del mismo juego, es de la misma versión del juego, tiene
 ## entidades y no tiene dependencias faltantes.
 func is_correct() -> bool:
-	return (
-		is_same_game() and
-		is_same_version() and
-		not has_missing_dependencies()
-	)
+	return is_same_game() and is_same_version() and not has_missing_dependencies()
 
 
 ## Regresa [code]true[/code] si es de la misma versión del juego.
@@ -185,6 +182,8 @@ func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 	else:
 		push_error("error al guardar %s: %s" % [file_path, error_string(state)])
 		return false
+
+
 #endregion
 
 
@@ -206,6 +205,8 @@ func _load_cfg(file_path: String) -> ConfigFile:
 # usado para evitar llamar de manera directa al método get_loaded_mods de EnteModManager
 func _get_loaded_mods() -> PackedStringArray:
 	return EnteModManager.get_loaded_mods()
+
+
 #endregion
 
 

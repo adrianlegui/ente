@@ -52,6 +52,7 @@ func start() -> void:
 
 ## Inicia el juego. Emite [signal started_game] al finalizar.
 func start_game() -> void:
+	await Engine.get_main_loop().process_frame
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: EnteMod = _loaded_mod[mod_name]
@@ -63,6 +64,7 @@ func start_game() -> void:
 
 ## Carga un juego guardado.
 func load_savegame(savegame_name: String) -> void:
+	await Engine.get_main_loop().process_frame
 	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var savegame_info: EnteMod = check_savegame(savegame_name)
 	if savegame_info.get_entities().is_empty():

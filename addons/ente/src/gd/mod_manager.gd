@@ -114,9 +114,9 @@ func delete_savegame(savegame_name: String) -> void:
 
 
 ## Comprueba el juego salvado y obtiene información importante del mismo.
-func check_savegame(savegame_name: String) -> EnteMod:
+func check_savegame(savegame_name: String) -> EnteSavegame:
 	var path_to_savegame: String = get_path_to_savegame(savegame_name)
-	var savegame_info: EnteMod = EnteMod.new()
+	var savegame_info: EnteSavegame = EnteSavegame.new()
 	savegame_info.load_data_from_file(path_to_savegame)
 	return savegame_info
 

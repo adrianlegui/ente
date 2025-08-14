@@ -56,7 +56,7 @@ func start_game() -> void:
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
 		var mod: EnteMod = _loaded_mod[mod_name]
-		_entities = DictionaryMerger.merge(_entities, mod.get_entities())
+		_entities = EnteDictionaryMerger.merge(_entities, mod.get_entities())
 
 	_scene_tree.paused = true
 	_start_game(_entities)
@@ -75,8 +75,8 @@ func load_savegame(savegame_name: String) -> void:
 	var entities: Dictionary = {}
 	for mod_name in _loaded_mod:
 		var mod: EnteMod = _loaded_mod[mod_name]
-		entities = DictionaryMerger.merge(entities, mod.get_entities())
-	var savegame_entities: Dictionary = DictionaryMerger.merge(
+		entities = EnteDictionaryMerger.merge(entities, mod.get_entities())
+	var savegame_entities: Dictionary = EnteDictionaryMerger.merge(
 		entities, savegame_info.get_entities()
 	)
 

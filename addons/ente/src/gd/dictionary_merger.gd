@@ -1,4 +1,4 @@
-class_name DictionaryMerger extends RefCounted
+class_name EnteDictionaryMerger extends RefCounted
 ## Fusiona [Dictionary].
 
 

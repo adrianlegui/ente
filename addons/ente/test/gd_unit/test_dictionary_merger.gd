@@ -17,7 +17,7 @@ func test_merge() -> void:
 # 		"key 2" : 123
 # 	}
 # }
-	var result: Dictionary = DictionaryMerger.merge(dict_a, dict_b)
+	var result: Dictionary = EnteDictionaryMerger.merge(dict_a, dict_b)
 
 	assert_not_null(result)
 	assert_false(result.is_empty())

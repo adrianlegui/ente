@@ -9,39 +9,39 @@ const GROUP: StringName = "ENTE_GAME_EVENTS"
 
 ## Nombre del método que será llamado al iniciar la partida.
 ## [codeblock]
-## func _ente_on_game_event_started() -> void:
+## func ente_on_game_event_started() -> void:
 ##     pass
 ## [/codeblock]
-const STARTED: StringName = &"_ente_on_game_event_started"
+const STARTED: StringName = &"ente_on_game_event_started"
 
 ## Nombre del método que será llamado luego de agregar todas las entidades al [SceneTree].
 ## Implementar el método para recibir este evento.
 ## [codeblock]
-## func _ente_on_game_event_before_starting() -> void:
+## func ente_on_game_event_before_starting() -> void:
 ##     pass
 ## [/codeblock]
-const BEFORE_STARTING: StringName = &"_ente_on_game_event_before_starting"
+const BEFORE_STARTING: StringName = &"ente_on_game_event_before_starting"
 
 ## Nombre del método que será llamado al limpiar el árbol de nodos. Sobreescribir método
 ## [code]_on_game_event_clean_scene_tree[/code] para agregar lógica extra.
 ## [codeblock]
-## func _ente_on_game_event_clean_scene_tree() -> void:
+## func ente_on_game_event_clean_scene_tree() -> void:
 ##     queue_free()
 ## [/codeblock]
-const CLEAN_SCENE_TREE: StringName = &"_ente_on_game_event_clean_scene_tree"
+const CLEAN_SCENE_TREE: StringName = &"ente_on_game_event_clean_scene_tree"
 
 ## Nombre del método que será llamado al agregar todas las entidades al [SceneTree] cuando se inicia
 ## una partida o se carga una partida guardada. Implementar el método para recibir este evento.
 ## [codeblock]
-## func _ente_on_game_event_all_entities_added() -> void:
+## func ente_on_game_event_all_entities_added() -> void:
 ##     pass
 ## [/codeblock]
-const ALL_ENTITIES_ADDED: StringName = &"_ente_on_game_event_all_entities_added"
+const ALL_ENTITIES_ADDED: StringName = &"ente_on_game_event_all_entities_added"
 
 ## Nombre del método que será llamado antes de guardar la partida. Implementar el método para
 ## recibir este evento.
 ## [codeblock]
-## func _ente_on_game_event_before_saving() -> void:
+## func ente_on_game_event_before_saving() -> void:
 ##     pass
 ## [/codeblock]
-const BEFORE_SAVE: StringName = &"_ente_on_game_event_before_saving"
+const BEFORE_SAVE: StringName = &"ente_on_game_event_before_saving"

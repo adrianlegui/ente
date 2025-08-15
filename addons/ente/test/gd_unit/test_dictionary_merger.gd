@@ -7,9 +7,9 @@ func test_merge() -> void:
 	var key_2: String = "key 2"
 	var value_2: int = 123
 	var key_3: String = "key 3"
-	var value_3: Dictionary = {key_2 : value_2}
-	var dict_a: Dictionary = {key_3 : {}}
-	var dict_b: Dictionary = {key_1 : value_1, key_3 : value_3}
+	var value_3: Dictionary = {key_2: value_2}
+	var dict_a: Dictionary = {key_3: {}}
+	var dict_b: Dictionary = {key_1: value_1, key_3: value_3}
 
 # result = {
 # 	"key 1" : 99,

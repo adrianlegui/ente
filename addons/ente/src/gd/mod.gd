@@ -153,7 +153,7 @@ func load_data_from_file(file_path: String) -> void:
 	if cfg == null:
 		push_error("no se pudo cargar la información desde fichero %s" % file_path)
 		return
-	set_name(file_path.get_file().replace(".%s" % file_path.get_extension(), ""))
+	set_name(file_path.get_file().get_basename())
 	load_data(cfg)
 
 
@@ -192,14 +192,16 @@ func save_data(file_path: String, not_encrypted: bool = true) -> bool:
 func _load_cfg(file_path: String) -> ConfigFile:
 	var cfg: ConfigFile = ConfigFile.new()
 	var ext: String = file_path.get_extension()
-	if ext == EnteModManagerProperties.MOD_EXTENSION:
-		cfg.load(file_path)
-	elif ext == EnteModManagerProperties.ENCRYPTED_EXTENSION:
-		cfg.load_encrypted_pass(file_path, get_game_id())
-	else:
-		push_error("falló la cargar del fichero: %s" % file_path)
-		return null
-	return cfg
+	if ext == EnteModManagerProperties.MOD_EXTENSION and cfg.load(file_path) == OK:
+		return cfg
+	elif (
+		ext == EnteModManagerProperties.ENCRYPTED_EXTENSION
+		and cfg.load_encrypted_pass(file_path, get_game_id()) == OK
+	):
+		return cfg
+
+	push_error("falló la cargar del fichero: %s" % file_path)
+	return null
 
 
 # usado para evitar llamar de manera directa al método get_loaded_mods de EnteModManager

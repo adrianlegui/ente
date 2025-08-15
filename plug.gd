@@ -1,3 +1,4 @@
+#!/usr/bin/env -S godot --headless -s
 extends "res://gd-plug/plug.gd"
 
 

@@ -20,6 +20,7 @@ config/icon="res://addons/ente/src/resources/icons/mod_manager.svg"
 [autoload]
 
 EnteModManager="*res://addons/ente/src/gd/mod_manager.tscn"
+Autoload="*res://main_mod/autoload.tscn"
 
 [editor]
 
@@ -35,6 +36,11 @@ config/multi_mode/mods_folder_path="user://mods"
 config/game_id="game_id"
 config/single_mode/active=true
 config/main_mod="res://main_mod/game.cfg"
+
+[global_group]
+
+ENTE_PERSISTENT=""
+ENTE_GAME_EVENTS=""
 
 [rendering]
 

@@ -26,6 +26,8 @@ var _failed_mod: Dictionary = {}
 var _loaded_mod: Dictionary = {}
 # pck que no se cargaron
 var _failed_pcks: PackedStringArray
+# usado para carga de mods e inicio de una partida
+var _thread: Thread
 
 @onready var _scene_tree: SceneTree = get_tree()
 
@@ -47,7 +49,9 @@ func get_loaded_mods() -> PackedStringArray:
 
 ## Inicia la carga de mods y pack de recursos. Emite [signal finished] al terminar.
 func start() -> void:
-	_load_mods_and_pcks()
+	_wait_thread()
+	_thread = Thread.new()
+	_thread.start(_load_mods_and_pcks)
 
 
 ## Inicia el juego. Emite [signal started_game] al finalizar.
@@ -59,7 +63,10 @@ func start_game() -> void:
 		_entities = EnteDictionaryMerger.merge(_entities, mod.get_entities())
 
 	_scene_tree.paused = true
-	_start_game(_entities)
+	_wait_thread()
+	_thread = Thread.new()
+	var in_tree := _get_entities_in_tree(_entities.keys())
+	_thread.start(_start_game.bind(_entities, in_tree))
 
 
 ## Carga un juego guardado.
@@ -81,7 +88,10 @@ func load_savegame(savegame_name: String) -> void:
 	)
 
 	_scene_tree.paused = true
-	_start_game(savegame_entities)
+	_wait_thread()
+	_thread = Thread.new()
+	var in_tree := _get_entities_in_tree(savegame_entities.keys())
+	_thread.start(_start_game.bind(savegame_entities, in_tree))
 
 
 ## Salva la información de los nodos que se encuentran en el grupo
@@ -177,10 +187,10 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 			)
 
 
-func _start_game(_entities: Dictionary) -> void:
+func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> void:
 	for entity_name in _entities:
 		var root: Node = get_tree().root
-		var node: Node = root.get_node_or_null(entity_name)
+		var node: Node = entities_in_tree.get(entity_name, null)
 		var data: Dictionary = _entities[entity_name]
 		if node == null:
 			node = _create_node(entity_name, data)
@@ -189,7 +199,7 @@ func _start_game(_entities: Dictionary) -> void:
 			var conf: Dictionary = data.get(KEY_DATA, {})
 			_conf_node(conf, node, entity_name)
 
-			node.name = entity_name
+			node.set_name.call_deferred(entity_name)
 			if not node.is_inside_tree():
 				root.call_deferred("add_child", node)
 		else:
@@ -327,7 +337,7 @@ func _load_mods_and_pcks() -> void:
 	var names: PackedStringArray = _get_mod_names()
 	_load_mod_data(names)
 	_load_pcks(_loaded_mod)
-	finished.emit()
+	call_deferred("emit_signal", "finished")
 
 
 func _failed_to_create_save_directory() -> bool:
@@ -369,3 +379,24 @@ func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
 		failed_to_load_savegame.emit()
 		return null
 	return cfg
+
+
+func _get_entities_in_tree(entities_name: Array) -> Dictionary:
+	var nodes := {}
+	for n: String in entities_name:
+		var not_null: Node = get_node_or_null("/root/%s" % n)
+		if not_null:
+			nodes[n] = not_null
+	return nodes
+
+
+func _exit_tree() -> void:
+	_wait_thread(false)
+
+
+func _wait_thread(not_stop: bool = true) -> void:
+	if _thread and _thread.is_started():
+		if not_stop:
+			while _thread.is_alive():
+				await Engine.get_main_loop().process_frame
+		_thread.wait_to_finish()

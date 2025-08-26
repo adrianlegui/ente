@@ -117,7 +117,11 @@ extends Node
 
 func _ready() -> void:
 	EnteModManager.start() # Carga los mods y pck
-	EnteModManager.start_game() # Agrega todos las entidades(nodos) indicados en los mods
+	await EnteModManager.finished # Esperar a que termine de cargar
+	
+	EnteModManager.start_game() # Agrega todos las entidades(instancias de escenas) indicados en los mods
+	await EnteModManager.started_game # Espera a que se inicie la partida
+	
 	queue_free() # Quita este nodo del árbol de nodos y lo borra
 ```
 
@@ -135,3 +139,5 @@ EnteModManager.load_savegame("savegame_name")
 
 ### 4.8 Export
 Al exportar el proyecto agregar fichero cfg con la configuración de las entidades.
+
+![export](./img/export.png)

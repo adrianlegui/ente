@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsp3wldi52xp6"]
+
+[ext_resource type="Script" uid="uid://d24voafwkr46d" path="res://main_mod/my_entity.gd" id="1_kw7la"]
+
+[node name="Autoload" type="Node" groups=["ENTE_PERSISTENT"]]
+script = ExtResource("1_kw7la")

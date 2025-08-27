@@ -21,8 +21,8 @@ const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
 ## Parametro usado para Debug.
 ## Al ser usado las partidas guardadas serán creadas como json.
 const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
-## Extensión usada en las partidas guardadas cifradas.
-const ENCRYPTED_EXTENSION: String = "sav"
+## Extensión usada en las partidas guardadas cifradas(egd: ente game data).
+const ENCRYPTED_EXTENSION: String = "egd"
 ## Ruta a la propiedad que configura el modo único.
 const SINGLE_MODE_PROPERTY_PATH: String = "ente/config/single_mode/active"
 ## Ruta a la propiedad que configura la ruta al mod usado en el modo único.

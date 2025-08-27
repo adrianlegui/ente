@@ -215,13 +215,13 @@ func test_save_data__not_encrypted__return_true() -> void:
 
 func test_save_data__encrypted__return_true() -> void:
 	var mod := EnteMod.new()
-	var file_path: String = "user://save.sav"
+	var file_path: String = "user://save." + EnteModManagerProperties.ENCRYPTED_EXTENSION
 	assert_true(mod.save_data(file_path, false))
 
 
 func test__load_cfg__encrypted__not_null() -> void:
 	var mod := EnteMod.new()
-	var path := "res://addons/ente/test/mods/test.sav"
+	var path := "res://addons/ente/test/mods/test.egd"
 	assert_not_null(mod._load_cfg(path))
 
 

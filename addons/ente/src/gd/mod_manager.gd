@@ -56,6 +56,7 @@ func start() -> void:
 
 ## Inicia el juego. Emite [signal started_game] al finalizar.
 func start_game() -> void:
+	_wait_thread()
 	await Engine.get_main_loop().process_frame
 	var _entities: Dictionary = {}
 	for mod_name: String in _loaded_mod:
@@ -63,7 +64,6 @@ func start_game() -> void:
 		_entities = EnteDictionaryMerger.merge(_entities, mod.get_entities())
 
 	_scene_tree.paused = true
-	_wait_thread()
 	_thread = Thread.new()
 	var in_tree := _get_entities_in_tree(_entities.keys())
 	_thread.start(_start_game.bind(_entities, in_tree))
@@ -71,6 +71,7 @@ func start_game() -> void:
 
 ## Carga un juego guardado.
 func load_savegame(savegame_name: String) -> void:
+	_wait_thread()
 	await Engine.get_main_loop().process_frame
 	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var savegame_info: EnteMod = check_savegame(savegame_name)
@@ -88,7 +89,6 @@ func load_savegame(savegame_name: String) -> void:
 	)
 
 	_scene_tree.paused = true
-	_wait_thread()
 	_thread = Thread.new()
 	var in_tree := _get_entities_in_tree(savegame_entities.keys())
 	_thread.start(_start_game.bind(savegame_entities, in_tree))

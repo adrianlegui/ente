@@ -3,6 +3,15 @@ extends Node
 var my_var: bool = true
 
 
+func _ready() -> void:
+	await EnteModManager.all_entities_added
+	print("%s: todas las entidades agregadas" % name)
+	await EnteModManager.before_start
+	print("%s: antes de iniciar" % name)
+	await EnteModManager.started_game
+	print("%s: iniciando" % name)
+
+
 func ente_get_data() -> Dictionary:
 	var data: Dictionary = {}
 	data["my_var"] = my_var

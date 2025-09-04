@@ -17,6 +17,10 @@ signal could_not_open_load_order_file
 signal finished
 ## Se emite al iniciar el juego.
 signal started_game
+## Se emite antes de iniciar el juego.
+signal before_start
+## Se emite luego de que todas las entidades se agregarón al arbol.
+signal all_entities_added
 ## Se emite cuando falla la carga de una partida guardada.
 signal failed_to_load_savegame
 
@@ -188,6 +192,7 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 
 
 func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> void:
+	var last: Node = null
 	for entity_name in _entities:
 		var root: Node = get_tree().root
 		var node: Node = entities_in_tree.get(entity_name, null)
@@ -200,20 +205,26 @@ func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> vo
 			_conf_node(conf, node, entity_name)
 
 			node.set_name.call_deferred(entity_name)
+			last = node
 			if not node.is_inside_tree():
 				root.call_deferred("add_child", node)
 		else:
 			push_error("fallo la carga de la entidad %s" % entity_name)
 
+	if last:
+		await last.ready
+
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED, EnteGameEvents.GROUP, EnteGameEvents.ALL_ENTITIES_ADDED
 	)
+	all_entities_added.emit()
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(
 		SceneTree.GROUP_CALL_DEFERRED, EnteGameEvents.GROUP, EnteGameEvents.BEFORE_STARTING
 	)
+	before_start.emit()
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(

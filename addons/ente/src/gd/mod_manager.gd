@@ -180,7 +180,7 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 	if node.has_method(METHOD_SET_DATA):
 		node.call(METHOD_SET_DATA, conf)
 	else:
-		push_error(
+		push_warning(
 			(
 				"la entidad %s no pudo ser configurada porque no tiene método %s"
 				% [entity_name, METHOD_SET_DATA]

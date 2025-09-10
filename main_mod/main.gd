@@ -10,8 +10,12 @@ func _ready() -> void:
 
 func _on_finished() -> void:
 	EnteModManager.finished.disconnect(_on_finished)
+	var failed_pcks := EnteModManager.get_failed_pcks()
+	var failed_mods := EnteModManager.get_failed_mods()
 
-	if EnteModManager.failed_to_load_mods() or EnteModManager.failed_to_load_pcks():
+	if not failed_mods.is_empty() or not failed_pcks.is_empty():
+		print(failed_mods)
+		print(failed_pcks)
 		push_error("falló la carga de mods o pck")
 		get_tree().quit()
 	else:

@@ -29,16 +29,26 @@ var _failed_mod: Dictionary = {}
 # mods cargados.
 var _loaded_mod: Dictionary = {}
 # pck que no se cargaron
-var _failed_pcks: PackedStringArray
+var _failed_pcks: PackedStringArray = []
 # usado para carga de mods e inicio de una partida
 var _thread: Thread
 
 @onready var _scene_tree: SceneTree = get_tree()
 
 
+## Regresa [PackedStringArray] con los nombres de los mods que no se pudieron cargar.
+func get_failed_mods() -> PackedStringArray:
+	return PackedStringArray(_failed_mod.keys())
+
+
+## Regresa [PackedStringArray] con los nombres de los packs de recursos que no se pudieron cargar.
+func get_failed_pcks() -> PackedStringArray:
+	return _failed_pcks.duplicate()
+
+
 ## Regresa [code]true[/code] si hubo fallos en la carga de pack de recursos.
 func failed_to_load_pcks() -> bool:
-	return is_instance_valid(_failed_pcks) and _failed_pcks.size() > 0
+	return _failed_pcks.size() > 0
 
 
 ## Regresa [code]true[/code] si hubo fallos en la carga de mods.

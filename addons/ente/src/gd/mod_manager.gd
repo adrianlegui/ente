@@ -1,6 +1,6 @@
 @icon("res://addons/ente/src/resources/icons/mod_manager.svg")
-extends Node
-## Controla la carga de mods y packs de recursos.
+class_name EnteMM extends Node
+## EnteModManager: controla la carga de mods y packs de recursos.
 
 ## Nombre de la propiedad con la ruta a la escena.
 const KEY_SCENE_FILE_PATH: String = "scene_file_path"
@@ -8,11 +8,9 @@ const KEY_SCENE_FILE_PATH: String = "scene_file_path"
 const KEY_DATA: String = "DATA"
 ## Nombre del método usado para configurar la entidad.
 const METHOD_SET_DATA: String = "ente_set_data"
-## Nombre del método usado para obtener la configuración la entidad.
+## Nombre del método usado para obtener la configuración de la entidad.
 const METHOD_GET_DATA: String = "ente_get_data"
 
-## Se emite si no se puedo abrir el fichero load_order.txt
-signal could_not_open_load_order_file
 ## Se emite cuando la carga de mods y packs de recursos ha terminado.
 signal finished
 ## Se emite al iniciar el juego.
@@ -21,9 +19,9 @@ signal started_game
 signal before_start
 ## Se emite luego de que todas las entidades se agregarón al arbol.
 signal all_entities_added
-## Se emite cuando falla la carga de una partida guardada.
-signal failed_to_load_savegame
 
+# para saber si load_order.txt fue cargado con éxito
+var _load_order_file_is_correct: bool = false
 # mods que no se cargaron
 var _failed_mod: Dictionary = {}
 # mods cargados.
@@ -34,6 +32,13 @@ var _failed_pcks: PackedStringArray = []
 var _thread: Thread
 
 @onready var _scene_tree: SceneTree = get_tree()
+
+
+## Regresa [code]true[/code] si load_order.txt fue cargado con éxito.
+func load_order_file_is_correct() -> bool:
+	if EnteModManagerProperties.is_single_mode_active():
+		return true
+	return _load_order_file_is_correct
 
 
 ## Regresa [PackedStringArray] con los nombres de los mods que no se pudieron cargar.
@@ -91,7 +96,6 @@ func load_savegame(savegame_name: String) -> void:
 	var savegame_info: EnteMod = check_savegame(savegame_name)
 	if savegame_info.get_entities().is_empty():
 		push_error("savegame %s esta corrupto" % savegame_name)
-		failed_to_load_savegame.emit()
 		return
 
 	var entities: Dictionary = {}
@@ -108,8 +112,8 @@ func load_savegame(savegame_name: String) -> void:
 	_thread.start(_start_game.bind(savegame_entities, in_tree))
 
 
-## Salva la información de los nodos que se encuentran en el grupo
-## [constant Mod.GROUP_PERSISTENT].
+## Salva la información de los nodos que se encuentran en el grupo [constant Mod.GROUP_PERSISTENT] y
+## son hijos de [member SceneTree.root].
 func save_game(savegame_name: String) -> void:
 	var ents: Dictionary = _get_data_from_entities()
 	if _failed_to_create_save_directory():
@@ -251,8 +255,9 @@ func _get_mod_names() -> PackedStringArray:
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if is_instance_valid(file):
 		_get_mod_names_from_file(file, names)
+		_load_order_file_is_correct = true
 	else:
-		call_deferred("_emit_could_not_open_load_order_file")
+		_load_order_file_is_correct = false
 		var error: int = FileAccess.get_open_error()
 		push_error("no se pudo abrir fichero %s. error: %s" % [file_path, error_string(error)])
 	return names
@@ -272,10 +277,6 @@ func _get_mod_names_from_file(file: FileAccess, names: PackedStringArray) -> voi
 			else:
 				names.append(mod_name)
 	file.close()
-
-
-func _emit_could_not_open_load_order_file() -> void:
-	could_not_open_load_order_file.emit()
 
 
 func _load_main_mod() -> void:
@@ -355,7 +356,7 @@ func _load_mods_and_pcks() -> void:
 	var names: PackedStringArray = _get_mod_names()
 	_load_mod_data(names)
 	_load_pcks(_loaded_mod)
-	call_deferred("emit_signal", "finished")
+	finished.emit.call_deferred()
 
 
 func _failed_to_create_save_directory() -> bool:
@@ -394,7 +395,6 @@ func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
 		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
 	else:
 		push_error("falló la carga de partida guardada: %s" % path_to_savegame)
-		failed_to_load_savegame.emit()
 		return null
 	return cfg
 

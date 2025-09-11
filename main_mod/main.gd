@@ -3,7 +3,6 @@ extends Node
 
 func _ready() -> void:
 	EnteModManager.finished.connect(_on_finished)
-	EnteModManager.could_not_open_load_order_file.connect(_on_could_not_open_load_order_file)
 	EnteModManager.start()
 	await EnteModManager.finished
 
@@ -13,10 +12,14 @@ func _on_finished() -> void:
 	var failed_pcks := EnteModManager.get_failed_pcks()
 	var failed_mods := EnteModManager.get_failed_mods()
 
-	if not failed_mods.is_empty() or not failed_pcks.is_empty():
+	if (
+		not EnteModManager.load_order_file_is_correct()
+		or not failed_mods.is_empty()
+		or not failed_pcks.is_empty()
+	):
 		print(failed_mods)
 		print(failed_pcks)
-		push_error("falló la carga de mods o pck")
+		push_error("falló la carga de mods o pck. Saliendo del juego.")
 		get_tree().quit()
 	else:
 		EnteModManager.start_game()
@@ -28,7 +31,3 @@ func _on_finished() -> void:
 		EnteModManager.load_savegame(savegame_name)
 		await EnteModManager.started_game
 		queue_free()
-
-
-func _on_could_not_open_load_order_file() -> void:
-	get_tree().quit()

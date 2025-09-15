@@ -4,7 +4,6 @@ extends Node
 func _ready() -> void:
 	EnteModManager.finished.connect(_on_finished)
 	EnteModManager.start()
-	await EnteModManager.finished
 
 
 func _on_finished() -> void:

@@ -60,10 +60,11 @@ func add_mod_folder_property() -> void:
 
 
 func remove_properties() -> void:
-	ProjectSettings.set(mod_folder_path_property_path, null)
-	ProjectSettings.set(game_id_property_path, null)
-	ProjectSettings.set(single_mode_property_path, null)
-	ProjectSettings.set(main_mod_property_path, null)
+	var ps := ProjectSettings
+	ps.set(mod_folder_path_property_path, null)
+	ps.set(game_id_property_path, null)
+	ps.set(single_mode_property_path, null)
+	ps.set(main_mod_property_path, null)
 
 
 func clean() -> void:

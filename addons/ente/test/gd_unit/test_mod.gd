@@ -200,29 +200,23 @@ func test_load_data_from_file__incorrect_path__not_call_load() -> void:
 
 func test_load_data_from_file__correct_path__call_load() -> void:
 	var mod = partial_double(EnteMod).new()
-	var path: String = "path.ext"
+	var path: String = "path.cfg"
 	var cfg: ConfigFile = ConfigFile.new()
 	stub(mod, "_load_cfg").when_passed(path).to_return(cfg)
 	mod.load_data_from_file(path)
 	assert_called(mod, "load_data", [cfg])
 
 
-func test_save_data__not_encrypted__return_true() -> void:
+func test_save_data__not_binary__return_true() -> void:
 	var mod := EnteMod.new()
-	var file_path: String = "user://save.cfg"
-	assert_true(mod.save_data(file_path, true))
-
-
-func test_save_data__encrypted__return_true() -> void:
-	var mod := EnteMod.new()
-	var file_path: String = "user://save." + EnteModManagerProperties.ENCRYPTED_EXTENSION
+	var file_path: String = "user://save." + EnteModManagerProperties.MOD_EXTENSION
 	assert_true(mod.save_data(file_path, false))
 
 
-func test__load_cfg__encrypted__not_null() -> void:
+func test_save_data__binary__return_true() -> void:
 	var mod := EnteMod.new()
-	var path := "res://addons/ente/test/mods/test.egd"
-	assert_not_null(mod._load_cfg(path))
+	var file_path: String = "user://save." + EnteModManagerProperties.BINARY_EXTENSION
+	assert_true(mod.save_data(file_path, true))
 
 
 func test__load_cfg__not_encrypted__not_null() -> void:

@@ -18,11 +18,11 @@ const GAME_ID_PROPERTY_PATH: String = "ente/config/game_id"
 const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 ## Ruta a la propiedad con la versión del juego.
 const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
-## Parametro usado para Debug.
-## Al ser usado las partidas guardadas serán creadas como json.
-const NOT_ENCRYPTED_SAVEGAME: String = "--not-encrypted-savedgame"
-## Extensión usada en las partidas guardadas cifradas(egd: ente game data).
-const ENCRYPTED_EXTENSION: String = "egd"
+## Argumento usado para Debug.
+## Al ser usado las partidas guardadas serán creadas como [ConfigFile].
+const TEXT_SAVEGAME: String = "--text_savegame"
+## Extensión usada en los mod en binario(egd: ente game data).
+const BINARY_EXTENSION: String = "egd"
 ## Ruta a la propiedad que configura el modo único.
 const SINGLE_MODE_PROPERTY_PATH: String = "ente/config/single_mode/active"
 ## Ruta a la propiedad que configura la ruta al mod usado en el modo único.
@@ -61,7 +61,7 @@ static func get_path_to_savegame(savegame_name: String) -> String:
 		"%s.%s"
 		% [
 			get_savegame_folder_path().path_join(savegame_name),
-			MOD_EXTENSION if OS.get_cmdline_user_args() else ENCRYPTED_EXTENSION
+			MOD_EXTENSION if OS.get_cmdline_user_args().has(TEXT_SAVEGAME) else BINARY_EXTENSION
 		]
 	)
 

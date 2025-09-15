@@ -82,7 +82,6 @@ func start_game() -> void:
 		var mod: EnteMod = _loaded_mod[mod_name]
 		_entities = EnteDictionaryMerger.merge(_entities, mod.get_entities())
 
-	_scene_tree.paused = true
 	_thread = Thread.new()
 	var in_tree := _get_entities_in_tree(_entities.keys())
 	_thread.start(_start_game.bind(_entities, in_tree))
@@ -92,11 +91,7 @@ func start_game() -> void:
 func load_savegame(savegame_name: String) -> void:
 	_wait_thread()
 	await Engine.get_main_loop().process_frame
-	var path_to_savegame: String = get_path_to_savegame(savegame_name)
 	var savegame_info: EnteMod = check_savegame(savegame_name)
-	if savegame_info.get_entities().is_empty():
-		push_error("savegame %s esta corrupto" % savegame_name)
-		return
 
 	var entities: Dictionary = {}
 	for mod_name in _loaded_mod:
@@ -106,7 +101,6 @@ func load_savegame(savegame_name: String) -> void:
 		entities, savegame_info.get_entities()
 	)
 
-	_scene_tree.paused = true
 	_thread = Thread.new()
 	var in_tree := _get_entities_in_tree(savegame_entities.keys())
 	_thread.start(_start_game.bind(savegame_entities, in_tree))
@@ -123,7 +117,7 @@ func save_game(savegame_name: String) -> void:
 
 	var file_path: String = get_path_to_savegame(savegame_name)
 	var fail: bool = not mod.save_data(
-		file_path, EnteModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args()
+		file_path, EnteModManagerProperties.TEXT_SAVEGAME not in OS.get_cmdline_user_args()
 	)
 	if fail:
 		push_error("no se pudo guardar partida %s" % savegame_name)
@@ -152,15 +146,7 @@ func check_savegame(savegame_name: String) -> EnteSavegame:
 ## Devuelve la ruta a la partida guardada.[br]
 ## [color=yellow]Warning:[/color] No comprueba la existencia de la misma.
 func get_path_to_savegame(savegame_name: String) -> String:
-	var extension: String = ""
-	if EnteModManagerProperties.NOT_ENCRYPTED_SAVEGAME in OS.get_cmdline_user_args():
-		extension = EnteModManagerProperties.MOD_EXTENSION
-	else:
-		extension = EnteModManagerProperties.ENCRYPTED_EXTENSION
-	return (
-		"%s.%s"
-		% [EnteModManagerProperties.get_savegame_folder_path().path_join(savegame_name), extension]
-	)
+	return EnteModManagerProperties.get_path_to_savegame(savegame_name)
 
 
 func _mod_exists(mod_name) -> bool:
@@ -193,7 +179,7 @@ func _create_node(entity_name: String, data: Dictionary) -> Node:
 func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 	if node.has_method(METHOD_SET_DATA):
 		node.call(METHOD_SET_DATA, conf)
-	else:
+	elif OS.is_debug_build():
 		push_warning(
 			(
 				"la entidad %s no pudo ser configurada porque no tiene método %s"
@@ -205,7 +191,6 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> void:
 	var last: Node = null
 	for entity_name in _entities:
-		var root: Node = get_tree().root
 		var node: Node = entities_in_tree.get(entity_name, null)
 		var data: Dictionary = _entities[entity_name]
 		if node == null:
@@ -218,7 +203,7 @@ func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> vo
 			node.set_name.call_deferred(entity_name)
 			last = node
 			if not node.is_inside_tree():
-				root.call_deferred("add_child", node)
+				get_tree().root.call_deferred("add_child", node)
 		else:
 			push_error("fallo la carga de la entidad %s" % entity_name)
 
@@ -243,7 +228,6 @@ func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> vo
 	)
 
 	started_game.emit()
-	_scene_tree.paused = false
 
 
 func _get_mod_names() -> PackedStringArray:
@@ -384,19 +368,6 @@ func _get_data_from_entities() -> Dictionary[String, Dictionary]:
 				data[KEY_DATA] = node.call(METHOD_GET_DATA)
 			ents[node.name] = data
 	return ents
-
-
-func _load_savegame_cfg(path_to_savegame: String) -> ConfigFile:
-	var cfg: ConfigFile = ConfigFile.new()
-	var ext: String = path_to_savegame.get_extension()
-	if ext == EnteModManagerProperties.MOD_EXTENSION:
-		cfg.load(path_to_savegame)
-	elif ext == EnteModManagerProperties.ENCRYPTED_EXTENSION:
-		cfg.load_encrypted_pass(path_to_savegame, _get_encryption_key())
-	else:
-		push_error("falló la carga de partida guardada: %s" % path_to_savegame)
-		return null
-	return cfg
 
 
 func _get_entities_in_tree(entities_name: Array) -> Dictionary:

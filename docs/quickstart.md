@@ -115,14 +115,16 @@ Ejemplo de como inicializar **Ente** e iniciar una partida.
 ``` gdscript
 extends Node
 
+
 func _ready() -> void:
 	EnteModManager.start() # Carga los mods y pck
 	await EnteModManager.finished # Esperar a que termine de cargar
 	
+	get_tree().paused = true # Pausa el árbol de nodos.
 	EnteModManager.start_game() # Agrega todos las entidades(instancias de escenas) indicados en los mods
 	await EnteModManager.started_game # Espera a que se inicie la partida
+	get_tree().paused = false # Reanuda el árbol de nodos.
 	
-	queue_free() # Quita este nodo del árbol de nodos y lo borra
 ```
 
 ## 4.6 How to save game

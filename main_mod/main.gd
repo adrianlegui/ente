@@ -21,12 +21,17 @@ func _on_finished() -> void:
 		push_error("falló la carga de mods o pck. Saliendo del juego.")
 		get_tree().quit()
 	else:
+		get_tree().paused = true
 		EnteModManager.start_game()
 		await EnteModManager.started_game
 		var savegame_name: String = "partida_guardada"
 		EnteModManager.save_game(savegame_name)
 		EnteModManager.clean_scene_tree()
+		get_tree().paused = false
+
+		get_tree().paused = true
 		await Engine.get_main_loop().process_frame
 		EnteModManager.load_savegame(savegame_name)
 		await EnteModManager.started_game
+		get_tree().paused = false
 		queue_free()

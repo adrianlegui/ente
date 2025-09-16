@@ -10,7 +10,8 @@ Complemento para [Godot Engine 4](https://godotengine.org/).
 - Mods en formato [ConfigFile](./addons/ente/schema/mod.cfg)
 - Carga [paquetes de recursos](https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html#overview-of-pck-files)
 - Guarda y carga partida
-- Las partidas están cifradas
+- Partidas guardadas en binario.
+- Partidas guardadas comprimidas.
 
 ## Quickstart
 [Quickstart](./docs/quickstart.md)

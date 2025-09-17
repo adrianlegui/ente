@@ -14,7 +14,7 @@ const KEY_VERSION: String = "VERSION"
 #endregion
 
 #region Private Variables
-var _name: String = "mod name"
+var _name: String = ""
 var _game_id: String = ""
 var _dependencies: PackedStringArray = []
 var _pcks: PackedStringArray = []
@@ -24,7 +24,7 @@ var _version: String = ""
 
 
 #region Built-in Fuction
-func _init(cfg: ConfigFile = null, name: String = "mod name") -> void:
+func _init(cfg: ConfigFile = null, name: String = "") -> void:
 	if cfg == null:
 		return
 

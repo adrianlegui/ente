@@ -269,11 +269,12 @@ func _load_main_mod() -> void:
 		push_warning("main_mod está vacío.")
 	else:
 		var mod: EnteMod = EnteMod.new()
+		var n := main_mod.get_file().get_basename()
 		mod.load_data_from_file(main_mod)
 		if not mod.is_same_game() or not _has_all_dependencies(mod):
-			_failed_mod[main_mod] = mod
+			_failed_mod[n] = mod
 		else:
-			_loaded_mod[main_mod] = mod
+			_loaded_mod[n] = mod
 
 
 func _load_mod_data(mod_names) -> void:
@@ -303,11 +304,12 @@ func _load_mod_data_from_file(mod_name: String) -> void:
 		push_error("error al cargar mod %s" % mod_name)
 		return
 
-	var mod: EnteMod = EnteMod.new(cfg)
+	var n := mod_name.get_file().get_basename()
+	var mod: EnteMod = EnteMod.new(cfg, n)
 	if not mod.is_same_game() or not _has_all_dependencies(mod):
-		_failed_mod[mod_name] = mod
+		_failed_mod[n] = mod
 	else:
-		_loaded_mod[mod_name] = mod
+		_loaded_mod[n] = mod
 
 
 func _get_encryption_key() -> String:

@@ -29,6 +29,7 @@ func _on_finished() -> void:
 		EnteModManager.clean_scene_tree()
 		get_tree().paused = false
 
+		await get_tree().process_frame
 		get_tree().paused = true
 		await Engine.get_main_loop().process_frame
 		EnteModManager.load_savegame(savegame_name)

@@ -189,7 +189,6 @@ func _conf_node(conf: Dictionary, node: Node, entity_name: String) -> void:
 
 
 func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> void:
-	var last: Node = null
 	for entity_name in _entities:
 		var node: Node = entities_in_tree.get(entity_name, null)
 		var data: Dictionary = _entities[entity_name]
@@ -201,14 +200,13 @@ func _start_game(_entities: Dictionary, entities_in_tree: Dictionary = {}) -> vo
 			_conf_node(conf, node, entity_name)
 
 			node.set_name.call_deferred(entity_name)
-			last = node
 			if not node.is_inside_tree():
 				get_tree().root.call_deferred("add_child", node)
 		else:
 			push_error("fallo la carga de la entidad %s" % entity_name)
 
-	if last:
-		await last.ready
+	# esperar un frame para que se terminen de agregar y configurar los nodos.
+	await Engine.get_main_loop().process_frame
 
 	await Engine.get_main_loop().process_frame
 	_scene_tree.call_group_flags(

@@ -20,6 +20,7 @@ func _disable_plugin() -> void:
 
 
 func init() -> void:
+	_add_groups()
 	add_autoload_singleton(SINGLETON_NAME, MOD_MANAGER_PATH)
 	add_properties()
 	ProjectSettings.save()
@@ -68,6 +69,19 @@ func remove_properties() -> void:
 
 
 func clean() -> void:
+	_remove_groups()
 	remove_autoload_singleton(SINGLETON_NAME)
 	remove_properties()
 	ProjectSettings.save()
+
+
+func _add_groups() -> void:
+	ProjectSettings.set_setting(
+		"global_group/ENTE_PERSISTENT", "Nodos con información persistente."
+	)
+	ProjectSettings.set_setting("global_group/ENTE_GAME_EVENTS", "Nodos que reciben eventos.")
+
+
+func _remove_groups() -> void:
+	ProjectSettings.set_setting("global_group/ENTE_PERSISTENT", null)
+	ProjectSettings.set_setting("global_group/ENTE_GAME_EVENTS", null)

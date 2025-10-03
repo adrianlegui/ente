@@ -310,10 +310,6 @@ func _load_mod_data_from_file(mod_name: String) -> void:
 		_loaded_mod[n] = mod
 
 
-func _get_encryption_key() -> String:
-	return EnteMod.get_game_id()
-
-
 func _has_all_dependencies(mod: EnteMod) -> bool:
 	for name: String in mod.get_dependencies():
 		if not name in _loaded_mod.keys():
@@ -373,9 +369,9 @@ func _get_data_from_entities() -> Dictionary[String, Dictionary]:
 func _get_entities_in_tree(entities_name: Array) -> Dictionary:
 	var nodes := {}
 	for n: String in entities_name:
-		var not_null: Node = get_node_or_null("/root/%s" % n)
-		if not_null:
-			nodes[n] = not_null
+		var node: Node = get_node_or_null("/root/%s" % n)
+		if node:
+			nodes[n] = node
 	return nodes
 
 

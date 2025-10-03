@@ -1,9 +1,12 @@
+@tool
 extends Node
 
-var my_var: bool = true
+@export var my_var: bool = true
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	await EnteModManager.all_entities_added
 	print("%s: todas las entidades agregadas" % name)
 	await EnteModManager.before_start
@@ -27,8 +30,12 @@ func ente_on_game_event_clean_scene_tree() -> void:
 
 
 func _exit_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	print("%s: saliendo" % name)
 
 
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	print("%s: entrando" % name)

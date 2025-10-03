@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cah0ldnqrkd10"]
+
+[ext_resource type="Script" uid="uid://dqg6vsxkm7iu4" path="res://addons/ente/src/gd/mod_creator.gd" id="1_iy7du"]
+[ext_resource type="PackedScene" uid="uid://b0dbq1k5bc5q3" path="res://main_mod/entity_without_methods.tscn" id="2_r4s3h"]
+[ext_resource type="PackedScene" uid="uid://bsp3wldi52xp6" path="res://main_mod/autoload.tscn" id="3_yu4vf"]
+[ext_resource type="PackedScene" uid="uid://bqrscj406galc" path="res://main_mod/my_entity.tscn" id="4_p8nv3"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_iy7du")
+output = "res://main_mod"
+mod_name = "game"
+dependencies = PackedStringArray()
+pcks = PackedStringArray()
+metadata/_custom_type_script = "uid://dqg6vsxkm7iu4"
+
+[node name="EntityWithoutMethods" parent="." instance=ExtResource("2_r4s3h")]
+
+[node name="Autoload" parent="." instance=ExtResource("3_yu4vf")]
+my_var = false
+
+[node name="MyEntity1" parent="." instance=ExtResource("4_p8nv3")]
+my_var = false
+
+[node name="MyEntity2" parent="." instance=ExtResource("4_p8nv3")]
+my_var = false

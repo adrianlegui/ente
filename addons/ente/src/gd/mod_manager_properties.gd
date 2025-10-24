@@ -20,7 +20,7 @@ const GAME_NAME_PROPERTY_PATH: String = "application/config/name"
 const GAME_VERSION_PROPERTY_PATH: String = "application/config/version"
 ## Argumento usado para Debug.
 ## Al ser usado las partidas guardadas serán creadas como [ConfigFile].
-const TEXT_SAVEGAME: String = "--text_savegame"
+const TEXT_SAVEGAME: String = "--text-savegame"
 ## Extensión usada en los mod en binario(egd: ente game data).
 const BINARY_EXTENSION: String = "egd"
 ## Ruta a la propiedad que configura el modo único.

@@ -186,6 +186,51 @@ func save_data(file_path: String, binary: bool = false) -> bool:
 
 
 #region Private Fuction
+func _dict_to_string(dict: Dictionary) -> String:
+	var string = var_to_str(dict)
+	var output := ""
+	var pos := 0
+	var id := 0
+	var lb := "\n"
+	var tab := "\t"
+	while pos < string.length():
+		output += string[pos]
+		if string[pos] == lb and pos != 0:
+			if string[pos - 1] in ["{", "["]:
+				id += 1
+			elif string[pos + 1] in ["}", "]"] and pos < string.length() - 1:
+				id -= 1
+
+			for i in range(id):
+				output += tab
+
+		pos += 1
+
+	return output
+
+
+func _custom_cfg_save(cfg: ConfigFile, file_path: String) -> bool:
+	var f := FileAccess.open(file_path, FileAccess.WRITE)
+	var state := f.get_error()
+	if state != OK:
+		return false
+
+	for section: String in cfg.get_sections():
+		f.store_string("[%s]\n\n" % section)
+		for key: String in cfg.get_section_keys(section):
+			var v = cfg.get_value(section, key)
+			if v is Dictionary:
+				f.store_string("%s=%s\n\n" % [key, _dict_to_string(v)])
+			elif v is String:
+				f.store_string('%s="%s"\n' % [key, v])
+			else:
+				f.store_string("%s=%s\n" % [key, v])
+		f.store_string("\n")
+
+	f.close()
+	return true
+
+
 func _save_cfg(file_path: String) -> bool:
 	var cfg: ConfigFile = ConfigFile.new()
 	var section: String = SECTION_MOD
@@ -198,14 +243,7 @@ func _save_cfg(file_path: String) -> bool:
 	for key: String in ents:
 		cfg.set_value(SECTION_PERSISTENT_DATA, key, ents[key])
 
-	var state: int
-
-	state = cfg.save(file_path)
-	if state == OK:
-		return true
-	else:
-		push_error("error al guardar %s: %s" % [file_path, error_string(state)])
-		return false
+	return _custom_cfg_save(cfg, file_path)
 
 
 # Regresa un [Dictionary] con la información del mod.

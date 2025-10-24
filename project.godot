@@ -14,17 +14,17 @@ config/name="ente"
 config/version="0.0.1"
 config/tags=PackedStringArray("plugin_development")
 run/main_scene="res://main_mod/main.tscn"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://addons/ente/src/resources/icons/mod_manager.svg"
 
 [autoload]
 
-EnteModManager="*res://addons/ente/src/gd/mod_manager.tscn"
 Autoload="*res://main_mod/autoload.tscn"
+EnteModManager="*res://addons/ente/src/gd/mod_manager.tscn"
 
 [editor]
 
-run/main_run_args="++ --not-encrypted-savedgame"
+run/main_run_args="++ --text-savegame"
 
 [editor_plugins]
 
@@ -39,8 +39,8 @@ config/main_mod="res://main_mod/game.cfg"
 
 [global_group]
 
-ENTE_PERSISTENT=""
-ENTE_GAME_EVENTS=""
+ENTE_PERSISTENT="Nodos con información persistente."
+ENTE_GAME_EVENTS="Nodos que reciben eventos."
 
 [rendering]
 

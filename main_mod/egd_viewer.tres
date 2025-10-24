@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EnteEGDViewer" load_steps=2 format=3 uid="uid://2i3nwsah3ycm"]
+
+[ext_resource type="Script" uid="uid://diabl2s3af4qg" path="res://addons/ente/src/gd/egd_file.gd" id="1_upjdb"]
+
+[resource]
+script = ExtResource("1_upjdb")
+egd_file = "res://addons/ente/test/mods/test.egd"
+data = {
+"MOD": {
+"DEPENDENCIES": PackedStringArray("res://main_mod/game.cfg"),
+"GAME_ID": "game_id",
+"PCKS": PackedStringArray(),
+"VERSION": "0.0.1"
+},
+"PERSISTENT": Dictionary[String, Dictionary]({
+"Autoload": {
+"DATA": {
+"my_var": false
+},
+"scene_file_path": "res://main_mod/autoload.tscn"
+},
+"EntityNotValid": {
+"scene_file_path": "res://main_mod/entity_not_valid.tscn"
+},
+"EntityWithoutMethods": {
+"scene_file_path": "res://main_mod/entity_without_methods.tscn"
+},
+"MyEntity1": {
+"DATA": {
+"my_var": false
+},
+"scene_file_path": "res://main_mod/my_entity.tscn"
+},
+"MyEntity2": {
+"DATA": {
+"my_var": false
+},
+"scene_file_path": "res://main_mod/my_entity.tscn"
+}
+})
+}
+metadata/_custom_type_script = "uid://diabl2s3af4qg"
